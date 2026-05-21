@@ -1,0 +1,13 @@
+name = "JessamineBenchmark"
+uuid = "4c66c1a2-cf32-41e3-97ee-2f0fbe2507d0"
+authors = ["W. Garrett Mitchener <mitchenerg@charleston.edu> and others"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.12.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
