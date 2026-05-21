@@ -1,3 +1,6 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 JessamineBenchmark = "4c66c1a2-cf32-41e3-97ee-2f0fbe2507d0"
+
+[compat]
+Documenter = "1.17.0"
