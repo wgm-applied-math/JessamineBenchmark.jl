@@ -1,0 +1,3 @@
+[submodule "ode-strogatz"]
+	path = ode-strogatz
+	url = https://github.com/wgm-applied-math/ode-strogatz
