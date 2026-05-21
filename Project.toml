@@ -1,19 +1,30 @@
 name = "JessamineBenchmark"
 uuid = "4c66c1a2-cf32-41e3-97ee-2f0fbe2507d0"
-authors = ["W. Garrett Mitchener <mitchenerg@charleston.edu> and others"]
 version = "0.1.0-DEV"
+authors = ["W. Garrett Mitchener <mitchenerg@charleston.edu> and others"]
+
+[workspace]
+projects = ["test"]
+
+[deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Jessamine = "2807b6de-c4a7-4d42-9dc5-a90bb38e3ffd"
+JessamineSciKitLearn = "b1d08412-962e-4858-8b05-b07944b12f63"
+JessamineSymbolics = "d293f0e1-bc3b-41ab-aeda-c552fb2511c4"
 
 [compat]
+ArgParse = "1.2.0"
+CSV = "0.10.16"
+DataFrames = "1.8.2"
 julia = "1.12.6"
+
+[apps.jsklsimple]
+submodule = "AppSimple"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
 test = ["Test"]
-
-[workspace]
-projects = ["test"]
-
-[apps]
-jsklsimple = { submodule = "AppSimple" }
