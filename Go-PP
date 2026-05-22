@@ -1,0 +1,8 @@
+#!/bin/bash
+dataset=d_predprey1
+mkdir -p Generated
+julia --project=@. -m JessamineBenchmark.AppSimple \
+      --data-file "ode-strogatz/$dataset.txt" \
+      --op-inventory "Polynomial; RationalFunction" \
+      --max-time 120 \
+      --output-file "Generated/$dataset.json"
