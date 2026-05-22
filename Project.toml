@@ -10,6 +10,8 @@ projects = ["test"]
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Jessamine = "2807b6de-c4a7-4d42-9dc5-a90bb38e3ffd"
 JessamineSciKitLearn = "b1d08412-962e-4858-8b05-b07944b12f63"
 JessamineSymbolics = "d293f0e1-bc3b-41ab-aeda-c552fb2511c4"
@@ -18,6 +20,8 @@ JessamineSymbolics = "d293f0e1-bc3b-41ab-aeda-c552fb2511c4"
 ArgParse = "1.2.0"
 CSV = "0.10.16"
 DataFrames = "1.8.2"
+Dates = "1.11.0"
+JSON = "1.6.0"
 julia = "1.12.6"
 
 [apps.jsklsimple]
