@@ -11,41 +11,42 @@ using JSON
 using JessamineSciKitLearn
 using JessamineSciKitLearn: @cfield
 
+include("ArgsJessamine.jl")
+
 # autofix_names = true: Means an option like --random-state
 # results in a dictionary item with key "random_state".
-s = ArgParseSettings(autofix_names = true)
+s = ArgParseSettings(autofix_names = true, add_version = true)
 
-@add_arg_table! s begin
+args_overall = [
     ["--random-state"],
-    begin
-	help = "seed for random number generator"
-        arg_type = UInt64
-        default = 0x677e87db530bd280
-    end,
+    Dict(
+        :help => "seed for random number generator",
+        :arg_type => UInt64,
+        :default => 0x677e87db530bd280
+    ),
     ["--data-file", "-d"],
-    begin
-        help = "file with data table"
-        arg_type = String
-        required = true
-    end,
-    ["--output-file", "-o"],
-    begin
-	help = "output file path"
-        arg_type = String
-    end,
-    ["--op-inventory"],
-    begin
-	help = "operation inventory"
-        arg_type = String
-        default = "Polynomial"
-    end,
+    Dict(
+        :help => "file with data table",
+        :arg_type => String,
+        :required => true
+    ),
     ["--max-time"],
-    begin
-	help = "maximum time in seconds"
-        arg_type = Int
-        default = nothing
-    end
-end
+    Dict(
+	:help => "maximum time in seconds",
+        :arg_type => Int,
+        :default => nothing
+    ),
+]
+
+args_output = [
+    ["--output-file", "-o"],
+    Dict(
+	:help => "output file path",
+        :arg_type => String
+    )
+]
+
+add_arg_table!(s, args_overall..., args_output..., args_jessamine...)
 
 function (@main)(args = ARGS)
     prespec = parse_args(args, s)
