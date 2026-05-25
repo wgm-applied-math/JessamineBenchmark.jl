@@ -17,6 +17,11 @@ args_search = [
         :help => "number of simultaneous islands per exploded specification",
         :arg_type => Int64,
     ),
+    ["--max-generations"],
+    Dict(
+        :help => "maximum number of generations to run on each island",
+        :arg_type => Int64,
+    ),
     # TODO: "stop_threshold": [float, None],
     ["--simplify"],
     Dict(
