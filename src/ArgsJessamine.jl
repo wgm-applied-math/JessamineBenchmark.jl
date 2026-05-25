@@ -2,8 +2,9 @@ args_search = [
     ["--random-state"],
     Dict(
         :help => "seed for random number generator",
-        :arg_type => UInt64,
-        :default => 0x677e87db530bd280
+        # scikit-learn requires a 32-bit integer here
+        :arg_type => UInt32,
+        :default => 0x530bd280
     ),
     ["--max-time"],
     Dict(
