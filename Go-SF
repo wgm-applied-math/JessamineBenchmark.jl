@@ -4,7 +4,10 @@ mkdir -p Generated
 julia --project=@. -m JessamineBenchmark.AppSimple \
       --data-file "ode-strogatz/$dataset.txt" \
       --op-inventory "Trig" \
-      --output-size 8 \
-      --scratch-size 4 \
-      --max-time 300 \
+      --output-size 12 \
+      --scratch-size 12 \
+      --num-time-steps 3 \
+      --max-generations 25 \
+      --max-time 7200 \
+      --lambda-op 1e-6 \
       --output-file "Generated/$dataset.json"
