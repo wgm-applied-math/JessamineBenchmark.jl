@@ -2,9 +2,8 @@ args_search = [
     ["--random-state"],
     Dict(
         :help => "seed for random number generator",
-        # scikit-learn requires a 32-bit integer here
-        :arg_type => UInt32,
-        :default => 0x530bd280
+        # scikit-learn requires a 32-bit integer here, but Julia can handle a 64-bit integer
+        :arg_type => UInt64
     ),
     ["--max-time"],
     Dict(
@@ -22,7 +21,11 @@ args_search = [
         :help => "maximum number of generations to run on each island",
         :arg_type => Int64,
     ),
-    # TODO: "stop_threshold": [float, None],
+    ["--stop-threshold"],
+    Dict(
+        :help => "stop after finding an agent with a rating at least this good",
+        :arg_type => Float64
+    ),
     ["--simplify"],
     Dict(
         :help => "whether to run a simplification epoch",

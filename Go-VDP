@@ -3,6 +3,7 @@ dataset=d_vdp1
 mkdir -p Generated
 julia --project=@. -m JessamineBenchmark.AppSimple \
       --data-file "ode-strogatz/$dataset.txt" \
-      --op-inventory "Polynomial; RationalFunction" \
-      --max-time 120 \
+      --op-inventory "Polynomial" \
+      --stop-threshold 2.0e-9 \
+      --max-time 60 \
       --output-file "Generated/$dataset.json"
