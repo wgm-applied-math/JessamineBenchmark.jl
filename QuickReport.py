@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("file")
 
 
-def round_near_integer(expr, epsilon=1e-6):
+def round_near_integer(expr, epsilon=1e-5):
     if expr.func == sympy.Float:
         x = expr.evalf()
         x_int = round(x)
@@ -30,10 +30,12 @@ def main():
     args = parser.parse_args()
     with open(args.file, "rt") as f:
         data = json.load(f)
+    rating = data["best_agent"]["rating"]
+    print(f"Rating: {rating}")
     expr = sympy.parse_expr(data["y_num_str"])
     expr_simp = sympy.simplify(expr)
     # sympy.pprint(expr_simp, use_unicode=True)
-    expr_round = round_near_integer(expr_simp)
+    expr_round = round_near_integer(expr_simp.evalf())
     expr_round_simp = sympy.simplify(expr_round)
     sympy.pprint(expr_round_simp)
 
