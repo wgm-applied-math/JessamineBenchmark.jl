@@ -1,0 +1,26 @@
+#!/bin/bash
+
+declare -a psets
+
+psets=(d_bacres1
+d_bacres2
+d_barmag1
+d_barmag2
+d_glider1
+d_glider2
+d_lv1
+d_lv2
+d_predprey1
+d_predprey2
+d_sfgrid1
+d_sfgrid2
+d_shearflow1
+d_shearflow2
+d_vdp1
+d_vdp2)
+
+for p in "${psets[@]}"
+do
+	sbatch ./Go-General $p
+done
+ 
