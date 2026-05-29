@@ -1,6 +1,9 @@
 # Generated data
 Generated/
 
+# slurm outputs
+slurm*out
+
 # PythonCall stuff
 .CondaPkg
 
