@@ -3,11 +3,15 @@ dataset=${1:-d_vdp}
 mkdir -p Generated
 
 out_file="Generated/$dataset.json"
+log_file="Generated/$dataset.log"
+err_file="Generated/$dataset.errlog"
+
 if [ -f "$out_file" ]
 then
       echo "Output file already exists: $out_file"
 else
       echo "Generating $out_file"
+      rm -f "$log_file" "$err_file"
       julia --project=@. -m JessamineBenchmark.AppSimple \
             --data-file "ode-strogatz/$dataset.txt" \
             --op-inventory "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic" \
@@ -18,5 +22,7 @@ else
             --max-time 7200 \
             --stop-threshold 1.0e-4 \
             --lambda-op 1.0e-6 \
-            --output-file "$out_file"
+            --output-file "$out_file" \
+            > "$log_file" 2> "$err_file"
+      echo "Done generating $out_file"
 fi

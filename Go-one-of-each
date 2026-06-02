@@ -1,5 +1,15 @@
 #!/bin/bash
 
+#SBATCH --nodes=1
+#SBATCH --ntasks=32
+#SBATCH --cpus-per-task=1
+
+if [[ ! -v SLURM_JOB_ID ]]
+then
+  echo "Run this script within slurm"
+  exit 1
+fi
+
 declare -a psets
 
 psets=(d_bacres1
@@ -21,6 +31,11 @@ d_vdp2)
 
 for p in "${psets[@]}"
 do
-	sbatch ./Go-General $p
+  # The --exact here means that the srun will be given the
+  # resources it requested and not the whole allocation
+  # given to this sbatch.
+  srun --exact --ntasks=1 ./Go-General $p &
 done
- 
+
+# Wait for all background tasks to exit
+wait
