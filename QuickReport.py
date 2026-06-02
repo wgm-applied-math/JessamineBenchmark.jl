@@ -37,7 +37,7 @@ def main():
     # sympy.pprint(expr_simp, use_unicode=True)
     expr_round = round_near_integer(expr_simp.evalf())
     expr_round_simp = sympy.simplify(expr_round)
-    sympy.pprint(expr_round_simp)
+    sympy.pprint(expr_round_simp, wrap_line=False, use_unicode=True)
 
 
 if __name__ == "__main__":
