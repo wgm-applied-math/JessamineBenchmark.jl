@@ -20,9 +20,9 @@ else
             --num-time-steps 3 \
             --max-generations 25 \
             --max-time 7200 \
-            --stop-threshold 1.0e-4 \
             --lambda-op 1.0e-6 \
             --output-file "$out_file" \
             > "$log_file" 2> "$err_file"
       echo "Done generating $out_file"
 fi
+#             --stop-threshold 6.0e-5 \
