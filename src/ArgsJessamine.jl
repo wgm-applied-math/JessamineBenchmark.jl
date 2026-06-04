@@ -1,3 +1,12 @@
+args_special = [
+    ["--verbosity"],
+    Dict(
+        :help => "how verbose to be, greater results in more messages",
+        :default => 0,
+        :arg_type => Int64
+    ),
+]
+
 args_search = [
     ["--random-state"],
     Dict(
@@ -142,4 +151,11 @@ args_regularization = [
 ]
 
 
-args_jessamine = [args_search; args_genome_spec; args_mutation_spec; args_selection_spec; args_regularization]
+args_jessamine = [
+    args_special;
+    args_search;
+    args_genome_spec;
+    args_mutation_spec;
+    args_selection_spec;
+    args_regularization
+]
