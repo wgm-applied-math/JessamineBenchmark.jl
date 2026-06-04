@@ -8,6 +8,7 @@ using CSV
 using DataFrames
 using Dates
 using JSON
+using Jessamine
 using JessamineSciKitLearn
 using JessamineSciKitLearn: @cfield
 using Pkg
@@ -58,6 +59,7 @@ add_arg_table!(s, args_overall..., args_output..., args_jessamine...)
 
 function (@main)(args = ARGS)
     prespec_original = parse_args(args, s)
+    verbosity = prespec_original["verbosity"]
 
     # Get rid of any nothings, they just cause trouble.
     prespec = filter(p -> !isnothing(p.second), prespec_original)
@@ -67,13 +69,13 @@ function (@main)(args = ARGS)
         config_files = prespec["config_file"]
         for config_file in config_files
             cf = TOML.parsefile(config_file)
-            @info "Loaded $(config_file): $cf"
+            @debug_or_info verbosity "Loaded $(config_file): $cf"
             # Merge so that args on the command line supersede
             # what's in a file.
             prespec = merge(cf, prespec)
-            @info "Prespec is now $prespec"
+            @debug_or_info verbosity "Prespec is now $prespec"
         end
-        @info "After loading config files, prespec is $prespec"
+        @debug_or_info verbosity "After loading config files, prespec is $prespec"
     end
 
     # Maybe store configuration
@@ -108,9 +110,9 @@ function (@main)(args = ARGS)
 
     # Feed it to JessamineSciKitLearn
 
-    result = regression_main_detailed(X, y, prespec)
+    result = regression_main_detailed(X, y, prespec; verbosity)
 
-    @info "Result is $result"
+    @debug_or_info verbosity "Result is $result"
 
     short_result = (
         best_agent = result.best_agent,
@@ -119,7 +121,7 @@ function (@main)(args = ARGS)
 
     output_file = get(prespec, "output_file", nothing)
     if !isnothing(output_file)
-        @info "Writing to $output_file"
+        @debug "Writing to $output_file"
         mkpath(dirname(output_file))
         JSON.json(output_file, short_result)
     end
