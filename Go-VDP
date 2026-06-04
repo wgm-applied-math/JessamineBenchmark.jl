@@ -6,6 +6,7 @@ julia --project=@. -m JessamineBenchmark.AppSimple \
       --op-inventory "Polynomial" \
       --stop-threshold 2.0e-9 \
       --max-time 60 \
+      --random-state 0xb6500bd3306fd1ca \
       --config-dump-file "Generated/$dataset-config.toml" \
       --progress-file "Generated/$dataset-progress.json" \
       --output-file "Generated/$dataset.json"
