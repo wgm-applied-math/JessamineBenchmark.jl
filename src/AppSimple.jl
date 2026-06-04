@@ -47,6 +47,11 @@ args_output = [
         :help => "save the overall argument configuration to a TOML file",
         :arg_type => String,
     ),
+    ["--progress-file"],
+    Dict(
+        :help => "store each highest-rated agent in this file as it is discovered",
+        :arg_type => String,
+    ),
 ]
 
 add_arg_table!(s, args_overall..., args_output..., args_jessamine...)
@@ -56,7 +61,6 @@ function (@main)(args = ARGS)
 
     # Get rid of any nothings, they just cause trouble.
     prespec = filter(p -> !isnothing(p.second), prespec_original)
-
 
     # Load config files
     if haskey(prespec, "config_file")
@@ -116,6 +120,7 @@ function (@main)(args = ARGS)
     output_file = get(prespec, "output_file", nothing)
     if !isnothing(output_file)
         @info "Writing to $output_file"
+        mkpath(dirname(output_file))
         JSON.json(output_file, short_result)
     end
 
