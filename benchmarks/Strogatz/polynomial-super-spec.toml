@@ -1,5 +1,5 @@
 random_state = 0x59f626bad27de798
-num_samples = 32
+num_samples = 4
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
 scratch_size = 12
