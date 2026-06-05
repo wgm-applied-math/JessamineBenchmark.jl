@@ -1,3 +1,3 @@
 [submodule "ode-strogatz"]
-	path = ode-strogatz
+	path = benchmarks/Strogatz/ode-strogatz
 	url = https://github.com/wgm-applied-math/ode-strogatz
