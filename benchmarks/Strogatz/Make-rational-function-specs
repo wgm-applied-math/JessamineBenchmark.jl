@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Script to make a bunch of spec files for the polynomial problems
+# Script to make a bunch of spec files for the rational function problems
 
 declare -a psets
 
-psets=(d_lv1 d_lv2 d_vdp1 d_vdp2)
+psets=(d_bacres1 d_bacres2 d_predprey1 d_predprey2)
 
 for p in "${psets[@]}"
 do
 julia --project=@. -q -m JessamineBenchmark.AppSimple \
       setup_samples \
-      --config-file "polynomial-super-spec.toml" \
+      --config-file "rational-function-super-spec.toml" \
       --config-path-template "Specs/$p-%03d.toml" \
       --data-file "ode-strogatz/$p.txt"
 done
