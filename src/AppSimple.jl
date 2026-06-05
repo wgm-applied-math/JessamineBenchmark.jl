@@ -127,14 +127,11 @@ function (@main)(args = ARGS)
     command = args_result["%COMMAND%"]
     prespec_original = args_result[command]
 
-    @info "main:" args_result=args_result
-
     # Get rid of any nothings, they just cause trouble.
     prespec = filter(p -> !isnothing(p.second), prespec_original)
-
-    @info "main:" prespec=prespec
-
     verbosity = get(prespec, "verbosity", 0)
+
+    @debug_or_info verbosity "main:" prespec=prespec
 
     # Load config files
     if haskey(prespec, "config_file")
@@ -150,7 +147,7 @@ function (@main)(args = ARGS)
         @debug_or_info verbosity "After loading config files, prespec is $prespec"
     end
 
-    @info "main: After loading config files:" prespec=prespec
+    @debug_or_info verbosity "main: After loading config files:" prespec=prespec
 
     # Maybe set up a log file
     @cfield prespec log_file nothing Union{Nothing,String}
