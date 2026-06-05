@@ -2,6 +2,7 @@
 dataset=d_shearflow1
 mkdir -p Generated
 julia --project=@. -m JessamineBenchmark.AppSimple \
+      sr \
       --data-file "ode-strogatz/$dataset.txt" \
       --op-inventory "Trig" \
       --output-size 12 \

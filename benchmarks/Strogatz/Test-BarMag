@@ -2,6 +2,7 @@
 dataset=d_barmag1
 mkdir -p Generated
 julia --project=@. -m JessamineBenchmark.AppSimple \
+      sr \
       --data-file "ode-strogatz/$dataset.txt" \
       --op-inventory "RationalFunction; ExpLog; Trig" \
       --max-time 300 \

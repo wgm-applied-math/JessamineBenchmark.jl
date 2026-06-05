@@ -1,8 +1,9 @@
 #!/bin/bash
 dataset=d_vdp1
 mkdir -p Generated
-export JULIA_CONDAPKG_VERBOSITY=-1
+# export JULIA_CONDAPKG_VERBOSITY=-1
 julia -q --project=@. -m JessamineBenchmark.AppSimple \
+      sr \
       --data-file "ode-strogatz/$dataset.txt" \
       --op-inventory "Polynomial" \
       --stop-threshold 2.0e-9 \
@@ -10,5 +11,6 @@ julia -q --project=@. -m JessamineBenchmark.AppSimple \
       --config-file DefaultRandomState.toml \
       --config-dump-file "Generated/$dataset-config.toml" \
       --progress-file "Generated/$dataset-progress.json" \
+      --log-file "Generated/$dataset.log" \
       --verbosity 1 \
       --output-file "Generated/$dataset.json"

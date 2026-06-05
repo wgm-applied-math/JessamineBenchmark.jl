@@ -1,4 +1,4 @@
-args_special = [
+args_verbosity = [
     ["--verbosity"],
     Dict(
         :help => "how verbose to be, greater results in more messages",
@@ -7,13 +7,16 @@ args_special = [
     ),
 ]
 
-args_search = [
+args_rng = [
     ["--random-state"],
     Dict(
         :help => "seed for random number generator",
         # scikit-learn requires a 32-bit integer here, but Julia can handle a 64-bit integer
         :arg_type => UInt64
     ),
+]
+
+args_search = [
     ["--max-time"],
     Dict(
         :help => "maximum time in seconds",
@@ -152,7 +155,7 @@ args_regularization = [
 
 
 args_jessamine = [
-    args_special;
+    args_verbosity;
     args_search;
     args_genome_spec;
     args_mutation_spec;
