@@ -10,5 +10,5 @@ julia -q --project=@. -m JessamineBenchmark.AppSimple \
       --config-file DefaultRandomState.toml \
       --config-dump-file "Generated/$dataset-config.toml" \
       --progress-file "Generated/$dataset-progress.json" \
-      --verbosity 0 \
+      --verbosity 1 \
       --output-file "Generated/$dataset.json"
