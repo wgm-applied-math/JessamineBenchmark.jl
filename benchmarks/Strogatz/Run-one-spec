@@ -1,0 +1,5 @@
+#!/bin/bash
+
+julia --project=@. -m JessamineBenchmark.AppSimple \
+      sr \
+      --config-file "$1"
