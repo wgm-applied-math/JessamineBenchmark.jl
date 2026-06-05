@@ -34,7 +34,7 @@ do
   # The --exact here means that the srun will be given the
   # resources it requested and not the whole allocation
   # given to this sbatch.
-  srun --exact --ntasks=1 ./Go-General $p &
+  srun --exact --ntasks=1 ./Go-one-dataset $p &
 done
 
 # Wait for all background tasks to exit
