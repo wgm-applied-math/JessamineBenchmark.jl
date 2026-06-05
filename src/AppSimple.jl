@@ -81,7 +81,6 @@ setup_args = [
     Dict(
         :help => "number of samples to run",
         :arg_type => Int,
-        :required => true
     ),
     ["--sr-output-dir"],
     Dict(
