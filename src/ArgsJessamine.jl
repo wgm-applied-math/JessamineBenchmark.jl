@@ -2,7 +2,6 @@ args_verbosity = [
     ["--verbosity"],
     Dict(
         :help => "how verbose to be, greater results in more messages",
-        :default => 0,
         :arg_type => Int64
     ),
 ]
@@ -41,7 +40,6 @@ args_search = [
     ["--simplify"],
     Dict(
         :help => "whether to run a simplification epoch",
-        :default => true
     ),
 ]
 
@@ -72,8 +70,7 @@ args_mutation_spec = [
     ["--op-inventory"],
     Dict(
         :help => "operation inventory",
-        :arg_type => String,
-        :default => "Polynomial"
+        :arg_type => String
     ),
     ["--p-mutate-op"],
     Dict(

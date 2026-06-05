@@ -96,17 +96,20 @@ add_arg_table!(
         :help => "run symbolic regression on a dataset",
         :action => :command
     ),
-    ["setup_samples"],
-    Dict(
-        :help => "set up config files for many samples",
-        :action => :command
-    )
 )
 
 add_arg_table!(
     s["sr"], args_config_file..., args_log_file..., sr_args_input..., sr_args_output..., args_rng..., args_jessamine...)
 
 
+add_arg_table!(
+    s,
+    ["setup_samples"],
+    Dict(
+        :help => "set up config files for many samples",
+        :action => :command
+    )
+)
 add_arg_table!(
     s["setup_samples"], args_config_file..., args_log_file..., setup_args..., sr_args_input..., args_rng..., args_jessamine...)
 
@@ -124,10 +127,14 @@ function (@main)(args = ARGS)
     command = args_result["%COMMAND%"]
     prespec_original = args_result[command]
 
+    @info "main:" args_result=args_result
+
     # Get rid of any nothings, they just cause trouble.
     prespec = filter(p -> !isnothing(p.second), prespec_original)
 
-    verbosity = prespec["verbosity"]
+    @info "main:" prespec=prespec
+
+    verbosity = get(prespec, "verbosity", 0)
 
     # Load config files
     if haskey(prespec, "config_file")
@@ -142,6 +149,8 @@ function (@main)(args = ARGS)
         end
         @debug_or_info verbosity "After loading config files, prespec is $prespec"
     end
+
+    @info "main: After loading config files:" prespec=prespec
 
     # Maybe set up a log file
     @cfield prespec log_file nothing Union{Nothing,String}
@@ -167,7 +176,7 @@ end
 Run symbolic regression.
 """
 function cmd_sr(prespec)
-    verbosity = prespec["verbosity"]
+    verbosity = get(prespec, "verbosity", 0)
 
     @debug_or_info verbosity "Running symbolic regression"
 
@@ -237,7 +246,7 @@ end
 
 
 function cmd_setup_samples(prespec)
-    verbosity = prespec["verbosity"]
+    verbosity = get(prespec, "verbosity", 0)
     @debug_or_info verbosity "Setting up config files for many samples"
 
     delete!(prespec, "config_file")
