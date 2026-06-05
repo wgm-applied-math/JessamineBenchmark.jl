@@ -1,0 +1,8 @@
+# Pip-formatted requirements
+
+# The main apps work without much Python but some of the scripts
+# make use of some Python packages.  This file provides a list of
+# those useful packages.
+
+# Need yq for the tomlq command
+yq
