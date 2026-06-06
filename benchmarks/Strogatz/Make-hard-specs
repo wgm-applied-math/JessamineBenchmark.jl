@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Script to make a bunch of spec files for the rational function problems
+
+declare -a psets
+
+psets=(d_glider1 d_glider2 d_sfgrid1 d_sfgrid2 d_shearflow1 d_shearflow2)
+
+for p in "${psets[@]}"
+do
+julia --project=@. -q -m JessamineBenchmark.AppSimple \
+      setup_samples \
+      --config-file "hard-super-spec.toml" \
+      --config-path-template "Specs/$p-%03d.toml" \
+      --data-file "ode-strogatz/$p.txt"
+done
