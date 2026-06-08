@@ -208,7 +208,7 @@ function cmd_sr(prespec)
     df = load_data_file(data_file)
 
     # Extract the input and output columns
-    @cfield prespec output_column :label
+    @cfield prespec output_column "label"
     y = df[!, output_column]
     X = df[!, Not(output_column)]
 
