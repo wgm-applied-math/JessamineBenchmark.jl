@@ -49,7 +49,12 @@ sr_args_input = [
     Dict(
         :help => "file with data table",
         :arg_type => String
-    )
+    ),
+    ["--output-column"],
+    Dict(
+        :help => "column in data file containing model target output values",
+        :arg_type => Symbol
+    ),
 ]
 
 sr_args_output = [
@@ -203,7 +208,7 @@ function cmd_sr(prespec)
     df = load_data_file(data_file)
 
     # Extract the input and output columns
-    output_column = :label
+    @cfield prespec output_column :label
     y = df[!, output_column]
     X = df[!, Not(output_column)]
 

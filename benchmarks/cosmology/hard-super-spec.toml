@@ -1,3 +1,4 @@
+output_column = "target"
 random_state = 0x59f626bad27de798
 num_samples = 32
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"

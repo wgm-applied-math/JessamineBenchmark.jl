@@ -6,6 +6,7 @@ max_time = 3600
 num_time_steps = 4
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
+output_column = "target"
 output_file = "Generated/F6/026/result.json"
 progress_file = "Generated/F6/026/progress.json"
 random_state = 0x7fba434e5f2878f6
