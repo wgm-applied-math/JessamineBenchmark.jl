@@ -1,3 +1,6 @@
 [submodule "ode-strogatz"]
 	path = benchmarks/Strogatz/ode-strogatz
 	url = https://github.com/wgm-applied-math/ode-strogatz
+[submodule "benchmarks/cosmology/Things-to-bench"]
+	path = benchmarks/cosmology/Things-to-bench
+	url = https://github.com/CP3-Origins/Things-to-bench.git
