@@ -1,0 +1,12 @@
+data_file = "Things-to-bench/datasets/F3.csv"
+lambda_op = 1.0e-6
+log_file = "Generated/F3/001/log.txt"
+max_generations = 25
+max_time = 3600
+num_time_steps = 4
+op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
+output-size = 12
+output_file = "Generated/F3/001/result.json"
+progress_file = "Generated/F3/001/progress.json"
+random_state = 0xbbffef330e3219bc
+scratch_size = 12

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Script to make a bunch of spec files for the baseline datasets.
+# See appendix A of the cp3-bench 2025 paper.
+
+declare -a psets
+
+psets=(F1 F2 F3 F4 F5 F6 F7 F8)
+
+for p in "${psets[@]}"
+do
+julia --project=@. -q -m JessamineBenchmark.AppSimple \
+      setup_samples \
+      --config-file "hard-super-spec.toml" \
+      --config-path-template "Specs/$p-%03d.toml" \
+      --data-file "Things-to-bench/datasets/$p.csv"
+done
