@@ -1,0 +1,12 @@
+data_file = "ode-strogatz/d_lv2.txt"
+lambda_op = 1.0e-6
+log_file = "Generated/d_lv2/012/log.txt"
+max_generations = 25
+max_time = 300
+num_time_steps = 4
+op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
+output-size = 12
+output_file = "Generated/d_lv2/012/result.json"
+progress_file = "Generated/d_lv2/012/progress.json"
+random_state = 0x21c1aa73e9f79fe9
+scratch_size = 12
