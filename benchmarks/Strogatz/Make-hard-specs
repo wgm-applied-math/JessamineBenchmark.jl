@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to make a bunch of spec files for the rational function problems
+# Script to make a bunch of spec files for the hard problems
 
 declare -a psets
 
