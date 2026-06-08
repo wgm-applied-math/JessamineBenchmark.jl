@@ -1,6 +1,6 @@
 #!/usr/bin/nu
 # nu shell script
-# 
+#
 # Assemble the results files
 #
 
@@ -8,11 +8,16 @@ def assemble-progress [] {
   ls Generated/**/progress.json | each { |result|
     let dataset = $result.name | split row '/' | get 1
     let samplenum = $result.name | split row '/' | get 2
-    let rating = open $result.name | get rating | format number | get display
+    let result = open $result.name
+    let rating = $result | get agent.rating | format number | get display
+    let start_time = $result | get start_time
+    let current_time = $result | get current_time
     {
       dataset: $dataset,
       samplenum: $samplenum,
-      rating: $rating
+      rating: $rating,
+      current_time: $current_time,
+      start_time: $start_time
     }
   }
 }
