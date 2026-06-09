@@ -1,11 +1,13 @@
 #!/bin/bash
 
-# Script to make a bunch of spec files for the baseline datasets.
-# See appendix A of the cp3-bench 2025 paper.
+# Script to make a bunch of spec files for the C datasets.
+# See p31 of the cp3-bench 2025 paper.
 
 declare -a psets
 
-psets=( F{1..8} )
+# psets=( C1{a..d} C2{a..b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
+
+psets=( C1{a..d} )
 
 for p in "${psets[@]}"
 do
@@ -13,5 +15,5 @@ do
           setup_samples \
           --config-file "hard-super-spec.toml" \
           --config-path-template "Specs/$p-%03d.toml" \
-          --data-file "Things-to-bench/datasets/$p.csv"
+          --data-file "Things-to-bench/cosmo_data/$p.csv"
 done
