@@ -7,6 +7,7 @@ num_time_steps = 4
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
 output_file = "Generated/d_glider2/005/result.json"
+parameter_size = 3
 progress_file = "Generated/d_glider2/005/progress.json"
 random_state = 0x64d85965bd50cc30
 scratch_size = 12

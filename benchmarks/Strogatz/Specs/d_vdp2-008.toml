@@ -7,6 +7,7 @@ num_time_steps = 4
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
 output_file = "Generated/d_vdp2/008/result.json"
+parameter_size = 3
 progress_file = "Generated/d_vdp2/008/progress.json"
 random_state = 0xe6368cd5c77a8afd
 scratch_size = 12

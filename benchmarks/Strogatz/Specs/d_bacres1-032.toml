@@ -7,6 +7,7 @@ num_time_steps = 4
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
 output_file = "Generated/d_bacres1/032/result.json"
+parameter_size = 3
 progress_file = "Generated/d_bacres1/032/progress.json"
 random_state = 0x0ca4cf6e75835e80
 scratch_size = 12
