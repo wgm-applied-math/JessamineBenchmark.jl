@@ -4,6 +4,7 @@ num_samples = 32
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
 scratch_size = 12
+parameter_size = 3
 num_time_steps = 4
 max_generations = 25
 max_time = 3600

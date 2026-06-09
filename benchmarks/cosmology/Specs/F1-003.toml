@@ -8,6 +8,7 @@ op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
 output-size = 12
 output_column = "target"
 output_file = "Generated/F1/003/result.json"
+parameter_size = 3
 progress_file = "Generated/F1/003/progress.json"
 random_state = 0xadbcef5773fdadc0
 scratch_size = 12
