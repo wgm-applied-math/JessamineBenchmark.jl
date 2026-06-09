@@ -4,6 +4,9 @@
 #SBATCH --ntasks=40
 #SBATCH --cpus-per-task=1
 
+# This should flush any recompilation
+julia --project=@. -q -m JessamineBenchmark.AppSimple --version
+
 if [[ ! -v SLURM_JOB_ID ]]
 then
     echo "Run this script within slurm"
