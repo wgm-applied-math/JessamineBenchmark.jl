@@ -35,11 +35,12 @@ def make_report(config_file):
 
     # Use original form, unless there are complications
     # input_syms = sympy.symbols(input_columns)
-    # These show up in certain cases of division by zero:
+    # These show up in certain cases of division by zero.
+    # In Julia, 1.0 / 0.0 is Inf.
     epsilon = sympy.symbols("ϵ")
     if epsilon in expr.free_symbols:
         expr_simp = sympy.simplify(expr)
-        expr = sympy.limit(expr_simp, epsilon, 0, dir="+-")
+        expr = sympy.limit(expr_simp, epsilon, 0, dir="+")
         expr = sympy.simplify(expr)
         
     # These also show up sometimes
