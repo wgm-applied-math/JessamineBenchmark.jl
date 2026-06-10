@@ -62,6 +62,7 @@ def make_report(config_file):
     return {
         "dataset": dataset,
         "samplenum": samplenum,
+        "rating": result["best_agent"]["rating"],
         "mse": mse,
         "expr": expr,
         # "input_columns": input_columns,
@@ -76,7 +77,7 @@ def make_report(config_file):
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
-    for spec_file in spec_dir.glob("*.toml"):
+    for spec_file in spec_dir.glob("d_vdp*.toml"):
         print(f"Making report for {spec_file}")        
         report = make_report(spec_file)
         print(f"Report: {report}")
