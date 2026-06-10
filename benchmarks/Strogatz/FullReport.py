@@ -6,7 +6,7 @@ import pandas as pd
 from pathlib import Path
 import sympy
 import tomllib
-
+import traceback
 
 class TimeoutError(Exception):
     pass
@@ -48,6 +48,9 @@ def make_report(config_file):
 
     expr = sympy.parse_expr(result["y_num_str"])
 
+    print("before any simplification:")
+    print(expr)
+
     TIMEOUT_SECONDS = 60
     mse = math.nan
     try:
@@ -61,6 +64,8 @@ def make_report(config_file):
                 expr_simp = sympy.simplify(expr)
                 expr = sympy.limit(expr_simp, epsilon, 0, dir="+")
                 expr = sympy.simplify(expr)
+                print("after epsilon simplification:")
+                print(expr)
                 
             # These also show up sometimes
             Inf = sympy.symbols("Inf")
@@ -68,8 +73,12 @@ def make_report(config_file):
                 expr_simp = sympy.simplify(expr)
                 expr = sympy.limit(expr_simp, Inf, sympy.oo)
                 expr = sympy.simplify(expr)
-
+                print("after Inf simplification:")
+                print(expr)
+                
             expr = expr.evalf()
+            print("after evalf")
+            print(expr)
             farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}")
             f = sympy.lambdify(farg_syms, expr)
 
@@ -79,6 +88,10 @@ def make_report(config_file):
             mse = ((y - y_hat)**2).mean()
     except TimeoutError as e:
         print(f"Timeout working on simplification")
+
+    except:
+        print("some other exception during simplification:")
+        traceback.print_exc()
 
     return {
         "dataset": dataset,
@@ -98,7 +111,7 @@ def make_report(config_file):
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
-    for spec_file in spec_dir.glob("d_vdp*.toml"):
+    for spec_file in spec_dir.glob("*.toml"):
         print(f"Making report for {spec_file}")        
         report = make_report(spec_file)
         print(f"Report: {report}")
