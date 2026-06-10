@@ -113,9 +113,13 @@ def make_all_reports():
     reports = []
     for spec_file in spec_dir.glob("*.toml"):
         print(f"Making report for {spec_file}")        
-        report = make_report(spec_file)
-        print(f"Report: {report}")
-        reports.append(report)
+        try:
+            report = make_report(spec_file)
+            print(f"Report: {report}")
+            reports.append(report)
+        except:
+            print("Exception during report generation:")
+            traceback.print_exc()
     return pd.DataFrame(reports)
 
 def main():
