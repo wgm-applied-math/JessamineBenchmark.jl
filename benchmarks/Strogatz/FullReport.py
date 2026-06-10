@@ -46,7 +46,9 @@ def make_report(config_file):
     with open(output_file, "rt") as f:
         result = json.load(f)
 
-    expr = sympy.parse_expr(result["y_num_str"])
+    best_run = result["discoveries"][0]
+    agent = best_run["agent"]
+    expr = sympy.parse_expr(best_run["y_num_str"])
 
     print("before any simplification:")
     print(expr)
@@ -59,7 +61,7 @@ def make_report(config_file):
             # input_syms = sympy.symbols(input_columns)
             # These show up in certain cases of division by zero.
             # In Julia, 1.0 / 0.0 is Inf.
-            epsilon = sympy.symbols("ϵ")
+            epsilon = sympy.symbols("ϵ", real=True)
             if epsilon in expr.free_symbols:
                 expr_simp = sympy.simplify(expr)
                 expr = sympy.limit(expr_simp, epsilon, 0, dir="+")
@@ -68,7 +70,7 @@ def make_report(config_file):
                 print(expr)
                 
             # These also show up sometimes
-            Inf = sympy.symbols("Inf")
+            Inf = sympy.symbols("Inf", real=True)
             if Inf in expr.free_symbols:
                 expr_simp = sympy.simplify(expr)
                 expr = sympy.limit(expr_simp, Inf, sympy.oo)
@@ -79,7 +81,7 @@ def make_report(config_file):
             expr = expr.evalf()
             print("after evalf")
             print(expr)
-            farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}")
+            farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
             f = sympy.lambdify(farg_syms, expr)
 
             # Apply f to each row of X
@@ -96,7 +98,7 @@ def make_report(config_file):
     return {
         "dataset": dataset,
         "samplenum": samplenum,
-        "rating": result["best_agent"]["rating"],
+        "rating": best_agent["rating"],
         "mse": mse,
         "expr": expr,
         # "input_columns": input_columns,
@@ -111,7 +113,7 @@ def make_report(config_file):
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
-    for spec_file in spec_dir.glob("*.toml"):
+    for spec_file in spec_dir.glob("d_bacres2*.toml"):
         print(f"Making report for {spec_file}")        
         try:
             report = make_report(spec_file)

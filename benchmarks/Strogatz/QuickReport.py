@@ -30,9 +30,11 @@ def main():
     args = parser.parse_args()
     with open(args.file, "rt") as f:
         data = json.load(f)
-    rating = data["best_agent"]["rating"]
+    best_result = data["discoveries"][0]
+    agent = best_result["agent"]
+    rating = agent["rating"]
     print(f"Rating: {rating}")
-    expr = sympy.parse_expr(data["y_num_str"])
+    expr = sympy.parse_expr(best_result["y_num_str"])
     # expr = sympy.simplify(expr)
     # sympy.pprint(expr_simp, use_unicode=True)
     # expr = round_near_integer(expr.evalf())
