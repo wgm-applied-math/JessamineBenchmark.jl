@@ -1,13 +1,28 @@
-#import argparse
 import json
-from unittest import result
+import math
+import signal
+from contextlib import contextmanager
 import pandas as pd
 from pathlib import Path
 import sympy
 import tomllib
 
-#parser = argparse.ArgumentParser()
-#parser.add_argument("config_file")
+
+class TimeoutError(Exception):
+    pass
+
+
+@contextmanager
+def time_limit(seconds):
+    def _handler(signum, frame):
+        raise TimeoutError(f"Calculation exceeded {seconds}s time limit")
+    old_handler = signal.signal(signal.SIGALRM, _handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old_handler)
 
 
 def make_report(config_file):
@@ -33,31 +48,37 @@ def make_report(config_file):
 
     expr = sympy.parse_expr(result["y_num_str"])
 
-    # Use original form, unless there are complications
-    # input_syms = sympy.symbols(input_columns)
-    # These show up in certain cases of division by zero.
-    # In Julia, 1.0 / 0.0 is Inf.
-    epsilon = sympy.symbols("ϵ")
-    if epsilon in expr.free_symbols:
-        expr_simp = sympy.simplify(expr)
-        expr = sympy.limit(expr_simp, epsilon, 0, dir="+")
-        expr = sympy.simplify(expr)
-        
-    # These also show up sometimes
-    Inf = sympy.symbols("Inf")
-    if Inf in expr.free_symbols:
-        expr_simp = sympy.simplify(expr)
-        expr = sympy.limit(expr_simp, Inf, sympy.oo)
-        expr = sympy.simplify(expr)
+    TIMEOUT_SECONDS = 60
+    mse = math.nan
+    try:
+        with time_limit(TIMEOUT_SECONDS):
+            # Use original form, unless there are complications
+            # input_syms = sympy.symbols(input_columns)
+            # These show up in certain cases of division by zero.
+            # In Julia, 1.0 / 0.0 is Inf.
+            epsilon = sympy.symbols("ϵ")
+            if epsilon in expr.free_symbols:
+                expr_simp = sympy.simplify(expr)
+                expr = sympy.limit(expr_simp, epsilon, 0, dir="+")
+                expr = sympy.simplify(expr)
+                
+            # These also show up sometimes
+            Inf = sympy.symbols("Inf")
+            if Inf in expr.free_symbols:
+                expr_simp = sympy.simplify(expr)
+                expr = sympy.limit(expr_simp, Inf, sympy.oo)
+                expr = sympy.simplify(expr)
 
-    expr = expr.evalf()
-    farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}")
-    f = sympy.lambdify(farg_syms, expr)
+            expr = expr.evalf()
+            farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}")
+            f = sympy.lambdify(farg_syms, expr)
 
-    # Apply f to each row of X
-    y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
+            # Apply f to each row of X
+            y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
 
-    mse = ((y - y_hat)**2).mean()
+            mse = ((y - y_hat)**2).mean()
+    except TimeoutError as e:
+        print(f"Timeout working on simplification")
 
     return {
         "dataset": dataset,
