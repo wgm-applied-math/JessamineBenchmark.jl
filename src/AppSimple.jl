@@ -216,18 +216,11 @@ function cmd_sr(prespec)
 
     result = regression_main_detailed(X, y, prespec; verbosity)
 
-    @debug_or_info verbosity "Result is $result"
-
-    short_result = (
-        best_agent = result.best_agent,
-        genome_spec = result.genome_spec,
-        y_num_str = result.y_num_str)
-
     output_file = get(prespec, "output_file", nothing)
     if !isnothing(output_file)
         @debug "Writing to $output_file"
         mkpath(dirname(output_file))
-        JSON.json(output_file, short_result)
+        JSON.json(output_file, result)
     end
 
     return 0
