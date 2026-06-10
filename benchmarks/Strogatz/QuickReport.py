@@ -33,11 +33,11 @@ def main():
     rating = data["best_agent"]["rating"]
     print(f"Rating: {rating}")
     expr = sympy.parse_expr(data["y_num_str"])
-    expr_simp = sympy.simplify(expr)
+    # expr = sympy.simplify(expr)
     # sympy.pprint(expr_simp, use_unicode=True)
-    expr_round = round_near_integer(expr_simp.evalf())
-    expr_round_simp = sympy.simplify(expr_round)
-    sympy.pprint(expr_round_simp, wrap_line=False, use_unicode=True)
+    # expr = round_near_integer(expr.evalf())
+    # expr = sympy.simplify(expr)
+    sympy.pprint(expr, wrap_line=False, use_unicode=True)
 
 
 if __name__ == "__main__":
