@@ -55,6 +55,11 @@ sr_args_input = [
         :help => "column in data file containing model target output values",
         :arg_type => Symbol
     ),
+    ["--random-subset-count"],
+    Dict(
+        :help => "take a random subset of this many rows of the training data",
+        :arg_type => UInt64
+    ),
 ]
 
 sr_args_output = [
