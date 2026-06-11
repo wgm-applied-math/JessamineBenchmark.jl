@@ -19,7 +19,7 @@ def assemble-progress [] {
       current_time: $current_time,
       start_time: $start_time
     }
-  } | polars into-df
+  }
 }
 
 def assemble-results [] {
@@ -32,7 +32,7 @@ def assemble-results [] {
       samplenum: $samplenum,
       rating: $rating
     }
-  } | polars into-df
+  }
 }
 
 def best-runs [col="rating"] {
