@@ -58,7 +58,7 @@ sr_args_input = [
     ["--random-subset-count"],
     Dict(
         :help => "take a random subset of this many rows of the training data",
-        :arg_type => UInt64
+        :arg_type => Int64
     ),
 ]
 
