@@ -11,4 +11,5 @@ output_file = "Generated/F7/032/result.json"
 parameter_size = 3
 progress_file = "Generated/F7/032/progress.json"
 random_state = 0x0ca4cf6e75835e80
+random_subset_count = 1000
 scratch_size = 12
