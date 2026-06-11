@@ -48,40 +48,49 @@ def make_report(config_file):
 
     best_run = result["discoveries"][0]
     agent = best_run["agent"]
-    expr = sympy.parse_expr(best_run["y_num_str"])
+    
+    epsilon = sympy.symbols("ε", real=True)
+    Inf = sympy.symbols("Inf", real=True)
+    farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
+    farg_dict = { str(x): x for x in farg_syms }
+    expr = sympy.parse_expr(best_run["y_num_str"],
+                            {"ε": epsilon, "ϵ": epsilon, "Inf": Inf} | farg_dict)
 
     print("before any simplification:")
     print(expr)
 
+
     TIMEOUT_SECONDS = 60
     mse = math.nan
+    
     try:
         with time_limit(TIMEOUT_SECONDS):
+            expr= sympy.simplify(expr, rational=False)
+            print(f"Free symbols: {expr.free_symbols}")
             # Use original form, unless there are complications
             # input_syms = sympy.symbols(input_columns)
             # These show up in certain cases of division by zero.
             # In Julia, 1.0 / 0.0 is Inf.
-            epsilon = sympy.symbols("ϵ", real=True)
             if epsilon in expr.free_symbols:
-                expr_simp = sympy.simplify(expr)
-                expr = sympy.limit(expr_simp, epsilon, 0, dir="+")
-                expr = sympy.simplify(expr)
+                expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+                expr = sympy.simplify(expr, rational=False)
                 print("after epsilon simplification:")
                 print(expr)
                 
             # These also show up sometimes
-            Inf = sympy.symbols("Inf", real=True)
             if Inf in expr.free_symbols:
-                expr_simp = sympy.simplify(expr)
-                expr = sympy.limit(expr_simp, Inf, sympy.oo)
-                expr = sympy.simplify(expr)
+                expr = sympy.limit(expr, Inf, sympy.oo).evalf()
+                expr = sympy.simplify(expr, rational=False)
                 print("after Inf simplification:")
                 print(expr)
                 
+
+            assert epsilon not in expr.free_symbols
+            assert Inf not in expr.free_symbols
+            
             expr = expr.evalf()
             print("after evalf")
             print(expr)
-            farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
             f = sympy.lambdify(farg_syms, expr)
 
             # Apply f to each row of X
