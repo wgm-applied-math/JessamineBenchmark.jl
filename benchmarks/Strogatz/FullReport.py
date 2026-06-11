@@ -98,7 +98,7 @@ def make_report(config_file):
     return {
         "dataset": dataset,
         "samplenum": samplenum,
-        "rating": best_agent["rating"],
+        "rating": agent["rating"],
         "mse": mse,
         "expr": expr,
         # "input_columns": input_columns,
