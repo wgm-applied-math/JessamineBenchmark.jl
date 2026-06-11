@@ -13,7 +13,7 @@ class TimeoutError(Exception):
 
 
 @contextmanager
-def time_limit(seconds):
+def time_limit(seconds=60):
     def _handler(signum, frame):
         raise TimeoutError(f"Calculation exceeded {seconds}s time limit")
     old_handler = signal.signal(signal.SIGALRM, _handler)
@@ -46,68 +46,47 @@ def make_report(config_file):
     with open(output_file, "rt") as f:
         result = json.load(f)
 
-    best_run = result["discoveries"][0]
-    agent = best_run["agent"]
-    
+    farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
     epsilon = sympy.symbols("ε", real=True)
     Inf = sympy.symbols("Inf", real=True)
-    farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
-    farg_dict = { str(x): x for x in farg_syms }
-    expr = sympy.parse_expr(best_run["y_num_str"],
-                            {"ε": epsilon, "ϵ": epsilon, "Inf": Inf} | farg_dict)
+    vd = ({ str(x): x for x in farg_syms } |
+          {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
 
-    print("before any simplification:")
-    print(expr)
+    expr = None
+    for r in result.discoveries:
+        rating = r.agent.rating
+        raw_reg_str = r.y_num_str
+        expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
+        try:
+            with time_limit():
+                expr = sympy.simplify(expr, rational=False)
 
+                # These show up in certain cases of division by zero.
+                # In Julia, 1.0 / 0.0 is Inf.
+                if epsilon in expr.free_symbols:
+                    expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+                    expr = sympy.simplify(expr, rational=False)
 
-    TIMEOUT_SECONDS = 60
+                # These also show up sometimes
+                if Inf in expr.free_symbols:
+                    expr = sympy.limit(expr, Inf, sympy.oo).evalf()
+                    expr = sympy.simplify(expr, rational=False)
+                # If all of that works, we've found a good one, exit the loop
+                break
+        except TimeoutError:
+            pass
+
     mse = math.nan
-    
-    try:
-        with time_limit(TIMEOUT_SECONDS):
-            expr= sympy.simplify(expr, rational=False)
-            print(f"Free symbols: {expr.free_symbols}")
-            # Use original form, unless there are complications
-            # input_syms = sympy.symbols(input_columns)
-            # These show up in certain cases of division by zero.
-            # In Julia, 1.0 / 0.0 is Inf.
-            if epsilon in expr.free_symbols:
-                expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
-                expr = sympy.simplify(expr, rational=False)
-                print("after epsilon simplification:")
-                print(expr)
-                
-            # These also show up sometimes
-            if Inf in expr.free_symbols:
-                expr = sympy.limit(expr, Inf, sympy.oo).evalf()
-                expr = sympy.simplify(expr, rational=False)
-                print("after Inf simplification:")
-                print(expr)
-                
-
-            assert epsilon not in expr.free_symbols
-            assert Inf not in expr.free_symbols
-            
-            expr = expr.evalf()
-            print("after evalf")
-            print(expr)
-            f = sympy.lambdify(farg_syms, expr)
-
-            # Apply f to each row of X
-            y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-
-            mse = ((y - y_hat)**2).mean()
-    except TimeoutError as e:
-        print(f"Timeout working on simplification")
-
-    except:
-        print("some other exception during simplification:")
-        traceback.print_exc()
+    if expr is not None:
+        f = sympy.lambdify(farg_syms, expr)
+        # Apply f to each row of X
+        y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
+        mse = ((y - y_hat)**2).mean()
 
     return {
         "dataset": dataset,
         "samplenum": samplenum,
-        "rating": agent["rating"],
+        "rating": rating,
         "mse": mse,
         "expr": expr,
         # "input_columns": input_columns,
@@ -123,7 +102,7 @@ def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
     for spec_file in spec_dir.glob("d_bacres2*.toml"):
-        print(f"Making report for {spec_file}")        
+        print(f"Making report for {spec_file}")
         try:
             report = make_report(spec_file)
             print(f"Report: {report}")
