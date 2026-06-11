@@ -5,6 +5,7 @@ from contextlib import contextmanager
 import pandas as pd
 from pathlib import Path
 import sympy
+import sys
 import tomllib
 import traceback
 
@@ -52,10 +53,14 @@ def make_report(config_file):
     vd = ({ str(x): x for x in farg_syms } |
           {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
 
-    expr = None
-    for r in result.discoveries:
-        rating = r.agent.rating
-        raw_reg_str = r.y_num_str
+    f = None
+    mse = math.nan
+    n_disc = len(result["discoveries"])
+    sys.stdout.write(f"{config_file.name}: {n_disc} ")
+    for r in result["discoveries"]:
+        sys.stdout.write(".")
+        rating = r["agent"]["rating"]
+        raw_reg_str = r["y_num_str"]
         expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
         try:
             with time_limit():
@@ -71,17 +76,18 @@ def make_report(config_file):
                 if Inf in expr.free_symbols:
                     expr = sympy.limit(expr, Inf, sympy.oo).evalf()
                     expr = sympy.simplify(expr, rational=False)
-                # If all of that works, we've found a good one, exit the loop
-                break
-        except TimeoutError:
-            pass
 
-    mse = math.nan
-    if expr is not None:
-        f = sympy.lambdify(farg_syms, expr)
-        # Apply f to each row of X
-        y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-        mse = ((y - y_hat)**2).mean()
+                f = sympy.lambdify(farg_syms, expr)
+
+                # Apply f to each row of X
+                y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
+                mse = ((y - y_hat)**2).mean()
+                if not math.isnan(mse):
+                    sys.stdout.write(f" {mse}\n")
+                    # If all of that works, we've found a good one, exit the loop
+                    break
+        except:
+            pass
 
     return {
         "dataset": dataset,
@@ -101,11 +107,9 @@ def make_report(config_file):
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
-    for spec_file in spec_dir.glob("d_bacres2*.toml"):
-        print(f"Making report for {spec_file}")
+    for spec_file in sorted(spec_dir.glob("*.toml")):
         try:
             report = make_report(spec_file)
-            print(f"Report: {report}")
             reports.append(report)
         except:
             print("Exception during report generation:")

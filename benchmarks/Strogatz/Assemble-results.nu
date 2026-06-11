@@ -35,6 +35,6 @@ def assemble-results [] {
   } | polars into-df
 }
 
-def best-runs [] {
-  polars sort-by rating | polars group-by dataset | polars first | polars collect | polars sort-by dataset
+def best-runs [col="rating"] {
+  polars into-df | polars sort-by $col | polars group-by dataset | polars first | polars collect | polars sort-by dataset
 }
