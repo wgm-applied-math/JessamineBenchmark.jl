@@ -9,7 +9,7 @@ def assemble-progress [] {
     let dataset = $result.name | split row '/' | get 1
     let samplenum = $result.name | split row '/' | get 2
     let result = open $result.name
-    let rating = $result | get agent.rating? | default "-1" | format number | get display
+    let rating = $result | get agent.rating? | default "-1"
     let start_time = $result | get start_time? | default null
     let current_time = $result | get current_time? | default null
     {
@@ -26,7 +26,7 @@ def assemble-results [] {
   ls Generated/**/result.json | each { |result|
     let dataset = $result.name | split row '/' | get 1
     let samplenum = $result.name | split row '/' | get 2
-    let rating = open $result.name | get discoveries.0.agent.rating | format number | get display
+    let rating = open $result.name | get discoveries.0.agent.rating
     {
       dataset: $dataset,
       samplenum: $samplenum,
@@ -39,6 +39,10 @@ def load-report [] {
   open Generated/full-report.csv
 }
 
+def nice-nums [] {
+  update rating { format number | get lowerexp } 
+}
+
 def best-runs [col="rating"] {
   (polars into-df
    | polars sort-by $col
@@ -49,4 +53,13 @@ def best-runs [col="rating"] {
    | polars into-nu
    | update $col { format number | get lowerexp } 
   )
+}
+
+def dataset-counts [] {
+  (polars into-df
+   | polars group-by dataset
+   | polars agg (polars col dataset | polars count | polars as "count")
+   | polars collect
+  | polars sort-by dataset
+  | polars into-nu)
 }
