@@ -9,9 +9,9 @@ def assemble-progress [] {
     let dataset = $result.name | split row '/' | get 1
     let samplenum = $result.name | split row '/' | get 2
     let result = open $result.name
-    let rating = $result | get agent.rating | format number | get display
-    let start_time = $result | get start_time
-    let current_time = $result | get current_time
+    let rating = $result | get agent.rating? | default "-1" | format number | get display
+    let start_time = $result | get start_time? | default null
+    let current_time = $result | get current_time? | default null
     {
       dataset: $dataset,
       samplenum: $samplenum,
