@@ -35,6 +35,18 @@ def assemble-results [] {
   }
 }
 
+def load-report [] {
+  open Generated/full-report.csv
+}
+
 def best-runs [col="rating"] {
-  polars into-df | polars sort-by $col | polars group-by dataset | polars first | polars collect | polars sort-by dataset
+  (polars into-df
+   | polars sort-by $col
+   | polars group-by dataset
+   | polars first
+   | polars collect
+   | polars sort-by dataset
+   | polars into-nu
+   | update $col { format number | get lowerexp } 
+  )
 }
