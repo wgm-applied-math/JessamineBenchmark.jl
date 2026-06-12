@@ -8,6 +8,7 @@ import sympy
 import sys
 import tomllib
 import traceback
+import warnings
 
 class TimeoutError(Exception):
     pass
@@ -54,38 +55,42 @@ def make_report(config_file):
           {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
 
     f = None
-    mse = math.nan
+    mse = math.inf
     n_disc = len(result["discoveries"])
     sys.stdout.write(f"{config_file.name}: {n_disc} ")
     for r in result["discoveries"]:
         sys.stdout.write(".")
         rating = r["agent"]["rating"]
         raw_reg_str = r["y_num_str"]
-        expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
         try:
-            with time_limit():
-                expr = sympy.simplify(expr, rational=False)
-
-                # These show up in certain cases of division by zero.
-                # In Julia, 1.0 / 0.0 is Inf.
-                if epsilon in expr.free_symbols:
-                    expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+            # Elevate all warnings to errors so any trouble
+            # sympy has triggers moving on to the next discovery.
+            # These are generally numerical overflows and such.
+            with warnings.catch_warnings(action="error"):
+                with time_limit():
+                    expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
                     expr = sympy.simplify(expr, rational=False)
 
-                # These also show up sometimes
-                if Inf in expr.free_symbols:
-                    expr = sympy.limit(expr, Inf, sympy.oo).evalf()
-                    expr = sympy.simplify(expr, rational=False)
+                    # These show up in certain cases of division by zero.
+                    # In Julia, 1.0 / 0.0 is Inf.
+                    if epsilon in expr.free_symbols:
+                        expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+                        expr = sympy.simplify(expr, rational=False)
 
-                f = sympy.lambdify(farg_syms, expr)
+                    # These also show up sometimes
+                    if Inf in expr.free_symbols:
+                        expr = sympy.limit(expr, Inf, sympy.oo).evalf()
+                        expr = sympy.simplify(expr, rational=False)
 
-                # Apply f to each row of X
-                y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-                mse = ((y - y_hat)**2).mean()
-                if not math.isnan(mse):
-                    sys.stdout.write(f" {mse}\n")
-                    # If all of that works, we've found a good one, exit the loop
-                    break
+                    f = sympy.lambdify(farg_syms, expr)
+
+                    # Apply f to each row of X
+                    y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
+                    mse = ((y - y_hat)**2).mean()
+                    if not math.isnan(mse) and math.isfinite(mse):
+                        sys.stdout.write(f" {mse}\n")
+                        # If all of that works, we've found a good one, exit the loop
+                        break
         except:
             pass
 
