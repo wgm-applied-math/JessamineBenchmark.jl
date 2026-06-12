@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=40
+#SBATCH --cpus-per-task=1
+
+# This should flush any recompilation
+julia --project=@. -q -m JessamineBenchmark.AppSimple --version
+
+if [[ ! -v SLURM_JOB_ID ]]
+then
+    echo "Run this script within slurm"
+    exit 1
+fi
+
+for spec in "$@"
+do
+    out_file=$(tomlq -r '.output_file' "$spec")
+    if [ -f "$out_file" ]
+    then
+        echo "Output file exists, skipping: $out_file"
+    else
+        echo "Building $out_file"
+        # The --exact here means that the srun will be given the
+        # resources it requested and not the whole allocation
+        # given to this sbatch.
+        srun --quiet --exact --ntasks=1 ./Run-one-spec "$spec" &
+    fi
+done
+
+wait
