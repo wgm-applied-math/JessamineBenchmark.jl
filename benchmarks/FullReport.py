@@ -92,8 +92,8 @@ def make_report(config_file):
                     y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
                     mse = ((y - y_hat)**2).mean()
                     if not math.isnan(mse) and math.isfinite(mse):
-                        sys.stdout.write(f" {mse}\n")
                         expr_original_syms = expr.subs(farg_syms, orignal_syms)
+                        sys.stdout.write(f" {mse}\n")
                         # If all of that works, we've found a good one, exit the loop
                         break
         except:
