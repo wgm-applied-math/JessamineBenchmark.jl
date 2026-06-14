@@ -49,12 +49,16 @@ def make_report(config_file):
         result = json.load(f)
 
     farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
+    orignal_syms = sympy.symbols(input_columns)
     epsilon = sympy.symbols("ε", real=True)
     Inf = sympy.symbols("Inf", real=True)
     vd = ({ str(x): x for x in farg_syms } |
           {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
 
     f = None
+    expr = None
+    expr_original_syms = None
+    rating = math.inf
     mse = math.inf
     n_disc = len(result["discoveries"])
     sys.stdout.write(f"{config_file.name}: {n_disc} ")
@@ -89,6 +93,7 @@ def make_report(config_file):
                     mse = ((y - y_hat)**2).mean()
                     if not math.isnan(mse) and math.isfinite(mse):
                         sys.stdout.write(f" {mse}\n")
+                        expr_original_syms = expr.subs(farg_syms, orignal_syms)
                         # If all of that works, we've found a good one, exit the loop
                         break
         except:
@@ -99,6 +104,7 @@ def make_report(config_file):
         "samplenum": samplenum,
         "rating": rating,
         "mse": mse,
+        "expr_original_syms": expr_original_syms,
         "expr": expr,
         # "input_columns": input_columns,
         # "output_column": output_column,
