@@ -1,8 +1,16 @@
 @doc raw"""
 Generate data from Friedman functions, which are commonly used for machine learning benchmarks.
 
-Breiman, Leo. Bagging Predictors. *Machine Learning*, v. 24 no. 2, pp. 123--140. 1996-08-01.
+In Friedman's original article,
+[`friedman1`](@ref) is (61),
+[`friedman2`](@ref) is (63a), and
+[`friedman3`](@ref) is (63b).
+
+Breiman, Leo. Bagging Predictors. *Machine Learning,* v24 no2 p123--140, 1996-08-01.
 [doi:10.1007/BF00058655](http://doi.org/10.1007/BF00058655)
+
+Friedman, Jerome H. Multivariate adaptive regression splines. *The Annals of Statistics* v19 no1 p1--67, 1991.
+[JStor](https://www.jstor.org/stable/2241837)
 
 To run this CLI app manually:
 
