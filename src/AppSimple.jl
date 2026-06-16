@@ -52,7 +52,7 @@ sr_args_input = [
     ["--output-column"],
     Dict(
         :help => "column in data file containing model target output values",
-        :arg_type => Symbol
+        :arg_type => String
     ),
     ["--random-subset-count"],
     Dict(
