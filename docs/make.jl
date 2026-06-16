@@ -8,7 +8,7 @@ makedocs(;
     authors="W. Garrett Mitchener <mitchenerg@charleston.edu> and others",
     sitename="JessamineBenchmark.jl",
     format=Documenter.HTML(;
-        canonical="https://wgmitchener.github.io/JessamineBenchmark.jl",
+        canonical="https://wgm-applied-math.github.io/JessamineBenchmark.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -18,6 +18,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/wgmitchener/JessamineBenchmark.jl",
+    repo="github.com/wgm-applied-math/JessamineBenchmark.jl",
     devbranch="main",
 )
