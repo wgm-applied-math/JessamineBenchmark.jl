@@ -2,7 +2,7 @@
 
 declare -a psets
 
-psets=( C1{a..d} C2{a..b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
+psets=( F{1..8} C1{a..d} C2{a..b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
 
 for p in "${psets[@]}"
 do
