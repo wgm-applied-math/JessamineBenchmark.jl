@@ -1,0 +1,10 @@
+data_file = "datasets/f1a.csv"
+log_file = "Generated/f1a-long.log"
+max_time = 3600
+op_inventory = "Trig"
+output_column = "y"
+output_file = "Generated/f1a-long.json"
+progress_file = "Generated/f1a-long-progress.json"
+random_state = 0xb6500bd3306fd1ca
+stop_threshold = 2.0e-9
+verbosity = 2

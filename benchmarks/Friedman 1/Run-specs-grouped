@@ -1,0 +1,11 @@
+#!/bin/bash
+
+declare -a psets
+
+psets=( f1{a,b} )
+
+for p in "${psets[@]}"
+do
+    sbatch \
+        ./Run-some-specs Specs/$p-*.toml
+done
