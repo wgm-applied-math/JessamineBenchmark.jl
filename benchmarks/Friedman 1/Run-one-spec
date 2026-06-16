@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export JULIA_CONDAPKG_VERBOSITY=-1
+julia --project=@. -q -m JessamineBenchmark.AppSimple \
+      sr \
+      --config-file "$1"
