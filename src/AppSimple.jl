@@ -3,8 +3,6 @@
 
 module AppSimple
 
-using Core: DebugInfo
-using ArgParse: command_actions
 using ArgParse
 using CSV
 using DataFrames
@@ -20,6 +18,7 @@ using TOML
 using Random123
 
 include("ArgsJessamine.jl")
+include("Utils.jl")
 
 # autofix_names = true: Means an option like --random-state
 # results in a dictionary item with key "random_state".
@@ -300,22 +299,5 @@ function cmd_setup_samples(prespec)
 
     return 0
 end
-
-function mkpath_and_open(path::String, args...; kwargs...)
-    d = dirname(path)
-    if !isempty(d)
-        mkpath(d)
-    end
-    return open(path, args...; kwargs...)
-end
-
-function mkpath_and_open(f::Function, path::String, args...; kwargs...)
-    d = dirname(path)
-    if !isempty(d)
-        mkpath(d)
-    end
-    return open(f, path, args...; kwargs...)
-end
-
 
 end
