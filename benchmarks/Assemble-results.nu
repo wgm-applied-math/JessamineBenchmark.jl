@@ -6,13 +6,16 @@
 
 def assemble-progress [] {
   ls Generated/**/progress.json | each { |result|
-    let dataset = $result.name | split row '/' | get 1
-    let samplenum = $result.name | split row '/' | get 2
+    let path_parts = $result.name | split row '/'
+    let run_set = $path_parts.1
+    let dataset = $path_parts.2
+    let samplenum = $path_parts.3
     let result = open $result.name
     let rating = $result | get agent.rating? | default "-1"
     let start_time = $result | get start_time? | default null
     let current_time = $result | get current_time? | default null
     {
+      run_set: $run_set,
       dataset: $dataset,
       samplenum: $samplenum,
       rating: $rating,
@@ -24,10 +27,13 @@ def assemble-progress [] {
 
 def assemble-results [] {
   ls Generated/**/result.json | each { |result|
-    let dataset = $result.name | split row '/' | get 1
-    let samplenum = $result.name | split row '/' | get 2
+    let path_parts = $result.name | split row '/'
+    let run_set = $path_parts.1
+    let dataset = $path_parts.2
+    let samplenum = $path_parts.3
     let rating = open $result.name | get discoveries.0.agent.rating
     {
+      run_set: $run_set,
       dataset: $dataset,
       samplenum: $samplenum,
       rating: $rating
