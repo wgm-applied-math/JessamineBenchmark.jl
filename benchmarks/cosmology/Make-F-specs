@@ -1,0 +1,10 @@
+#!/bin/bash
+
+declare -a data_sets
+data_sets=( F{1..8} )
+data_set_dir=Things-to-bench/datasets
+data_set_ext=.csv
+run_key=2026-06-16-2230
+super_spec=hard-super-spec.toml
+
+source ../Make-specs

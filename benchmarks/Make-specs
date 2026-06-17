@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Partial script:
+# Set data_sets to an array of stems of data sets
+# Set data_set_dir to the directory where data set files are found
+# Set data_set_ext to the extension of the filename of a data set
+# Set run_key to a configuration run key
+# Set super_spec to the path of a super spec file
+# Then source this script.
+
+for data_set in "${data_sets[@]}"
+do
+    julia --project=@. -q -m JessamineBenchmark.AppSimple \
+          setup_samples \
+          --config-file "$super_spec" \
+          --config-path-template "Specs/$run_key/$data_set-%03d.toml" \
+	  --sr-output-dir "Generated/$run_key" \
+          --data-file "$data_set_dir/$data_set$data_set_ext"
+done

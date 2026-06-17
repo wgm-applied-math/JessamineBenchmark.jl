@@ -1,0 +1,11 @@
+#!/bin/bash
+# Partial script:
+# Set data_sets to an array of data set keys
+# Set run_key to a configuration run key
+# Then source this script
+
+for data_set in "${data_sets[@]}"
+do
+    sbatch --nodelist=compute0[19-26] \
+        ./Run-some-specs Specs/$run_key/$data_set-*.toml
+done
