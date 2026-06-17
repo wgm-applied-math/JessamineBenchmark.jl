@@ -4,8 +4,10 @@ declare -a psets
 
 psets=( F{1..8} C1{a..d} C2{a..b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
 
+run_key=2026-06-16-2230
+
 for p in "${psets[@]}"
 do
     sbatch --nodelist=compute0[19-26] \
-        ./Run-some-specs Specs/$p-*.toml
+        ./Run-some-specs Specs/$run_key/$p-*.toml
 done

@@ -4,16 +4,42 @@
 #SBATCH --ntasks=40
 #SBATCH --cpus-per-task=1
 
-# This should flush any recompilation
-julia --project=@. -q -m JessamineBenchmark.AppSimple --version
-
 if [[ ! -v SLURM_JOB_ID ]]
 then
     echo "Run this script within slurm"
     exit 1
 fi
 
+# Check whether any of the requested spec files exist
+declare -a specs
+specs=( )
 for spec in "$@"
+do
+    if [ -f "$spec" ]
+    then
+	specs+=( "$spec" )
+    fi
+done
+
+# Gemini recommends [[ ${#specs[@]} -eq 0 ]] for the test, with -eq
+# doing strictly numerical comparisons, to avoid the following bit of
+# shell weirdness.
+#
+# There's a double negative here.
+# If the array is empty, you get (( 0 == 0 )), which is (( 1 )).
+# Since 1 is non-zero, that's C:true, so the result of (( 1 )) is
+# a zero exit code which is sh:true.
+if (( ${#specs[@]} == 0 )) 
+then
+    echo "No specs found: ${specs[*]}"
+else
+    echo "Running specs: ${specs[*]}"
+fi
+
+# This should flush any recompilation
+julia --project=@. -q -m JessamineBenchmark.AppSimple --version
+
+for spec in "${specs[@]}"
 do
     out_file=$(tomlq -r '.output_file' "$spec")
     if [ -f "$out_file" ]
