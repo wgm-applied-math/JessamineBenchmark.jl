@@ -35,8 +35,9 @@ def make_report(config_file):
 
     data_file = Path(config["data_file"])
     output_file = Path(config["output_file"])
-    dataset = output_file.parent.parent.name
-    samplenum = int(output_file.parent.name)
+    data_set = output_file.parent.parent.name
+    run_set = output_file.parent.parent.parent.name
+    sample_num = int(output_file.parent.name)
 
     df = pd.read_csv(data_file)
     output_column = config.get("output_column", "label")
@@ -48,11 +49,11 @@ def make_report(config_file):
     with open(output_file, "rt") as f:
         result = json.load(f)
 
-    farg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
+    f_arg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
     orignal_syms = sympy.symbols(input_columns)
     epsilon = sympy.symbols("ε", real=True)
     Inf = sympy.symbols("Inf", real=True)
-    vd = ({ str(x): x for x in farg_syms } |
+    vd = ({ str(x): x for x in f_arg_syms } |
           {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
 
     f = None
@@ -86,43 +87,38 @@ def make_report(config_file):
                         expr = sympy.limit(expr, Inf, sympy.oo).evalf()
                         expr = sympy.simplify(expr, rational=False)
 
-                    f = sympy.lambdify(farg_syms, expr)
+                    f = sympy.lambdify(f_arg_syms, expr)
 
                     # Apply f to each row of X
                     y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
                     mse = ((y - y_hat)**2).mean()
                     if not math.isnan(mse) and math.isfinite(mse):
-                        expr_original_syms = expr.subs(zip(farg_syms, orignal_syms))
+                        expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
                         sys.stdout.write(f" {mse}\n")
                         # If all of that works, we've found a good one, exit the loop
                         break
-        except:
+        except Exception:
             pass
 
     return {
-        "dataset": dataset,
-        "samplenum": samplenum,
+        "run_set": run_set,
+        "data_set": data_set,
+        "sample_num": sample_num,
         "rating": rating,
         "mse": mse,
         "expr_original_syms": expr_original_syms,
         "expr": expr,
-        # "input_columns": input_columns,
-        # "output_column": output_column,
-        # "f": f,
-        # "X": X,
-        # "y": y,
-        # "y_hat": y_hat
         }
 
 
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
-    for spec_file in sorted(spec_dir.glob("*.toml")):
+    for spec_file in sorted(spec_dir.glob("**/*.toml")):
         try:
             report = make_report(spec_file)
             reports.append(report)
-        except:
+        except Exception:
             print("Exception during report generation:")
             traceback.print_exc()
     return pd.DataFrame(reports)
