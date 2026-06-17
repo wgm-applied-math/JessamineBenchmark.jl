@@ -1,0 +1,13 @@
+#!/bin/bash
+
+declare -a psets
+
+psets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
+
+run_key=2026-06-16-2230
+
+for p in "${psets[@]}"
+do
+    sbatch --nodelist=compute0[19-26] \
+        ./Run-some-specs Specs/$run_key/$p-*.toml
+done

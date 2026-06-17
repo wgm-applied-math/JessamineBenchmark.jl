@@ -4,13 +4,16 @@
 
 declare -a psets
 
-psets=(d_lv1 d_lv2 d_vdp1 d_vdp2)
+psets=( d_{lv,vdp}{1,2} )
+
+run_key=2026-06-16-2230
 
 for p in "${psets[@]}"
 do
 julia --project=@. -q -m JessamineBenchmark.AppSimple \
       setup_samples \
       --config-file "polynomial-super-spec.toml" \
-      --config-path-template "Specs/$p-%03d.toml" \
+      --config-path-template "Specs/$run_key/$p-%03d.toml" \
+      --sr-output-dir "Generated/$run_key" \
       --data-file "ode-strogatz/$p.txt"
 done
