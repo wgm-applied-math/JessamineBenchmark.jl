@@ -10,10 +10,10 @@ run_key=2026-06-16-2230
 
 for p in "${psets[@]}"
 do
-julia --project=@. -q -m JessamineBenchmark.AppSimple \
-      setup_samples \
-      --config-file "hard-super-spec.toml" \
-      --config-path-template "Specs/$run_key/$p-%03d.toml" \
-      --sr-output-dir "Generated/$run_key" \
-      --data-file "ode-strogatz/$p.txt"
+    julia --project=@. -q -m JessamineBenchmark.AppSimple \
+	  setup_samples \
+	  --config-file "hard-super-spec.toml" \
+	  --config-path-template "Specs/$run_key/$p-%03d.toml" \
+	  --sr-output-dir "Generated/$run_key" \
+	  --data-file "ode-strogatz/$p.txt"
 done
