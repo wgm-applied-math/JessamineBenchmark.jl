@@ -27,12 +27,7 @@ def time_limit(seconds=60):
         signal.signal(signal.SIGALRM, old_handler)
 
 
-def make_report(config_file):
-    config_file = Path(config_file)
-    # *shrug* tomllib requires a binary stream
-    with open(config_file, "rb") as f:
-        config = tomllib.load(f)
-
+def make_report(config):
     data_file = Path(config["data_file"])
     output_file = Path(config["output_file"])
     data_set = output_file.parent.parent.name
@@ -46,7 +41,7 @@ def make_report(config_file):
     y = df[output_column]
     X = df[input_columns]
 
-    with open(output_file, "rt") as f:
+    with output_file.open("rt") as f:
         result = json.load(f)
 
     f_arg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
@@ -62,7 +57,7 @@ def make_report(config_file):
     rating = math.inf
     mse = math.inf
     n_disc = len(result["discoveries"])
-    sys.stdout.write(f"{config_file.name}: {n_disc} ")
+    sys.stdout.write(f"{data_file.name}/{sample_num}: {n_disc} ")
     for r in result["discoveries"]:
         sys.stdout.write(".")
         rating = r["agent"]["rating"]
@@ -106,21 +101,45 @@ def make_report(config_file):
         "sample_num": sample_num,
         "rating": rating,
         "mse": mse,
-        "expr_original_syms": expr_original_syms,
-        "expr": expr,
+        "expr_original_syms": str(expr_original_syms),
+        "expr": str(expr),
         }
 
+
+def make_or_load_report(config_file):
+    config_file = Path(config_file)
+    # *shrug* tomllib requires a binary stream
+    with open(config_file, "rb") as f:
+        config = tomllib.load(f)
+    output_file = Path(config["output_file"])
+    report_file = output_file.with_name("full-report.json")
+    report = None
+    if report_file.is_file():
+        try:
+            with report_file.open("rt") as f:
+                report = json.load(f)
+            print("Loaded", report_file)
+        except Exception:
+            report = None
+
+    if report is None:
+        report = make_report(config)
+        with report_file.open("wt") as f:
+            json.dump(report, f)
+        return report_file
+    
 
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
     for spec_file in sorted(spec_dir.glob("**/*.toml")):
         try:
-            report = make_report(spec_file)
+            report = make_or_load_report(spec_file)
             reports.append(report)
         except Exception:
             print("Exception during report generation:")
             traceback.print_exc()
+            raise
     return pd.DataFrame(reports)
 
 def main():
