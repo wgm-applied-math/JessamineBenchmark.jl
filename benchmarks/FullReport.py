@@ -28,7 +28,7 @@ def worker(queue, f, f_args, f_kwargs):
 def run_with_time_limit(seconds, f, *f_args, **f_kwargs):
     queue = multiprocessing.Queue()
 
-    process = multiprocessing.Process(target=worker, args=f_args, kwargs=f_kwargs)
+    process = multiprocessing.Process(target=worker, args=(queue, f, f_args, f_kwargs))
     process.start()
     process.join(seconds)
 
