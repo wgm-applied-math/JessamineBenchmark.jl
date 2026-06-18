@@ -1,6 +1,5 @@
 import json
 import math
-from contextlib import contextmanager
 import multiprocessing
 import pandas as pd
 from pathlib import Path
@@ -42,7 +41,7 @@ def run_with_time_limit(seconds, f, *f_args, **f_kwargs):
     # If we get to here, the subprocess finished successfully and
     # on time.
     report = queue.get()
-    if report.haskey("exception"):
+    if "exception" in report:
         raise report["exception"]
 
     # If we get to here, the subprocesses completed the report.
