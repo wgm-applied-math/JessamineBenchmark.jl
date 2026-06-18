@@ -47,6 +47,59 @@ def run_with_time_limit(seconds, f, *f_args, **f_kwargs):
     return report["value"]
 
 
+# This also has to be at module level because of pickling.
+def do_work(r, X, y, input_columns):
+    f_arg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
+    orignal_syms = sympy.symbols(input_columns)
+    epsilon = sympy.symbols("ε", real=True)
+    Inf = sympy.symbols("Inf", real=True)
+    vd = ({ str(x): x for x in f_arg_syms } |
+          {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
+
+    rating = r["agent"]["rating"]
+    raw_reg_str = r["y_num_str"]
+
+    print("About to parse")
+    expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
+    print("About to simplify")
+    expr = sympy.simplify(expr, rational=False)
+
+    # These show up in certain cases of division by zero.
+    # In Julia, 1.0 / 0.0 is Inf.
+    if epsilon in expr.free_symbols:
+        print("About to do limit epslion -> 0")
+        expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+        print("About to simplify")
+        expr = sympy.simplify(expr, rational=False)
+
+    # These also show up sometimes
+    if Inf in expr.free_symbols:
+        print("About to do limit Inf -> infinity")
+        expr = sympy.limit(expr, Inf, sympy.oo).evalf()
+        print("About to simplify")
+        expr = sympy.simplify(expr, rational=False)
+
+    print("About to lambdify")
+    f = sympy.lambdify(f_arg_syms, expr)
+
+    # Apply f to each row of X
+    print("About to do X.apply")
+    y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
+    mse = ((y - y_hat)**2).mean()
+
+    if not math.isnan(mse) and math.isfinite(mse):
+        expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
+        sys.stdout.write(f" {mse}\n")
+
+        return {
+            "rating": rating,
+            "mse": mse,
+            "expr_original_syms": str(expr_original_syms),
+            "expr": str(expr),
+        }
+    else:
+        raise NoSolutionError()
+
 def make_report(config):
     data_file = Path(config["data_file"])
     output_file = Path(config["output_file"])
@@ -64,63 +117,9 @@ def make_report(config):
     with output_file.open("rt") as f:
         result = json.load(f)
 
-    f_arg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
-    orignal_syms = sympy.symbols(input_columns)
-    epsilon = sympy.symbols("ε", real=True)
-    Inf = sympy.symbols("Inf", real=True)
-    vd = ({ str(x): x for x in f_arg_syms } |
-          {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
-
     n_disc = len(result["discoveries"])
     sys.stdout.write(f"{data_file.name}/{sample_num}: {n_disc} ")
 
-    def do_work(r):
-        rating = r["agent"]["rating"]
-        raw_reg_str = r["y_num_str"]
-
-        print("About to parse")
-        expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
-        print("About to simplify")
-        expr = sympy.simplify(expr, rational=False)
-
-        # These show up in certain cases of division by zero.
-        # In Julia, 1.0 / 0.0 is Inf.
-        if epsilon in expr.free_symbols:
-            print("About to do limit epslion -> 0")
-            expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
-            print("About to simplify")
-            expr = sympy.simplify(expr, rational=False)
-
-        # These also show up sometimes
-        if Inf in expr.free_symbols:
-            print("About to do limit Inf -> infinity")
-            expr = sympy.limit(expr, Inf, sympy.oo).evalf()
-            print("About to simplify")
-            expr = sympy.simplify(expr, rational=False)
-
-        print("About to lambdify")
-        f = sympy.lambdify(f_arg_syms, expr)
-
-        # Apply f to each row of X
-        print("About to do X.apply")
-        y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-        mse = ((y - y_hat)**2).mean()
-
-        if not math.isnan(mse) and math.isfinite(mse):
-            expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
-            sys.stdout.write(f" {mse}\n")
-
-            return {
-                "run_set": run_set,
-                "data_set": data_set,
-                "sample_num": sample_num,
-                "rating": rating,
-                "mse": mse,
-                "expr_original_syms": str(expr_original_syms),
-                "expr": str(expr),
-            }
-        else:
-            raise NoSolutionError()
 
     report = None
     for r in result["discoveries"]:
@@ -130,7 +129,7 @@ def make_report(config):
             # sympy has triggers moving on to the next discovery.
             # These are generally numerical overflows and such.
             with warnings.catch_warnings(action="error"):
-                report = run_with_time_limit(60, do_work, r)
+                report = run_with_time_limit(60, do_work, r, X, y, input_columns)
                 break
         except Exception as e:
             print("Caught exception, skipping:")
@@ -140,7 +139,11 @@ def make_report(config):
     if report is None:
         raise NoSolutionError()
 
-    return report
+    return report | {
+            "run_set": run_set,
+            "data_set": data_set,
+            "sample_num": sample_num
+            }
 
 def make_or_load_report(config_file):
     config_file = Path(config_file)
@@ -172,6 +175,8 @@ def make_all_reports():
         try:
             report = make_or_load_report(spec_file)
             reports.append(report)
+            # For debugging purposes:
+            break
         except Exception:
             print("Exception during report generation:")
             traceback.print_exc()
