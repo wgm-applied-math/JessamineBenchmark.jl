@@ -165,6 +165,8 @@ def make_or_load_report(config_file):
         report = make_report(config)
         with report_file.open("wt") as f:
             json.dump(report, f)
+        # For debugging purposes
+        assert False
         return report_file
 
 
@@ -175,8 +177,6 @@ def make_all_reports():
         try:
             report = make_or_load_report(spec_file)
             reports.append(report)
-            # For debugging purposes:
-            break
         except Exception:
             print("Exception during report generation:")
             traceback.print_exc()
