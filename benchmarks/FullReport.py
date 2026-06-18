@@ -10,9 +10,6 @@ import tomllib
 import traceback
 import warnings
 
-class TimeoutError(Exception):
-    pass
-
 class NoSolutionError(Exception):
     pass
 
@@ -36,9 +33,14 @@ def run_with_time_limit(seconds, f, *f_args, **f_kwargs):
         # We waited in join() and ran out of time.
         process.terminate()
         process.join()
-        raise TimeoutError()
+        raise multiprocessing.TimeoutError()
 
-    # If we get to here, the subprocess finished in time.
+    # Some kind of error occurred and it terminated early.
+    if process.exitcode != 0:
+        raise NoSolutionError()
+
+    # If we get to here, the subprocess finished successfully and
+    # on time.
     report = queue.get()
     if report.haskey("exception"):
         raise report["exception"]
