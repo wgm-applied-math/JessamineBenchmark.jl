@@ -1,0 +1,15 @@
+data_file = "Things-to-bench/cosmo_data/C4d.csv"
+lambda_op = 1.0e-6
+log_file = "Generated/2026-06-16-2230/C4d/004/log.txt"
+max_generations = 25
+max_time = 3600
+num_time_steps = 4
+op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
+output_column = "target"
+output_file = "Generated/2026-06-16-2230/C4d/004/result.json"
+output_size = 12
+parameter_size = 3
+progress_file = "Generated/2026-06-16-2230/C4d/004/progress.json"
+random_state = 0xff522145d50ada62
+random_subset_count = 1000
+scratch_size = 12

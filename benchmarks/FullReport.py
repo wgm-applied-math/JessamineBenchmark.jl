@@ -49,7 +49,7 @@ def run_with_time_limit(seconds, f, *f_args, **f_kwargs):
 
 
 # This also has to be at module level because of pickling.
-def do_work(r, X, y, input_columns):
+def try_one_discovery(r, X, y, input_columns):
     f_arg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
     orignal_syms = sympy.symbols(input_columns)
     epsilon = sympy.symbols("ε", real=True)
@@ -60,31 +60,31 @@ def do_work(r, X, y, input_columns):
     rating = r["agent"]["rating"]
     raw_reg_str = r["y_num_str"]
 
-    print("About to parse")
+    # print("About to parse")
     expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
-    print("About to simplify")
+    # print("About to simplify")
     expr = sympy.simplify(expr, rational=False)
 
     # These show up in certain cases of division by zero.
     # In Julia, 1.0 / 0.0 is Inf.
     if epsilon in expr.free_symbols:
-        print("About to do limit epslion -> 0")
+        # print("About to do limit epslion -> 0")
         expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
-        print("About to simplify")
+        # print("About to simplify")
         expr = sympy.simplify(expr, rational=False)
 
     # These also show up sometimes
     if Inf in expr.free_symbols:
-        print("About to do limit Inf -> infinity")
+        # print("About to do limit Inf -> infinity")
         expr = sympy.limit(expr, Inf, sympy.oo).evalf()
-        print("About to simplify")
+        # print("About to simplify")
         expr = sympy.simplify(expr, rational=False)
 
-    print("About to lambdify")
+    # print("About to lambdify")
     f = sympy.lambdify(f_arg_syms, expr)
 
     # Apply f to each row of X
-    print("About to do X.apply")
+    # print("About to do X.apply")
     y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
     mse = ((y - y_hat)**2).mean()
 
@@ -130,11 +130,11 @@ def make_report(config):
             # sympy has triggers moving on to the next discovery.
             # These are generally numerical overflows and such.
             with warnings.catch_warnings(action="error"):
-                report = run_with_time_limit(60, do_work, r, X, y, input_columns)
+                report = run_with_time_limit(60, try_one_discovery, r, X, y, input_columns)
                 break
         except Exception as e:
-            print("Caught exception, skipping:")
-            print(e)
+            # print("Caught exception, skipping:")
+            # print(e)
             pass
 
     if report is None:
@@ -167,7 +167,7 @@ def make_or_load_report(config_file):
         with report_file.open("wt") as f:
             json.dump(report, f)
         # For debugging purposes
-        assert False
+        # assert False
         return report_file
 
 
