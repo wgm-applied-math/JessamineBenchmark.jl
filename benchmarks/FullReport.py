@@ -67,24 +67,32 @@ def make_report(config):
             # sympy has triggers moving on to the next discovery.
             # These are generally numerical overflows and such.
             with warnings.catch_warnings(action="error"):
-                with time_limit():
+                # with time_limit(60):
+                    print("About to parse")
                     expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
+                    print("About to simplify")
                     expr = sympy.simplify(expr, rational=False)
 
                     # These show up in certain cases of division by zero.
                     # In Julia, 1.0 / 0.0 is Inf.
                     if epsilon in expr.free_symbols:
+                        print("About to do limit epslion -> 0")
                         expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+                        print("About to simplify")
                         expr = sympy.simplify(expr, rational=False)
 
                     # These also show up sometimes
                     if Inf in expr.free_symbols:
+                        print("About to do limit Inf -> infinity")
                         expr = sympy.limit(expr, Inf, sympy.oo).evalf()
+                        print("About to simplify")
                         expr = sympy.simplify(expr, rational=False)
 
+                    print("About to lambdify")
                     f = sympy.lambdify(f_arg_syms, expr)
 
                     # Apply f to each row of X
+                    print("About to do X.apply")
                     y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
                     mse = ((y - y_hat)**2).mean()
                     if not math.isnan(mse) and math.isfinite(mse):
@@ -92,7 +100,9 @@ def make_report(config):
                         sys.stdout.write(f" {mse}\n")
                         # If all of that works, we've found a good one, exit the loop
                         break
-        except Exception:
+        except Exception as e:
+            print("Caught exception, skipping:")
+            print(e)
             pass
 
     return {
