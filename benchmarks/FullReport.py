@@ -1,7 +1,7 @@
 import json
 import math
-import signal
 from contextlib import contextmanager
+import multiprocessing
 import pandas as pd
 from pathlib import Path
 import sympy
@@ -13,18 +13,35 @@ import warnings
 class TimeoutError(Exception):
     pass
 
+class NoSolutionError(Exception):
+    pass
 
-@contextmanager
-def time_limit(seconds=60):
-    def _handler(signum, frame):
-        raise TimeoutError(f"Calculation exceeded {seconds}s time limit")
-    old_handler = signal.signal(signal.SIGALRM, _handler)
-    signal.alarm(seconds)
-    try:
-        yield
-    finally:
-        signal.alarm(0)
-        signal.signal(signal.SIGALRM, old_handler)
+def run_with_time_limit(seconds, f, *f_args, **f_kw_args):
+    queue = multiprocessing.Queue()
+    def worker():
+        try:
+            report = f(*f_args, **f_kw_args)
+            queue.put({"value": report})
+        except Exception as e:
+            queue.put({"exception": e})
+
+    process = multiprocessing.Process(target=worker)
+    process.start()
+    process.join(seconds)
+
+    if process.is_alive():
+        # We waited in join() and ran out of time.
+        process.terminate()
+        process.join()
+        raise TimeoutError()
+
+    # If we get to here, the subprocess finished in time.
+    report = queue.get()
+    if report.haskey("exception"):
+        raise report["exception"]
+
+    # If we get to here, the subprocesses completed the report.
+    return report["value"]
 
 
 def make_report(config):
@@ -51,70 +68,76 @@ def make_report(config):
     vd = ({ str(x): x for x in f_arg_syms } |
           {"epsilon": epsilon, "ε": epsilon, "ϵ": epsilon, "Inf": Inf})
 
-    f = None
-    expr = None
-    expr_original_syms = None
-    rating = math.inf
-    mse = math.inf
     n_disc = len(result["discoveries"])
     sys.stdout.write(f"{data_file.name}/{sample_num}: {n_disc} ")
-    for r in result["discoveries"]:
-        sys.stdout.write(".")
+
+    def do_work(r):
         rating = r["agent"]["rating"]
         raw_reg_str = r["y_num_str"]
+
+        print("About to parse")
+        expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
+        print("About to simplify")
+        expr = sympy.simplify(expr, rational=False)
+
+        # These show up in certain cases of division by zero.
+        # In Julia, 1.0 / 0.0 is Inf.
+        if epsilon in expr.free_symbols:
+            print("About to do limit epslion -> 0")
+            expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
+            print("About to simplify")
+            expr = sympy.simplify(expr, rational=False)
+
+        # These also show up sometimes
+        if Inf in expr.free_symbols:
+            print("About to do limit Inf -> infinity")
+            expr = sympy.limit(expr, Inf, sympy.oo).evalf()
+            print("About to simplify")
+            expr = sympy.simplify(expr, rational=False)
+
+        print("About to lambdify")
+        f = sympy.lambdify(f_arg_syms, expr)
+
+        # Apply f to each row of X
+        print("About to do X.apply")
+        y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
+        mse = ((y - y_hat)**2).mean()
+
+        if not math.isnan(mse) and math.isfinite(mse):
+            expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
+            sys.stdout.write(f" {mse}\n")
+
+            return {
+                "run_set": run_set,
+                "data_set": data_set,
+                "sample_num": sample_num,
+                "rating": rating,
+                "mse": mse,
+                "expr_original_syms": str(expr_original_syms),
+                "expr": str(expr),
+            }
+        else:
+            raise NoSolutionError()
+
+    report = None
+    for r in result["discoveries"]:
+        sys.stdout.write(".")
         try:
             # Elevate all warnings to errors so any trouble
             # sympy has triggers moving on to the next discovery.
             # These are generally numerical overflows and such.
             with warnings.catch_warnings(action="error"):
-                # with time_limit(60):
-                    print("About to parse")
-                    expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
-                    print("About to simplify")
-                    expr = sympy.simplify(expr, rational=False)
-
-                    # These show up in certain cases of division by zero.
-                    # In Julia, 1.0 / 0.0 is Inf.
-                    if epsilon in expr.free_symbols:
-                        print("About to do limit epslion -> 0")
-                        expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
-                        print("About to simplify")
-                        expr = sympy.simplify(expr, rational=False)
-
-                    # These also show up sometimes
-                    if Inf in expr.free_symbols:
-                        print("About to do limit Inf -> infinity")
-                        expr = sympy.limit(expr, Inf, sympy.oo).evalf()
-                        print("About to simplify")
-                        expr = sympy.simplify(expr, rational=False)
-
-                    print("About to lambdify")
-                    f = sympy.lambdify(f_arg_syms, expr)
-
-                    # Apply f to each row of X
-                    print("About to do X.apply")
-                    y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-                    mse = ((y - y_hat)**2).mean()
-                    if not math.isnan(mse) and math.isfinite(mse):
-                        expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
-                        sys.stdout.write(f" {mse}\n")
-                        # If all of that works, we've found a good one, exit the loop
-                        break
+                report = run_with_time_limit(60, do_work, r)
+                break
         except Exception as e:
             print("Caught exception, skipping:")
             print(e)
             pass
 
-    return {
-        "run_set": run_set,
-        "data_set": data_set,
-        "sample_num": sample_num,
-        "rating": rating,
-        "mse": mse,
-        "expr_original_syms": str(expr_original_syms),
-        "expr": str(expr),
-        }
+    if report is None:
+        raise NoSolutionError()
 
+    return report
 
 def make_or_load_report(config_file):
     config_file = Path(config_file)
@@ -137,7 +160,7 @@ def make_or_load_report(config_file):
         with report_file.open("wt") as f:
             json.dump(report, f)
         return report_file
-    
+
 
 def make_all_reports():
     spec_dir = Path("Specs")
