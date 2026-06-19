@@ -10,6 +10,7 @@ def make_all_reports():
     for spec_file in sorted(spec_dir.glob("**/*.toml")):
         try:
             report = make_or_load_report(spec_file)
+            # print(report)
             reports.append(report)
         except Exception:
             print("Exception during report generation:")

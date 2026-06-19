@@ -169,8 +169,8 @@ def make_or_load_report(config_file):
             json.dump(report, f)
         print("Created", report_file)
         # For debugging purposes
-        # assert False
-        return report_file
+    # assert False
+    return report
 
 
 parser = argparse.ArgumentParser(
