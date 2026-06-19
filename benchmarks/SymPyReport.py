@@ -167,6 +167,7 @@ def make_or_load_report(config_file):
         report = make_report(config)
         with report_file.open("wt") as f:
             json.dump(report, f)
+        print("Created", report_file)
         # For debugging purposes
         # assert False
         return report_file
@@ -176,7 +177,7 @@ parser = argparse.ArgumentParser(
     prog="SymPyReport",
     description="Read a configuration spec file and make a SymPy report file")
 
-parser.add_argument("spec_file", required=True)
+parser.add_argument("spec_file")
 
 def main():
     args = parser.parse_args()

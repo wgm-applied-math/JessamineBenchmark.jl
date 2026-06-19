@@ -13,5 +13,5 @@ fi
 # The --exact here means that the srun will be given the
 # resources it requested and not the whole allocation
 # given to this sbatch.
-find Specs -type f -name '*.toml' -exec \
+find Specs -type f -name '*.toml' -print -exec \
      srun --quiet --exact --ntasks=1 python SymPyReport.py '{}' \;
