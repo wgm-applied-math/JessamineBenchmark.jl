@@ -1,6 +1,9 @@
 .specstory
 .vscode
 
+# Python cache
+__pycache__/
+
 # Run spec files
 Specs/
 
