@@ -1,0 +1,6 @@
+#!/bin/bash
+remote_host=hpc.cofc.edu
+here=$(realpath --relative-to $HOME .)
+rsync -av $remote_host:$here/Generated .
+rsync -av $remote_host:$here/Specs .
+
