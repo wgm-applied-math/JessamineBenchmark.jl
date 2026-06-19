@@ -2,7 +2,7 @@ import pandas as pd
 from pathlib import Path
 import traceback
 
-from .SymPyReport import make_or_load_report
+from SymPyReport import make_or_load_report
 
 def make_all_reports():
     spec_dir = Path("Specs")
