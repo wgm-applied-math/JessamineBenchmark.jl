@@ -55,7 +55,7 @@ def best-runs [col="rating"] {
    | polars group-by run_set data_set
    | polars first
    | polars collect
-   | polars sort-by data_set
+   | polars sort-by run_set data_set
    | polars into-nu
    | update $col { format number | get lowerexp } 
   )
