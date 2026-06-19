@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=40
+#SBATCH --cpus-per-task=1
+
+if [[ ! -v SLURM_JOB_ID ]]
+then
+    echo "Run this script within slurm"
+    exit 1
+fi
+
+# The --exact here means that the srun will be given the
+# resources it requested and not the whole allocation
+# given to this sbatch.
+find Specs -type f -name '*.toml' -exec \
+     srun --quiet --exact --ntasks=1 python SymPyReport.py '{}' \;
