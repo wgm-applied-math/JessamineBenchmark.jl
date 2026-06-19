@@ -1,6 +1,7 @@
 import json
 import math
 import multiprocessing
+import numpy as np
 import pandas as pd
 from pathlib import Path
 import sympy
@@ -86,7 +87,8 @@ def try_one_discovery(r, X, y, input_columns):
     # Apply f to each row of X
     # print("About to do X.apply")
     y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-    mse = ((y - y_hat)**2).mean()
+    # abs here because every so often a complex number sneaks in
+    mse = (np.abs(y - y_hat)**2).mean()
 
     if not math.isnan(mse) and math.isfinite(mse):
         expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
