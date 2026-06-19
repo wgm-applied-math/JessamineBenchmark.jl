@@ -16,8 +16,9 @@ class NoSolutionError(Exception):
 # of some limitation of pickling.
 def worker(queue, f, f_args, f_kwargs):
     try:
-        report = f(*f_args, **f_kwargs)
-        queue.put({"value": report})
+        with warnings.catch_warnings(action="error"):
+            report = f(*f_args, **f_kwargs)
+            queue.put({"value": report})
     except Exception as e:
         queue.put({"exception": e})
 
