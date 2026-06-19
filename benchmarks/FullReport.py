@@ -16,7 +16,8 @@ def make_all_reports():
             print("Exception during report generation:")
             traceback.print_exc()
             raise
-    return pd.DataFrame(reports)
+    df = pd.DataFrame(reports)
+    return df[["run_set", "data_set", "sample_num", "rating", "mse", "expr_original_syms", "expr"]]
 
 def main():
     df = make_all_reports()
