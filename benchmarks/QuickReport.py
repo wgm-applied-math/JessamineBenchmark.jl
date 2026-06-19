@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("file")
 
 
-def round_near_integer(expr, epsilon=1e-5):
+def replace_near_integer(expr, epsilon=1e-5):
     if expr.func == sympy.Float:
         x = expr.evalf()
         x_int = round(x)
@@ -22,7 +22,7 @@ def round_near_integer(expr, epsilon=1e-5):
     elif len(expr.args) == 0:
         return expr
     else:
-        new_args = map(lambda e: round_near_integer(e, epsilon=epsilon), expr.args)
+        new_args = map(lambda e: replace_near_integer(e, epsilon=epsilon), expr.args)
         return expr.func(*new_args)
 
 
@@ -37,7 +37,7 @@ def main():
     expr = sympy.parse_expr(best_result["y_num_str"])
     # expr = sympy.simplify(expr)
     # sympy.pprint(expr_simp, use_unicode=True)
-    # expr = round_near_integer(expr.evalf())
+    # expr = replace_near_integer(expr.evalf())
     # expr = sympy.simplify(expr)
     sympy.pprint(expr, wrap_line=False, use_unicode=True)
 
