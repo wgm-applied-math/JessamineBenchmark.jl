@@ -10,8 +10,15 @@ then
     exit 1
 fi
 
-# The --exact here means that the srun will be given the
-# resources it requested and not the whole allocation
-# given to this sbatch.
-find Specs -type f -name '*.toml' -print -exec \
-     srun --quiet --exact --ntasks=1 python SymPyReport.py '{}' \;
+# Enable ** globs
+shopt -s globstar
+
+for file in Specs/**/*.toml
+do
+    # The --exact here means that the srun will be given the
+    # resources it requested and not the whole allocation
+    # given to this sbatch.
+    srun --quiet --exact --ntasks=1 python SymPyReport.py "$file" &
+done
+
+wait
