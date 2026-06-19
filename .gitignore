@@ -1,6 +1,9 @@
 .specstory
 .vscode
 
+# Run spec files
+Specs/
+
 # Generated data
 Generated/
 
