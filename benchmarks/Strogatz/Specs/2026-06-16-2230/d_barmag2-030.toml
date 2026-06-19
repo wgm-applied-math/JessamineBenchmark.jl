@@ -1,0 +1,13 @@
+data_file = "ode-strogatz/d_barmag2.txt"
+lambda_op = 1.0e-6
+log_file = "Generated/2026-06-16-2230/d_barmag2/030/log.txt"
+max_generations = 25
+max_time = 3600
+num_time_steps = 4
+op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic"
+output_file = "Generated/2026-06-16-2230/d_barmag2/030/result.json"
+output_size = 12
+parameter_size = 3
+progress_file = "Generated/2026-06-16-2230/d_barmag2/030/progress.json"
+random_state = 0xde892a457bc338da
+scratch_size = 12
