@@ -82,7 +82,7 @@ def try_one_discovery(r, X, y, input_columns):
         expr = sympy.simplify(expr, rational=False)
 
     # print("About to lambdify")
-    f = sympy.lambdify(f_arg_syms, expr)
+    f = sympy.lambdify(f_arg_syms, expr.evalf())
 
     # Apply f to each row of X
     # print("About to do X.apply")
