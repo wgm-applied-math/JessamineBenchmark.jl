@@ -149,13 +149,13 @@ def make_or_load_report(config_file):
     output_file = Path(config["output_file"])
     report_file = output_file.with_name("full-report.json")
     report = None
-    # if report_file.is_file():
-    #     try:
-    #         with report_file.open("rt") as f:
-    #             report = json.load(f)
-    #         print("Loaded", report_file)
-    #     except Exception:
-    #         report = None
+    if report_file.is_file():
+        try:
+            with report_file.open("rt") as f:
+                report = json.load(f)
+            print("Loaded", report_file)
+        except Exception:
+            report = None
 
     if report is None:
         report = make_report(config)
