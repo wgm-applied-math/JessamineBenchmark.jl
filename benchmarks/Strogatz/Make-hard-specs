@@ -6,7 +6,7 @@ declare -a data_sets
 data_sets=( d_{barmag,glider,sfgrid,shearflow}{1,2} )
 data_set_dir=ode-strogatz
 data_set_ext=.txt
-run_key=2026-06-16-2230
+run_key=2026-06-20-1900
 super_spec=hard-super-spec.toml
 
 source ../Make-specs

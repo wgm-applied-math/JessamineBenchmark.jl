@@ -1,6 +1,8 @@
 #!/bin/bash
 
-export JULIA_CONDAPKG_VERBOSITY=-1
+# export JULIA_CONDAPKG_VERBOSITY=-1
+export JULIA_DEBUG="JessamineBenchmark.AppSimple,JessamineSciKitLearn"
 julia --project=@. -q -m JessamineBenchmark.AppSimple \
       sr \
+      --verbosity 1 \
       --config-file "$1"
