@@ -2,12 +2,13 @@ import argparse
 import json
 import math
 import multiprocessing
+import numpy as np
 import pandas as pd
 from pathlib import Path
 import sympy
 import sys
 import tomllib
-import warnings
+# import warnings
 
 class NoSolutionError(Exception):
     pass
@@ -16,9 +17,8 @@ class NoSolutionError(Exception):
 # of some limitation of pickling.
 def worker(queue, f, f_args, f_kwargs):
     try:
-        with warnings.catch_warnings(action="error"):
-            report = f(*f_args, **f_kwargs)
-            queue.put({"value": report})
+        report = f(*f_args, **f_kwargs)
+        queue.put({"value": report})
     except Exception as e:
         queue.put({"exception": e})
 
@@ -87,8 +87,7 @@ def try_one_discovery(r, X, y, input_columns):
     # Apply f to each row of X
     # print("About to do X.apply")
     y_hat = X.apply(lambda row: f(*row[input_columns]), axis=1)
-    mse = ((y - y_hat)**2).mean()
-
+    mse = (np.abs(y - y_hat)**2).mean()
     if not math.isnan(mse) and math.isfinite(mse):
         expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
         sys.stdout.write(f" {mse}\n")
@@ -127,16 +126,11 @@ def make_report(config):
     for r in result["discoveries"]:
         sys.stdout.write(".")
         try:
-            # Elevate all warnings to errors so any trouble
-            # sympy has triggers moving on to the next discovery.
-            # These are generally numerical overflows and such.
-            with warnings.catch_warnings(action="error"):
-                report = run_with_time_limit(60, try_one_discovery, r, X, y, input_columns)
-                break
+            report = run_with_time_limit(60, try_one_discovery, r, X, y, input_columns)
+            break
         except Exception as e:
-            # print("Caught exception, skipping:")
-            # print(e)
-            pass
+            print("Caught exception, skipping:")
+            print(e)
 
     if report is None:
         raise NoSolutionError()
@@ -155,13 +149,13 @@ def make_or_load_report(config_file):
     output_file = Path(config["output_file"])
     report_file = output_file.with_name("full-report.json")
     report = None
-    if report_file.is_file():
-        try:
-            with report_file.open("rt") as f:
-                report = json.load(f)
-            print("Loaded", report_file)
-        except Exception:
-            report = None
+    # if report_file.is_file():
+    #     try:
+    #         with report_file.open("rt") as f:
+    #             report = json.load(f)
+    #         print("Loaded", report_file)
+    #     except Exception:
+    #         report = None
 
     if report is None:
         report = make_report(config)
