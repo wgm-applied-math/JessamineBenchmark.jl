@@ -4,7 +4,8 @@
 
 data_set_dir=ode-strogatz
 data_set_ext=.txt
-run_key=2026-06-19-1730
+# run_key=2026-06-19-1730
+run_key=2026-06-20-2030
 
 declare -a data_sets
 
