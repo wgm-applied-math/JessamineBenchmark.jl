@@ -2,6 +2,7 @@ random_state = 0x371e970865fa4d31
 num_samples = 32
 op_inventory = "Polynomial; RationalFunction; ExpLog; Trig; ExpLogTrig"
 output_column = "target"
+random_subset_count = 1000
 output_size = 12
 scratch_size = 12
 parameter_size = 3
