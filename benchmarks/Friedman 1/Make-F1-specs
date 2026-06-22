@@ -1,17 +1,12 @@
 #!/bin/bash
 
-# Script to make a bunch of spec files for the C datasets.
-# See p31 of the cp3-bench 2025 paper.
+# Script to make a bunch of spec files for the F datasets.
+# See p38 of the cp3-bench 2025 paper.
 
-declare -a psets
-
-psets=( f1{a,b} )
-
-for p in "${psets[@]}"
-do
-    julia --project=@. -q -m JessamineBenchmark.AppSimple \
-          setup_samples \
-          --config-file "hard-trig-spec.toml" \
-          --config-path-template "Specs/$p-%03d.toml" \
-          --data-file "datasets/$p.csv"
-done
+declare -a data_sets
+data_sets=( f1{a,b} )
+data_set_dir=datasets
+data_set_ext=.csv
+run_key=2026-06-21-2200
+super_spec=hard-super-spec.toml
+source ../Make-specs

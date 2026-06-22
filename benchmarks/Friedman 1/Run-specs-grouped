@@ -1,11 +1,7 @@
 #!/bin/bash
 
-declare -a psets
+declare -a data_sets
+data_sets=( f1{a,b} )
+run_key=2026-06-21-2200
 
-psets=( f1{a,b} )
-
-for p in "${psets[@]}"
-do
-    sbatch \
-        ./Run-some-specs Specs/$p-*.toml
-done
+source ../Run-specs-grouped
