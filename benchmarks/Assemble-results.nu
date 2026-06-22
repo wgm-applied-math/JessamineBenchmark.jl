@@ -31,7 +31,7 @@ def assemble-results [] {
     let run_set = $path_parts.1
     let data_set = $path_parts.2
     let sample_num = $path_parts.3
-    let rating = open $result.name | get discoveries.0.agent.rating
+    let rating = open $result.name | get discoveries.0?.agent.rating | default nan
     {
       run_set: $run_set,
       data_set: $data_set,
