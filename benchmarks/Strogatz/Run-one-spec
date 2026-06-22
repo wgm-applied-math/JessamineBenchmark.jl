@@ -4,5 +4,5 @@
 export JULIA_DEBUG="JessamineBenchmark.AppSimple,JessamineSciKitLearn"
 julia --project=@. -q -m JessamineBenchmark.AppSimple \
       sr \
-      --verbosity 0 \
       --config-file "$1"
+      # --verbosity 0 \

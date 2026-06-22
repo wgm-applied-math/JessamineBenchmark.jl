@@ -5,7 +5,7 @@
 declare -a data_sets
 data_set_dir=ode-strogatz
 data_set_ext=.txt
-run_key=2026-06-20-1900
+run_key=2026-06-21-2030
 
 super_spec=polynomial-super-spec.toml
 data_sets=( d_{lv,vdp}{1,2} )
