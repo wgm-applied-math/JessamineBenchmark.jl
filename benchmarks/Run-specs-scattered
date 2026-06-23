@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Partial script:
+# Set up a slurm batch script
+# Set data_sets to an array of data set keys
+# Set run_key to a configuration run key
+# Then source this script
+
+# This should flush any recompilation
+julia --project=@. -q -m JessamineBenchmark.AppSimple --version
+
+for data_set in "${data_sets[@]}"
+do
+    for spec in "Specs/$run_key/$data_set-"*".toml"
+    do
+        out_file=$(tomlq -r '.output_file' "$spec")
+        if [ -f "$out_file" ]
+        then
+            echo "Output file exists, skipping: $out_file"
+        else
+            echo "Building $out_file"
+            srun --quiet --exact --ntasks=1 ./Run-one-spec "$spec" &
+        fi
+    done
+done
+
+wait
+
