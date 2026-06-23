@@ -1,5 +1,14 @@
 #!/bin/bash
 
+#SBATCH --ntasks=80
+#SBATCH --cpus-per-task=1
+
+if [[ ! -v SLURM_JOB_ID ]]
+then
+    echo "Run this script within slurm"
+    exit 1
+fi
+
 declare -a data_sets
 data_sets=( f1{a,b} )
 # run_key=2026-06-21-2200

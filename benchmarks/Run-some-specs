@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --nodes=1
+# You can add --nodes=1 to make it all run on one node
 #SBATCH --ntasks=40
 #SBATCH --cpus-per-task=1
 
