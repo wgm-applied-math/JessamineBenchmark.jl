@@ -13,9 +13,9 @@ def make_all_reports():
             # print(report)
             reports.append(report)
         except Exception:
-            print("Exception during report generation:")
+            print("Exception during report generation; skipping")
             traceback.print_exc()
-            raise
+            # raise
     df = pd.DataFrame(reports)
     return df[["run_set", "data_set", "sample_num", "rating", "mse", "expr_original_syms", "expr"]]
 
