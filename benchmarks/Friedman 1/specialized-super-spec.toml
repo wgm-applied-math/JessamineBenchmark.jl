@@ -1,5 +1,5 @@
 random_state = 0x371e970865fa4d31
-num_samples = 32
+num_samples = 64
 op_inventory = "Trig"
 output_column = "y"
 output_size = 12

@@ -10,7 +10,7 @@ then
 fi
 
 declare -a data_sets
-data_sets=( f1{a,b,c} )
+data_sets=( f1{a,b,c,d} )
 # run_key=2026-06-21-2200
 # run_key=2026-06-23-1045
 run_key=2026-06-23-1200
