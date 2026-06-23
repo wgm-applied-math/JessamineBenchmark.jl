@@ -17,7 +17,7 @@ for spec in "$@"
 do
     if [ -f "$spec" ]
     then
-	specs+=( "$spec" )
+        specs+=( "$spec" )
     fi
 done
 
