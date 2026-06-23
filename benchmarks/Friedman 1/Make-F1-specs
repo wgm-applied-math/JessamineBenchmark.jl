@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Script to make a bunch of spec files for the F datasets.
-# See p38 of the cp3-bench 2025 paper.
 
 declare -a data_sets
 data_sets=( f1{a,b} )
