@@ -50,7 +50,7 @@ def run_with_time_limit(seconds, f, *f_args, **f_kwargs):
 
 
 # This also has to be at module level because of pickling.
-def try_one_discovery(r, X, y, input_columns):
+def try_one_discovery(r, X, y, input_columns, verbose=False):
     f_arg_syms = sympy.symbols(f"x1:{1+len(input_columns)}", real=True)
     orignal_syms = sympy.symbols(input_columns)
     epsilon = sympy.symbols("ε", real=True)
@@ -61,27 +61,34 @@ def try_one_discovery(r, X, y, input_columns):
     rating = r["agent"]["rating"]
     raw_reg_str = r["y_num_str"]
 
-    # print("About to parse")
+    if verbose:
+        print("About to parse", raw_reg_str)
     expr = sympy.parsing.sympy_parser.parse_expr(raw_reg_str, vd)
-    # print("About to simplify")
-    expr = sympy.simplify(expr, rational=False)
+
+    # Only simplify if necessary
+    # if epsilon in expr.free_symbols or Inf in expr.free_symbols:
+        # print("About to simplify")
+        # expr = sympy.simplify(expr, rational=False)
 
     # These show up in certain cases of division by zero.
     # In Julia, 1.0 / 0.0 is Inf.
     if epsilon in expr.free_symbols:
-        # print("About to do limit epslion -> 0")
+        if verbose:
+            print("About to do limit epslion -> 0", expr)
         expr = sympy.limit(expr, epsilon, 0, dir="+").evalf()
-        # print("About to simplify")
-        expr = sympy.simplify(expr, rational=False)
+        # print("About to simplify", expr)
+        # expr = sympy.simplify(expr, rational=False)
 
     # These also show up sometimes
     if Inf in expr.free_symbols:
-        # print("About to do limit Inf -> infinity")
+        if verbose:
+            print("About to do limit Inf -> infinity", expr)
         expr = sympy.limit(expr, Inf, sympy.oo).evalf()
-        # print("About to simplify")
-        expr = sympy.simplify(expr, rational=False)
+        # print("About to simplify", expr)
+        # expr = sympy.simplify(expr, rational=False)
 
-    # print("About to lambdify")
+    if verbose:
+        print("About to lambdify", expr)
     f = sympy.lambdify(f_arg_syms, expr.evalf())
 
     # Apply f to each row of X
@@ -101,7 +108,7 @@ def try_one_discovery(r, X, y, input_columns):
     else:
         raise NoSolutionError()
 
-def make_report(config):
+def make_report(config, verbose=False):
     data_file = Path(config["data_file"])
     output_file = Path(config["output_file"])
     data_set = output_file.parent.parent.name
@@ -119,17 +126,16 @@ def make_report(config):
         result = json.load(f)
 
     n_disc = len(result["discoveries"])
-    sys.stdout.write(f"{data_file.name}/{sample_num}: {n_disc} ")
-
+    sys.stdout.write(f"{run_set}/{data_set}/{sample_num}: {n_disc} ")
 
     report = None
     for r in result["discoveries"]:
         sys.stdout.write(".")
         try:
-            report = run_with_time_limit(60, try_one_discovery, r, X, y, input_columns)
+            report = run_with_time_limit(60, try_one_discovery, r, X, y, input_columns, verbose)
             break
         except Exception as e:
-            print("Caught exception, skipping:")
+            print("\nCaught exception, skipping:")
             print(e)
 
     if report is None:
@@ -141,7 +147,7 @@ def make_report(config):
             "sample_num": sample_num
             }
 
-def make_or_load_report(config_file):
+def make_or_load_report(config_file, force=False, verbose=False):
     config_file = Path(config_file)
     # *shrug* tomllib requires a binary stream
     with open(config_file, "rb") as f:
@@ -149,16 +155,18 @@ def make_or_load_report(config_file):
     output_file = Path(config["output_file"])
     report_file = output_file.with_name("full-report.json")
     report = None
-    if report_file.is_file():
+    if not force and report_file.is_file():
         try:
             with report_file.open("rt") as f:
                 report = json.load(f)
             print("Loaded", report_file)
-        except Exception:
+        except Exception as e:
+            print("Unable to load due to exception; rebuilding")
+            print(e)
             report = None
 
     if report is None:
-        report = make_report(config)
+        report = make_report(config, verbose=verbose)
         with report_file.open("wt") as f:
             json.dump(report, f)
         print("Created", report_file)
@@ -172,11 +180,18 @@ parser = argparse.ArgumentParser(
     description="Read a configuration spec file and make a SymPy report file")
 
 parser.add_argument("spec_file")
-
+parser.add_argument("--force",
+                    action=argparse.BooleanOptionalAction,
+                    default=False,
+                    help="force rebuilding of all files")
+parser.add_argument("--verbose",
+                    action=argparse.BooleanOptionalAction,
+                    default=False,
+                    help="more verbose output")
 def main():
     args = parser.parse_args()
     spec_file = args.spec_file
-    make_or_load_report(spec_file)
+    make_or_load_report(spec_file, force=args.force, verbose=args.verbose)
 
 if __name__ == "__main__":
     main()
