@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#SBATCH --nodes=1
 #SBATCH --ntasks=40
 #SBATCH --cpus-per-task=1
 
@@ -18,7 +17,10 @@ do
     # The --exact here means that the srun will be given the
     # resources it requested and not the whole allocation
     # given to this sbatch.
-    srun --quiet --exact --ntasks=1 python SymPyReport.py "$file" &
+    srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 \
+        python SymPyReport.py --force "$file" &
 done
 
 wait
+
+python -u FullReport.py
