@@ -19,7 +19,7 @@ do
             echo "Output file exists, skipping: $out_file"
         else
             echo "Building $out_file"
-            srun --quiet --exact --ntasks=1 ./Run-one-spec "$spec" &
+            srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 ./Run-one-spec "$spec" &
         fi
     done
 done
