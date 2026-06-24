@@ -23,4 +23,4 @@ done
 
 wait
 
-python -u FullReport.py
+python -u AssembleSymPyReports.py
