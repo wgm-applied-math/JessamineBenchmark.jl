@@ -11,9 +11,9 @@
 for data_set in "${data_sets[@]}"
 do
     julia --project=@. -q -m JessamineBenchmark.AppSimple \
-          setup_samples \
-          --config-file "$super_spec" \
-          --config-path-template "Specs/$run_key/$data_set-%03d.toml" \
-      	  --sr-output-dir "Generated/$run_key" \
-          --data-file "$data_set_dir/$data_set$data_set_ext"
+        setup_samples \
+        --config-file "$super_spec" \
+        --config-path-template "Specs/$run_key/$data_set-%03d.toml" \
+        --sr-output-dir "Generated/$run_key" \
+        --data-file "$data_set_dir/$data_set$data_set_ext"
 done

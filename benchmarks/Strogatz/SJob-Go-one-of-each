@@ -6,8 +6,8 @@
 
 if [[ ! -v SLURM_JOB_ID ]]
 then
-  echo "Run this script within slurm"
-  exit 1
+    echo "Run this script within slurm"
+    exit 1
 fi
 
 declare -a psets
@@ -16,10 +16,10 @@ psets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 
 for p in "${psets[@]}"
 do
-  # The --exact here means that the srun will be given the
-  # resources it requested and not the whole allocation
-  # given to this sbatch.
-  srun --exact --ntasks=1 ./Go-one-dataset $p &
+    # The --exact here means that the srun will be given the
+    # resources it requested and not the whole allocation
+    # given to this sbatch.
+    srun --exact --ntasks=1 ./Go-one-dataset $p &
 done
 
 # Wait for all background tasks to exit

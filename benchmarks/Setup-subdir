@@ -31,24 +31,24 @@ cd "$subdir"
 # full of generated files that this script should ignore.
 echo "Cleaning bad links"
 find . \
-  \( -name Generated -o -name Specs -o -name Attic \) -prune \
-  -o -xtype l \
-  -print \
-  -exec rm '{}' \;
+    \( -name Generated -o -name Specs -o -name Attic \) -prune \
+    -o -xtype l \
+    -print \
+    -exec rm '{}' \;
 
 for link in \
-  AssembleSymPyReports.py \
-  Fetch-data \
-  Module-Assemble-results.nu \
-  QuickReport.py \
-  SJob-Run-some-specs \
-  SJob-Run-SymPy-reports \
-  SymPyReport.py
+    AssembleSymPyReports.py \
+    Fetch-data \
+    Module-Assemble-results.nu \
+    QuickReport.py \
+    SJob-Run-some-specs \
+    SJob-Run-SymPy-reports \
+    SymPyReport.py
 do
-  if [ ! -f ../"$link" ]
-  then
-    echo "Bad link: $link"
-    exit 1
-  fi
-  ln -vsf ../"$link" .
+    if [ ! -f ../"$link" ]
+    then
+        echo "Bad link: $link"
+        exit 1
+    fi
+    ln -vsf ../"$link" .
 done

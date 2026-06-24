@@ -66,6 +66,6 @@ def data-set-counts [] {
    | polars group-by run_set data_set
    | polars agg (polars col data_set | polars count | polars as "count")
    | polars collect
-  | polars sort-by data_set
+  | polars sort-by run_set data_set
   | polars into-nu)
 }

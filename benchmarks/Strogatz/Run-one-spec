@@ -3,6 +3,6 @@
 # export JULIA_CONDAPKG_VERBOSITY=-1
 export JULIA_DEBUG="JessamineBenchmark.AppSimple,JessamineSciKitLearn"
 julia --project=@. -q -m JessamineBenchmark.AppSimple \
-      sr \
-      --config-file "$1"
-      # --verbosity 0 \
+    sr \
+    --config-file "$1"
+# --verbosity 0 \
