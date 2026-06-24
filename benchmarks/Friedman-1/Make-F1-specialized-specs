@@ -6,6 +6,10 @@ declare -a data_sets
 data_sets=( f1{a,b} )
 data_set_dir=datasets
 data_set_ext=.csv
-run_key=2026-06-24-1100
-super_spec=specialized-super-spec.toml
+# run_key=2026-06-24-1100
+# run_key=2026-06-24-1200
+# run_key=2026-06-24-1315
+# run_key=2026-06-24-1415
+run_key=2026-06-24-1430
+super_spec=specialized-super-spec-$run_key.toml
 source ../Module-Make-specs
