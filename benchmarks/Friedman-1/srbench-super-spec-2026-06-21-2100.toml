@@ -1,6 +1,7 @@
 random_state = 0xc70f1bc8d8c43f18
 num_samples = 32
 op_inventory = "+ - * / sqrt exp log sin cos"
+output_column = "y"
 output_size = 12
 scratch_size = 12
 parameter_size = 3
