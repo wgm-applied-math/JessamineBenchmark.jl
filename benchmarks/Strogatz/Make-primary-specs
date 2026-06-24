@@ -9,12 +9,12 @@ run_key=2026-06-21-2030
 
 super_spec=polynomial-super-spec.toml
 data_sets=( d_{lv,vdp}{1,2} )
-source ../Make-specs
+source ../Module-Make-specs
 
 super_spec=rational-function-super-spec.toml
 data_sets=( d_{bacres,predprey}{1,2} )
-source ../Make-specs
+source ../Module-Make-specs
 
 super_spec=hard-super-spec.toml
 data_sets=( d_{barmag,glider,sfgrid,shearflow}{1,2} )
-source ../Make-specs
+source ../Module-Make-specs

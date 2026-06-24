@@ -6,6 +6,12 @@
 # Set run_key to a configuration run key
 # Then source this script
 
+if [[ ! -v SLURM_JOB_ID ]]
+then
+    echo "Source this script within a slurm script"
+    exit 1
+fi
+
 # This should flush any recompilation
 julia --project=@. -q -m JessamineBenchmark.AppSimple --version
 

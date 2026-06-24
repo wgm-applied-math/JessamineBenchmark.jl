@@ -6,4 +6,4 @@ data_sets=( F{1..8} C1{a..d} C2{a..b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
 # data_sets=( F{1..8} )
 run_key=2026-06-21-2200
 
-source ../Run-specs-grouped
+source ../Module-Run-specs-grouped

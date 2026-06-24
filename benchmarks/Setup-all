@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Script to call Setup-subdir on all benchmark subdirectories.
+
+for d in \
+  "Strogatz" \
+  "Friedman-1"
+do
+  ./Setup-subdir "$d"
+done
+

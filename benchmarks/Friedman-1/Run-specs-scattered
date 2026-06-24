@@ -15,4 +15,4 @@ data_sets=( f1{a,b,c,d} )
 # run_key=2026-06-23-1045
 run_key=2026-06-23-1200
 
-source ../Run-specs-scattered
+source ../SModule-Run-specs-scattered

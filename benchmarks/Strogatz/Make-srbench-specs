@@ -9,4 +9,4 @@ run_key=2026-06-21-2100
 
 super_spec=srbench-super-spec.toml
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
-source ../Make-specs
+source ../Module-Make-specs

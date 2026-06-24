@@ -7,5 +7,5 @@ data_sets=( f1{a,b,c,d} )
 
 for run_key in 2026-06-21-2200 2026-06-23-1045
 do
-    source ../Run-specs-grouped
+    source ../Module-Run-specs-grouped
 done

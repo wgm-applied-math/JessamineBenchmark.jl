@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Script to set up links in a benchmark subdirectory.
+# Give the directory path relative to this directory
+# as an argument to this script.
+# Also cleans out an existing bad links
+
+subdir="$1"
+
+echo "Setting up links in $subdir"
+
+mkdir -p "$subdir"
+cd "$subdir"
+
+# The find command means the following
+# Start in . and search recursively
+# Anything that matches ( Generated Specs Attic ) prune from the search process and do not go into it.
+# Or: Anything that is a broken link
+# print it out and delete it.
+# The -xtype <t> is a little convoluted.
+# It means to check whether a file is of type <r>. It follows
+# links if possible and checks the target of the link.
+# If the link is bad somehow, the link itself is checked
+# so -xtype l only matches links that don't resolve to a non-link file.
+# Then print and remove the bad link.
+# There's this quirk that if you use -delete to delete files,
+# find insists on enabling -depth so that it visits files before
+# visiting and possibly deleting the directory that contains them.
+# But then -prune doesn't work.
+# And I want -prune to work because I have big directories
+# full of generated files that this script should ignore.
+echo "Cleaning bad links"
+find . \
+  \( -name Generated -o -name Specs -o -name Attic \) -prune \
+  -o -xtype l \
+  -print \
+  -exec rm '{}' \;
+
+for link in \
+  AssembleSymPyReports.py \
+  Fetch-data \
+  Module-Assemble-results.nu \
+  QuickReport.py \
+  SJob-Run-some-specs \
+  SJob-Run-SymPy-reports \
+  SymPyReport.py
+do
+  if [ ! -f ../"$link" ]
+  then
+    echo "Bad link: $link"
+    exit 1
+  fi
+  ln -vsf ../"$link" .
+done

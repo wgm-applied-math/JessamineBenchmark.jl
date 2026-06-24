@@ -17,5 +17,5 @@ data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 # run_key=2026-06-21-2100
 for run_key in 2026-06-21-2030 2026-06-21-2100
 do
-    source ../Run-specs-scattered
+    source ../SModule-Run-specs-scattered
 done
