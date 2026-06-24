@@ -4,10 +4,10 @@
 
 declare -a data_sets
 data_set_dir=datasets
-data_sets=( f1{a,b} )
+data_sets=( f1{a,b,c,d} )
 data_set_ext=.csv
 
-for run_key in 2026-06-21-2100 # 2026-06-24-1500
+for run_key in 2026-06-21-2100 2026-06-24-1500
 do
   super_spec=srbench-super-spec-$run_key.toml
   source ../Module-Make-specs
