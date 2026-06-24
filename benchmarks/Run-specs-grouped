@@ -6,6 +6,6 @@
 
 for data_set in "${data_sets[@]}"
 do
-    sbatch --nodelist=compute0[19-26] \
+    sbatch --nodes=1 \
         ./Run-some-specs Specs/$run_key/$data_set-*.toml
 done

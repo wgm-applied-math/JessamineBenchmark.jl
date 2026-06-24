@@ -50,7 +50,7 @@ do
         # The --exact here means that the srun will be given the
         # resources it requested and not the whole allocation
         # given to this sbatch.
-        srun --quiet --exact --ntasks=1 ./Run-one-spec "$spec" &
+        srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 ./Run-one-spec "$spec" &
     fi
 done
 

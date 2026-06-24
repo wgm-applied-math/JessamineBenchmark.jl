@@ -1,8 +1,11 @@
 #!/bin/bash
 
 declare -a data_sets
-data_sets=( f1{a,b} )
+data_sets=( f1{a,b,c,d} )
 # run_key=2026-06-21-2200
-run_key=2026-06-23-1045
+# run_key=2026-06-23-1045
 
-source ../Run-specs-grouped
+for run_key in 2026-06-21-2200 2026-06-23-1045
+do
+    source ../Run-specs-grouped
+done
