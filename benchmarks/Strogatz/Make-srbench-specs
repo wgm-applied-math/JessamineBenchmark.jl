@@ -9,6 +9,6 @@ data_set_ext=.txt
 
 for run_key in 2026-06-21-2100 2026-06-24-1500
 do
-  super_spec=srbench-super-spec-$run_key.toml
-  source ../Module-Make-specs
+    super_spec=srbench-super-spec-$run_key.toml
+    source ../Module-Make-specs
 done

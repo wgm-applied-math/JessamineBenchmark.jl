@@ -8,22 +8,22 @@ err_file="Generated/$dataset.errlog"
 
 if [ -f "$out_file" ]
 then
-      echo "Output file already exists: $out_file"
+    echo "Output file already exists: $out_file"
 else
-      echo "Generating $out_file"
-      rm -f "$log_file" "$err_file"
-      julia --project=@. -m JessamineBenchmark.AppSimple \
-            sr \
-            --data-file "ode-strogatz/$dataset.txt" \
-            --op-inventory "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic" \
-            --output-size 12 \
-            --scratch-size 12 \
-            --num-time-steps 3 \
-            --max-generations 25 \
-            --max-time 7200 \
-            --lambda-op 1.0e-6 \
-            --output-file "$out_file" \
-            > "$log_file" 2> "$err_file"
-      echo "Done generating $out_file"
+    echo "Generating $out_file"
+    rm -f "$log_file" "$err_file"
+    julia --project=@. -m JessamineBenchmark.AppSimple \
+        sr \
+        --data-file "ode-strogatz/$dataset.txt" \
+        --op-inventory "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic" \
+        --output-size 12 \
+        --scratch-size 12 \
+        --num-time-steps 3 \
+        --max-generations 25 \
+        --max-time 7200 \
+        --lambda-op 1.0e-6 \
+        --output-file "$out_file" \
+        > "$log_file" 2> "$err_file"
+    echo "Done generating $out_file"
 fi
 #             --stop-threshold 6.0e-5 \
