@@ -1,5 +1,5 @@
 random_state = 0x371e970865fa4d31
-num_samples = 64
+num_samples = 32
 op_inventory = "Trig"
 output_column = "y"
 output_size = 12
@@ -12,8 +12,8 @@ lambda_b = 1.0e-12
 lambda_p = 1.0e-12
 lambda_op = 1.0e-12
 simplify = true
-num_to_keep = 25
-num_to_generate = 75
+num_to_keep = 75
+num_to_generate = 25
 p_take_better = 0.65
 p_take_very_best = 0.05
 p_mutate_op = 0.15
