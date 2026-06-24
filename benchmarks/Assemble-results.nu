@@ -63,7 +63,7 @@ def best-runs [col="rating"] {
 
 def data-set-counts [] {
   (polars into-df
-   | polars group-by data_set
+   | polars group-by run_set data_set
    | polars agg (polars col data_set | polars count | polars as "count")
    | polars collect
   | polars sort-by data_set
