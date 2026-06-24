@@ -10,9 +10,12 @@ then
 fi
 
 declare -a data_sets
-data_sets=( f1{a,b,c,d} )
+data_sets=( f1{a,b} )
 # run_key=2026-06-21-2200
 # run_key=2026-06-23-1045
-run_key=2026-06-23-1200
-
-source ../SModule-Run-specs-scattered
+# run_key=2026-06-23-1200
+# run_key=2026-06-24-1500
+for run_key in 2026-06-21-2100 # 2026-06-24-1500
+do
+    source ../SModule-Run-specs-scattered
+done
