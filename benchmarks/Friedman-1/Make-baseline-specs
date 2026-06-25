@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Script to make spec files for the F datasets.
+
+# These were not especially successful.  These are the baseline
+# from the Strogatz benchmarks with the output column adjusted
+# for this corpus.
+
+run_key=2026-06-21-2200
+
+declare -a data_sets super_specs
+data_sets=( f1{a,b} )
+data_set_dir=datasets
+data_set_ext=.csv
+super_specs=( baseline.toml this-corpus.toml )
+source ../Module-Make-specs

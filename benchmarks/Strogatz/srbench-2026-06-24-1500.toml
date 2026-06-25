@@ -2,6 +2,7 @@ random_state = 0x371e970865fa4d31
 op_inventory = "+ - * / sqrt exp log sin cos"
 output_size = 8
 scratch_size = 8
+parameter_size = 3
 num_time_steps = 3
 max_generations = 100
 num_to_keep = 75
