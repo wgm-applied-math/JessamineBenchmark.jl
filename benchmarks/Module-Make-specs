@@ -9,6 +9,36 @@
 #   Note that specs earlier in the array take priority over later ones
 # Then source this script.
 
+if [[ ! -v data_sets ]] || (( ${#data_sets[*]} <= 0 ))
+then
+    echo "Need at least one element in data_sets"
+    exit 1
+fi
+
+if [[ ! -v super_specs ]] || (( ${#super_spec[*]} <= 0 ))
+then
+    echo "Need at least one element in super_specs"
+    exit 1
+fi
+
+if [[ ! -v data_set_dir ]]
+then
+    echo "Must set data_set_dir"
+    exit 1
+fi
+
+if [[ ! -v data_set_ext ]]
+then
+    echo "Must set data_set_ext"
+    exit 1
+fi
+
+if [[ ! -v run_key ]]
+then
+   echo "Must set run_key"
+   exit 1
+fi
+
 for data_set in "${data_sets[@]}"
 do
     echo "=== Working on $data_set ==="
