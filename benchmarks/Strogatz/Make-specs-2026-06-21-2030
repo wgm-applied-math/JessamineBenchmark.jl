@@ -5,7 +5,7 @@
 
 run_key=2026-06-21-2030
 
-declare -a data_sets supser_specs
+declare -a data_sets super_specs
 data_set_dir=ode-strogatz
 data_set_ext=.txt
 
