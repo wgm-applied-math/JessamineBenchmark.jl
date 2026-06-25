@@ -39,12 +39,22 @@ then
    exit 1
 fi
 
+# In bash 5.3 I can do this to get a bunch of --config-file=... strings:
+# "${super_specs[@]/*/--config-file=&.toml}"
+# But the cluster has an older version of bash, so I have to do this
+configs=( )
+for super_spec in "${super_specs[@]}"
+do
+    configs+="--config-file=$super_spec.toml"
+done
+
+
 for data_set in "${data_sets[@]}"
 do
     echo "=== Working on $data_set ==="
     julia --project=@. -q -m JessamineBenchmark.AppSimple \
         setup_samples \
-        "${super_specs[@]/*/--config-file=&.toml}" \
+        "${configs[@]}" \
         --config-path-template "Specs/$run_key/$data_set-%03d.toml" \
         --sr-output-dir "Generated/$run_key" \
         --data-file "$data_set_dir/$data_set$data_set_ext" \
