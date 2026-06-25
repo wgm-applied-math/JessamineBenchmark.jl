@@ -4,13 +4,20 @@
 # configurations of other packages in the srbench paper.
 # There's a specific set of operations to consider.
 # These are uniform across data sets.
+# There are variants with 8 and 12 output and scratch slots.
 
-run_key=SRB-2026-06-25-1645
+run_key_base=SRB-2026-06-25-1645
 
 declare -a data_sets super_specs
 data_set_dir=ode-strogatz
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 data_set_ext=.txt
 
+
+run_key="$run_key_base-arr12"
 super_specs=( seed-$run_key srbench-ops baseline this-corpus )
+source ../Module-Make-specs
+
+run_key="$run_key_base-arr8"
+super_specs=( seed-$run_key genome-8arr srbench-ops baseline this-corpus )
 source ../Module-Make-specs
