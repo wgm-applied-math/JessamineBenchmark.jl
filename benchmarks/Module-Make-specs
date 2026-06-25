@@ -15,7 +15,7 @@ then
     exit 1
 fi
 
-if [[ ! -v super_specs ]] || (( ${#super_spec[*]} <= 0 ))
+if [[ ! -v super_specs ]] || (( ${#super_specs[*]} <= 0 ))
 then
     echo "Need at least one element in super_specs"
     exit 1
