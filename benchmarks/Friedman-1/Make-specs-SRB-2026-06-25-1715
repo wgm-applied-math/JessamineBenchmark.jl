@@ -3,13 +3,19 @@
 # Script to make the "cheat" spec files for the Friedman 1
 # benchmark.  These have exactly the right inventory and not too
 # many resources, so performance here should be an upper bound.
+# There are variants with 8 and 12 output and scratch slots.
 
-run_key=SRB-2026-06-25-1715
+run_key_base=SRB-2026-06-25-1715
 
 declare -a data_sets super_specs
 data_sets=( f1{a,b} )
 data_set_dir=datasets
 data_set_ext=.csv
 
+run_key="$run_key_base-arr12"
+super_specs=( srbench-ops genome-3ts srb-seed baseline this-corpus )
+source ../Module-Make-specs
+
+run_key="$run_key_base-arr8"
 super_specs=( srbench-ops genome-3ts genome-8arr srb-seed baseline this-corpus )
 source ../Module-Make-specs
