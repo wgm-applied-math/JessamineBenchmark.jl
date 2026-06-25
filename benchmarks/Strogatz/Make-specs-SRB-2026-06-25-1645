@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Script to make spec files that are as much as possible like the
+# configurations of other packages in the srbench paper.
+# There's a specific set of operations to consider.
+# These are uniform across data sets.
+
+run_key=SRB-2026-06-25-1645
+
+declare -a data_sets super_specs
+data_set_dir=ode-strogatz
+data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
+data_set_ext=.txt
+
+super_specs=( seed-$run_key srbench-ops baseline this-corpus )
+source ../Module-Make-specs

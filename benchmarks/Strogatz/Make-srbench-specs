@@ -28,6 +28,6 @@ data_set_ext=.txt
 
 for run_key in "${run_keys[@]}"
 do
-    super_specs=( srbench-$run_key.toml baseline.toml this-corpus.toml )
+    super_specs=( srbench-$run_key baseline this-corpus )
     source ../Module-Make-specs
 done

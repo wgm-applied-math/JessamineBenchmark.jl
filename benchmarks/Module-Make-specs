@@ -14,7 +14,7 @@ do
     echo "=== Working on $data_set ==="
     julia --project=@. -q -m JessamineBenchmark.AppSimple \
         setup_samples \
-        "${super_specs[@]/*/--config-file=&}" \
+        "${super_specs[@]/*/--config-file=&.toml}" \
         --config-path-template "Specs/$run_key/$data_set-%03d.toml" \
         --sr-output-dir "Generated/$run_key" \
         --data-file "$data_set_dir/$data_set$data_set_ext" \
