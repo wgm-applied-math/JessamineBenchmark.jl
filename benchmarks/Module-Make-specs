@@ -45,7 +45,7 @@ fi
 configs=( )
 for super_spec in "${super_specs[@]}"
 do
-    configs+="--config-file=$super_spec.toml"
+    configs+=( "--config-file=$super_spec.toml" )
 done
 
 
