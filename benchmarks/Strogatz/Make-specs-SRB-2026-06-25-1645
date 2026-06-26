@@ -13,11 +13,12 @@ data_set_dir=ode-strogatz
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 data_set_ext=.txt
 
-
 run_key="$run_key_base-arr12"
+echo "== Working on $run_key =="
 super_specs=( srbench-ops srb-seed baseline this-corpus )
 source ../Module-Make-specs
 
 run_key="$run_key_base-arr8"
-super_specs=( srbench-ops genome-8arr bsrb-seed aseline this-corpus )
+echo "== Working on $run_key =="
+super_specs=( srbench-ops genome-8arr srb-seed baseline this-corpus )
 source ../Module-Make-specs
