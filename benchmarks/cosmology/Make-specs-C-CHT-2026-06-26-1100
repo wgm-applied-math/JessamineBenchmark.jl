@@ -7,7 +7,7 @@
 run_key=CHT-2026-06-26-1100
 
 declare -a data_sets super_specs
-data_set_dir=Things-to-bench/datasets
+data_set_dir=Things-to-bench/cosmo_data
 data_set_ext=.csv
 
 super_specs=( polynomial polynomial-seed genome-3ts baseline this-corpus )
