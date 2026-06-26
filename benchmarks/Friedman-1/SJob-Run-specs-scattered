@@ -14,10 +14,10 @@ data_sets=( f1{a,b,c,d} )
 # data_sets=( f1{a,b} )
 
 for run_key in \
-    CHT-2026-06-25-1845 \
     CHT-2026-06-25-1700 \
-    SRB-2026-06-25-1915-arr{8,12} \
-    SRB-2026-06-25-1715-arr{8,12}
+    CHT-2026-06-25-1845 \
+    SRB-2026-06-25-1715-arr{8,12} \
+    SRB-2026-06-25-1915-arr{8,12}
 do
     source ../SModule-Run-specs-scattered
 done
