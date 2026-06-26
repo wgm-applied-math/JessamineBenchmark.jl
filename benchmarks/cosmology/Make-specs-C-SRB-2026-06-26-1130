@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Script to make specs for some srbench-like configurations.
+# There are variants with 8 and 12 output and scratch slots.
+
+run_key_base=SRB-2026-06-26-1130
+
+declare -a data_sets super_specs
+data_set_dir=Things-to-bench/datasets
+data_set_ext=.csv
+data_sets=( C1{a..d} C2{a,b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
+
+run_key="$run_key_base-arr12"
+echo "== Working on $run_key =="
+super_specs=( srbench-ops genome-3ts srb-seed baseline this-corpus )
+source ../Module-Make-specs
+
+run_key="$run_key_base-arr8"
+echo "== Working on $run_key =="
+super_specs=( srbench-ops genome-3ts genome-8arr srb-seed baseline this-corpus )
+source ../Module-Make-specs
