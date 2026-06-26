@@ -7,7 +7,7 @@
 run_key=CHT-2026-06-25-1845
 
 declare -a data_sets super_specs
-data_sets=( f1{a,b} )
+data_sets=( f1{a,b,c,d} )
 data_set_dir=datasets
 data_set_ext=.csv
 
