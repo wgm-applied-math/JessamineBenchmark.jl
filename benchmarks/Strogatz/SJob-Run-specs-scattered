@@ -18,8 +18,8 @@ data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 # 2026-06-21-2100 2026-06-24-1500
 for run_key in \
     CHT-2026-06-25-1630 \
-    CHT-2026-06-25-1630 \
-    SRB-2026-06-25-1715
+    CHT-2026-06-25-1645-arr{8,12}\
+    SRB-2026-06-25-1715-arr{8,12}
 do
     source ../SModule-Run-specs-scattered
 done
