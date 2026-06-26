@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Script to make the "cheat" spec files for the Friedman 1
-# benchmark.  These have exactly the right inventory and not too
-# many resources, so performance here should be an upper bound.
+# Script to make specs for some srbench-like configurations.
 # There are variants with 8 and 12 output and scratch slots.
 
 run_key_base=SRB-2026-06-25-1715
