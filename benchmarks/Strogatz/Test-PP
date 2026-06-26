@@ -1,7 +1,7 @@
 #!/bin/bash
 dataset=d_predprey1
 mkdir -p Generated
-julia --project=@. -m JessamineBenchmark.AppSimple \
+julia --project=@. -m JessamineCLI.AppSimple \
     sr \
     --data-file "ode-strogatz/$dataset.txt" \
     --op-inventory "Polynomial; RationalFunction" \

@@ -1,17 +1,16 @@
 #!/bin/bash
 dataset=f1a
 # export JULIA_CONDAPKG_VERBOSITY=-1
-julia -q --project=@. -m JessamineBenchmark.AppSimple \
+julia -q --project=@. -m JessamineCLI.AppSimple -- \
     sr \
     --data-file "datasets/$dataset.csv" \
     --output-column "y" \
     --op-inventory "Trig" \
     --stop-threshold 2.0e-9 \
     --max-time 60 \
-    --config-file DefaultRandomState.toml \
+    --config-file test-random-state.toml \
     --config-dump-file "Generated/$dataset-config.toml" \
     --progress-file "Generated/$dataset-progress.json" \
     --verbosity 2 \
     --log-file "Generated/$dataset.log" \
     --output-file "Generated/$dataset.json"
-

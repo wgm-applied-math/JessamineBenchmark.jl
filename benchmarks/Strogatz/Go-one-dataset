@@ -12,7 +12,7 @@ then
 else
     echo "Generating $out_file"
     rm -f "$log_file" "$err_file"
-    julia --project=@. -m JessamineBenchmark.AppSimple \
+    julia --project=@. -m JessamineCLI.AppSimple -- \
         sr \
         --data-file "ode-strogatz/$dataset.txt" \
         --op-inventory "Polynomial; RationalFunction; ExpLog; Trig; Hyperbolic" \

@@ -1,7 +1,7 @@
 #!/bin/bash
 dataset=d_barmag1
 mkdir -p Generated
-julia --project=@. -m JessamineBenchmark.AppSimple \
+julia --project=@. -m JessamineCLI.AppSimple \
     sr \
     --data-file "ode-strogatz/$dataset.txt" \
     --op-inventory "RationalFunction; ExpLog; Trig" \

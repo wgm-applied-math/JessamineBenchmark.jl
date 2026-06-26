@@ -52,7 +52,7 @@ done
 for data_set in "${data_sets[@]}"
 do
     echo "=== Working on $data_set ==="
-    julia --project=@. -q -m JessamineBenchmark.AppSimple \
+    julia --project=@. -q -m JessamineCLI.AppSimple -- \
         setup_samples \
         "${configs[@]}" \
         --config-path-template "Specs/$run_key/$data_set-%03d.toml" \

@@ -22,15 +22,14 @@ using ArgParse
 using CSV
 using DataFrames
 using Distributions
-using JessamineSciKitLearn: @cfield
+using JessamineCLI
+using JessamineCLI: @cfield
 using Pkg
 using Random
 using TOML
 
 export friedman1, friedman2, friedman3
 export make_rand_friedman1, make_rand_friedman2, make_rand_friedman3
-
-include("Utils.jl")
 
 @doc raw"""
     friedman1(x1, x2, x3, x4, x5)

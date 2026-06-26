@@ -13,7 +13,7 @@ then
 fi
 
 # This should flush any recompilation
-julia --project=@. -q -m JessamineBenchmark.AppSimple --version
+julia --project=@. -q -m JessamineCLI.AppSimple -- --version
 
 for data_set in "${data_sets[@]}"
 do
@@ -31,4 +31,3 @@ do
 done
 
 wait
-

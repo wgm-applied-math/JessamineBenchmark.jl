@@ -2,13 +2,13 @@
 dataset=d_vdp1
 mkdir -p Generated
 # export JULIA_CONDAPKG_VERBOSITY=-1
-julia -q --project=@. -m JessamineBenchmark.AppSimple \
+julia -q --project=@. -m JessamineCLI.AppSimple \
     sr \
     --data-file "ode-strogatz/$dataset.txt" \
     --op-inventory "Polynomial" \
     --stop-threshold 2.0e-9 \
     --max-time 60 \
-    --config-file DefaultRandomState.toml \
+    --config-file test-random-state.toml \
     --config-dump-file "Generated/$dataset-config.toml" \
     --progress-file "Generated/$dataset-progress.json" \
     --verbosity 2 \
