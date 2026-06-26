@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#SBATCH --ntasks=192
+#SBATCH --cpus-per-task=1
+
+if [[ ! -v SLURM_JOB_ID ]]
+then
+    echo "Run this script within slurm"
+    exit 1
+fi
+
+declare -a data_sets
+data_sets=( F{1..8})
+
+for run_key in \
+    CHT-2026-06-26-1015 \
+    SRB-2026-06-26-1030-arr{8,12} \
+    SRB-2026-06-26-1045-arr{8,12}
+do
+    source ../SModule-Run-specs-scattered
+done
