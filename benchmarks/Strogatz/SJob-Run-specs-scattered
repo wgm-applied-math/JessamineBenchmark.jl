@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --ntasks=160
+#SBATCH --ntasks=192
 #SBATCH --cpus-per-task=1
 
 if [[ ! -v SLURM_JOB_ID ]]
@@ -15,7 +15,11 @@ data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 
 # run_key=2026-06-21-2030
 # run_key=2026-06-21-2100
-for run_key in 2026-06-21-2100 2026-06-24-1500
+# 2026-06-21-2100 2026-06-24-1500
+for run_key in \
+    CHT-2026-06-25-1630 \
+    CHT-2026-06-25-1630 \
+    SRB-2026-06-25-1715
 do
     source ../SModule-Run-specs-scattered
 done
