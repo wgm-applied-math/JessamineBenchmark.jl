@@ -15,7 +15,6 @@ Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Jessamine = "2807b6de-c4a7-4d42-9dc5-a90bb38e3ffd"
 JessamineCLI = "f8b86c12-3719-4e11-bd1f-9550edae6fe8"
-JessamineSciKitLearn = "b1d08412-962e-4858-8b05-b07944b12f63"
 JessamineSymbolics = "d293f0e1-bc3b-41ab-aeda-c552fb2511c4"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
@@ -26,6 +25,7 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [compat]
+Aqua = "0.8.16"
 ArgParse = "1.2.0"
 CSV = "0.10.16"
 DataFrames = "1.8.2"
@@ -39,13 +39,15 @@ Random = "1.11.0"
 Random123 = "1.7.1"
 Revise = "3.15.1"
 TOML = "1.0.3"
+Test = "1.11.0"
 julia = "1.12.6"
 
 [apps.jsm-friedman]
 submodule = "FriedmanFunctions"
 
 [extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Aqua", "Test"]
