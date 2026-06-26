@@ -18,7 +18,11 @@ data_sets=( f1{a,b} )
 # run_key=2026-06-24-1500
 # 2026-06-21-2100
 #  2026-06-24-1500
-for run_key in CHT-2026-06-25-1700
+# CHT-2026-06-25-1700
+# SRB-2026-06-25-1715-arr{8,12}
+# CHT-2026-06-25-1845
+
+for run_key in SRB-2026-06-25-1915-arr{8,12}
 do
     source ../SModule-Run-specs-scattered
 done
