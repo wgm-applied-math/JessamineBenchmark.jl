@@ -11,7 +11,7 @@ def assemble-progress [] {
     let data_set = $path_parts.2
     let sample_num = $path_parts.3
     let result = open $result.name
-    let rating = $result | get agent.rating? | default "-1"
+    let rating = $result | get agent?.rating? | default inf
     let start_time = $result | get start_time? | default null
     let current_time = $result | get current_time? | default null
     {
