@@ -15,9 +15,9 @@ data_set_ext=.txt
 
 
 run_key="$run_key_base-arr12"
-super_specs=( seed-$run_key srbench-ops baseline this-corpus )
+super_specs=( srbench-ops srb-seed baseline this-corpus )
 source ../Module-Make-specs
 
 run_key="$run_key_base-arr8"
-super_specs=( seed-$run_key genome-8arr srbench-ops baseline this-corpus )
+super_specs=( srbench-ops genome-8arr bsrb-seed aseline this-corpus )
 source ../Module-Make-specs
