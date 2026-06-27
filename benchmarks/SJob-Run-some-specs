@@ -37,7 +37,7 @@ else
 fi
 
 # This should flush any recompilation
-julia --project=@. -q -m JessamineCLI.AppSimple -- --version
+julia --project=@. -q -m JessamineCLI.AppSimple -- sr --version
 
 for spec in "${specs[@]}"
 do

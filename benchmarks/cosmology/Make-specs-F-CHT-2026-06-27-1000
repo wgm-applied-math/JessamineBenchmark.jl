@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Script to make the "cheat" spec files for the cosmology F
+# benchmark.  These have exactly the right inventory and not too
+# many resources, so performance here should be an upper bound.
+
+run_key=CHT-2026-06-27-1000
+
+declare -a data_sets super_specs
+data_set_dir=Things-to-bench/datasets
+data_set_ext=.csv
+
+# super_specs=( polynomial polynomial-seed genome-3ts baseline this-corpus )
+# data_sets=( F{1,4} )
+# source ../Module-Make-specs
+
+# super_specs=( rational rational-seed baseline this-corpus )
+# data_sets=( F7 )
+# source ../Module-Make-specs
+
+super_specs=( trig trig-seed genome-3ts baseline this-corpus )
+data_sets=( F2 )
+source ../Module-Make-specs
+
+super_specs=( exp-log-trig exp-log-trig-seed genome-3ts baseline this-corpus )
+data_sets=( F{3,5} )
+source ../Module-Make-specs
+
+super_specs=( exp-log exp-log-seed genome-3ts baseline this-corpus )
+data_sets=( F{6,8} )
+source ../Module-Make-specs
