@@ -3,6 +3,9 @@
 # Script to make the "cheat" spec files for the cosmology F
 # benchmark.  These have exactly the right inventory and not too
 # many resources, so performance here should be an upper bound.
+# This is the second round of CHT specs, and introduce the
+# setting of genome time steps to 3, because it looks like
+# many of the problems get bogged down with 4.
 
 run_key=CHT-2026-06-27-1000
 
@@ -10,13 +13,13 @@ declare -a data_sets super_specs
 data_set_dir=Things-to-bench/datasets
 data_set_ext=.csv
 
-# super_specs=( polynomial polynomial-seed genome-3ts baseline this-corpus )
-# data_sets=( F{1,4} )
-# source ../Module-Make-specs
+super_specs=( polynomial polynomial-seed genome-3ts baseline this-corpus )
+data_sets=( F{1,4} )
+source ../Module-Make-specs
 
-# super_specs=( rational rational-seed baseline this-corpus )
-# data_sets=( F7 )
-# source ../Module-Make-specs
+super_specs=( rational rational-seed baseline this-corpus )
+data_sets=( F7 )
+source ../Module-Make-specs
 
 super_specs=( trig trig-seed genome-3ts baseline this-corpus )
 data_sets=( F2 )
