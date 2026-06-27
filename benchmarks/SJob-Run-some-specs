@@ -42,15 +42,19 @@ julia --project=@. -q -m JessamineCLI.AppSimple -- sr --version
 for spec in "${specs[@]}"
 do
     out_file=$(tomlq -r '.output_file' "$spec")
+    out_dir=$(dirname "$out_file")
     if [ -f "$out_file" ]
     then
         echo "Output file exists, skipping: $out_file"
     else
-        echo "Building $out_file"
+        echo "Scheduling build of $out_file"
         # The --exact here means that the srun will be given the
         # resources it requested and not the whole allocation
         # given to this sbatch.
-        srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 ./Run-one-spec "$spec" &
+        srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 \
+            --output "$out_dir/stdout-%J.txt" \
+            --error "$out_dir/stderr-%J.txt" \
+            ./Run-one-spec "$spec" &
     fi
 done
 
