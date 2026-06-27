@@ -1,6 +1,5 @@
 #!/bin/bash
 dataset=f1a
-# export JULIA_CONDAPKG_VERBOSITY=-1
 julia -q --project=@. -m JessamineCLI.AppSimple -- \
     sr \
     --data-file "datasets/$dataset.csv" \

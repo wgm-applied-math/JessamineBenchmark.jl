@@ -1,7 +1,6 @@
 #!/bin/bash
 dataset=d_vdp1
 mkdir -p Generated
-# export JULIA_CONDAPKG_VERBOSITY=-1
 julia -q --project=@. -m JessamineCLI.AppSimple \
     sr \
     --data-file "ode-strogatz/$dataset.txt" \

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# export JULIA_CONDAPKG_VERBOSITY=-1
 export JULIA_DEBUG="JessamineCLI.AppSimple,JessamineCLI"
 julia --project=@. -q -m JessamineCLI.AppSimple \
     sr \
