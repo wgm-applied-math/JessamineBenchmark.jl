@@ -1,0 +1,35 @@
+Notes and to-do list for JessamineBenchmark
+
+* Debugging
+** Figure out the segfault
+See ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4b/009~
+and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4b/009~
+and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/001~
+and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/004~
+and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/007~
+
+* Experiments
+** TODO SRBench with 50 time steps
+I think the reason I was getting poor results in Friedman was from using 4 genome time steps.
+But I also made several other configuration changes to get
+Maybe with 50 time steps, it will have time to search more populations and that spec will yield better performance on other datasets.
+** DONE Friedman F1: use random subsets of 100
+CLOSED: [2026-06-28 Sun 16:01]
+I don't think simultaneously considering all 1000 points in the larger dataset does any good.
+Opportunity for an interesting comparison?
+
+* To implement
+** DONE Make operation weight configuration available to scikit-learn
+CLOSED: [2026-06-28 Sun 16:01]
+Challenge: In scikit-learn, you can't pass a dictionary as a configuration argument to a ~Regressor~.
+** DONE Make ~setup_samples~ spec-generation faster
+CLOSED: [2026-06-28 Sun 16:01]
+Now it takes a long time because you have to start a bunch of Julia processes, each of which goes through the loading and compilation process.
+** TODO Make config-files able to reference each other
+Right now, ~AppSimple~ lets you use --config-file multiple times.
+Maybe I should make it so that one config file can load another?
+Or I could just do this:
+#+BEGIN_SRC sh
+AppSimple --config-file <baseline-file> --config-file <collection-specific-file> ...
+#+END_SRC
+and use the script file as the master source?
