@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Script to make the "cheat" spec files for the cosmology F
+# benchmark.  These have exactly the right inventory and not too
+# many resources, so performance here should be an upper bound.
+# This is the second round of CHT specs, and introduce the
+# setting of genome time steps to 3, because it looks like
+# many of the problems get bogged down with 4.
+# These have higher operand mutation rates.
+# These have 4 outputs and 4 scratch.
+# These weight multiplication the same as addition
+
+run_key=CHT-2026-06-28-2315
+
+declare -a data_sets super_specs
+data_set_dir=Things-to-bench/datasets
+data_set_ext=.csv
+
+super_specs=( polynomial polynomial-seed mutation-h2 weights-3 genome-4arr genome-3ts baseline this-corpus )
+data_sets=( F{1,4} )
+source ../Module-Make-specs
+
+super_specs=( rational rational-seed mutation-h2 weights-3 genome-4arr genome-3ts baseline this-corpus )
+data_sets=( F7 )
+source ../Module-Make-specs
+
+super_specs=( trig trig-seed mutation-h2 weights-3 genome-4arr genome-3ts baseline this-corpus )
+data_sets=( F2 )
+source ../Module-Make-specs
+
+super_specs=( exp-log-trig exp-log-trig-seed mutation-h2 weights-3 genome-4arr genome-3ts baseline this-corpus )
+data_sets=( F{3,5} )
+source ../Module-Make-specs
+
+super_specs=( exp-log exp-log-seed mutation-h2 weights-3 genome-4arr genome-3ts baseline this-corpus )
+data_sets=( F{6,8} )
+source ../Module-Make-specs
