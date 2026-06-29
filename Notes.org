@@ -9,7 +9,8 @@ and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/004~
 and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/007~
 
 * Experiments
-** TODO SRBench with 50 time steps
+** DONE SRBench with 50 time steps
+CLOSED: [2026-06-29 Mon 09:25]
 I think the reason I was getting poor results in Friedman was from using 4 genome time steps.
 But I also made several other configuration changes to get
 Maybe with 50 time steps, it will have time to search more populations and that spec will yield better performance on other datasets.
@@ -17,6 +18,9 @@ Maybe with 50 time steps, it will have time to search more populations and that 
 CLOSED: [2026-06-28 Sun 16:01]
 I don't think simultaneously considering all 1000 points in the larger dataset does any good.
 Opportunity for an interesting comparison?
+** Something that worked for cosmology F8
+Run set ~CHT-2026-06-28-2315~ can solve cosmology F8.
+Not F2, though.
 
 * To implement
 ** DONE Make operation weight configuration available to scikit-learn
