@@ -19,8 +19,12 @@ CLOSED: [2026-06-28 Sun 16:01]
 I don't think simultaneously considering all 1000 points in the larger dataset does any good.
 Opportunity for an interesting comparison?
 ** Something that worked for cosmology F8
-Run set ~CHT-2026-06-28-2315~ can solve cosmology F8.
+Run set ~CHT-2026-06-28-2315~ can solve cosmology F8, and F1, F7, sort of F5.
 Not F2, though.
+Run set ~CHT-2026-06-30-1145~ can solve F8 but still not F2.
+** Trying to get cosmology F2 to work
+If I narrow things down completely, it will work, see ~CHT-2026-06-30-1245~.
+Possibility: Since so many things in Jessamine default to 0, a random multiplicative operation will probably have a 0 somewhere in its operands, so that genome kind of goes nowhere.
 
 * To implement
 ** DONE Make operation weight configuration available to scikit-learn
@@ -37,3 +41,10 @@ Or I could just do this:
 AppSimple --config-file <baseline-file> --config-file <collection-specific-file> ...
 #+END_SRC
 and use the script file as the master source?
+** TODO Make AppSimple save a JLD2 file
+The JSON file is too hard to deserialize.
+I may as well make the JSON save file more human-friendly and save the full structure as a different kind of file, and JLD2 looks promising.
+** TODO For initial population: Draw operands from inputs & parameters
+When making a random initial population, instead of selecting the operand indices uniformly over the entire range, select them from the inputs and parameters.
+That might result in fewer situations where the genome computes a bunch of zeros and never gets anywhere.
+Put in an option in AppSimple for this.
