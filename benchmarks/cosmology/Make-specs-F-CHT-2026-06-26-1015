@@ -4,7 +4,7 @@
 # benchmark.  These have exactly the right inventory and not too
 # many resources, so performance here should be an upper bound.
 
-run_key=CHT-2026-06-26-1015
+run_set=CHT-2026-06-26-1015
 
 declare -a data_sets super_specs
 data_set_dir=Things-to-bench/datasets

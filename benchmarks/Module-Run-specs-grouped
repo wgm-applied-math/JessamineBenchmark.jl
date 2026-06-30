@@ -1,11 +1,11 @@
 #!/bin/bash
 # Partial script:
 # Set data_sets to an array of data set keys
-# Set run_key to a configuration run key
+# Set run_set to a configuration run key
 # Then source this script
 
 for data_set in "${data_sets[@]}"
 do
     sbatch --nodes=1 \
-        ./SJob-Run-some-specs Specs/$run_key/$data_set-*.toml
+        ./SJob-Run-some-specs Specs/$run_set/$data_set-*.toml
 done

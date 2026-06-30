@@ -8,7 +8,7 @@
 # many of the problems get bogged down with 4.
 # And with flatter weights on operations.
 
-run_key=CHT-2026-06-27-1430
+run_set=CHT-2026-06-27-1430
 
 declare -a data_sets super_specs
 data_set_dir=Things-to-bench/datasets

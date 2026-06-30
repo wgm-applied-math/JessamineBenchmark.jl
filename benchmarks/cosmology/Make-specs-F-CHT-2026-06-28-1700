@@ -9,7 +9,7 @@
 # These have higher operand mutation rates.
 # These have 8 outputs and 8 scratch.
 
-run_key=CHT-2026-06-28-1700
+run_set=CHT-2026-06-28-1700
 
 declare -a data_sets super_specs
 data_set_dir=Things-to-bench/datasets

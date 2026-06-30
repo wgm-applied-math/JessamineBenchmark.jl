@@ -10,7 +10,7 @@
 # These have 4 outputs and 4 scratch.
 # These weight multiplication the same as addition
 
-run_key=CHT-2026-06-28-2315
+run_set=CHT-2026-06-28-2315
 
 declare -a data_sets super_specs
 data_set_dir=Things-to-bench/datasets

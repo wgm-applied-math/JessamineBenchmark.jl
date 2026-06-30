@@ -9,10 +9,10 @@ then
     exit 1
 fi
 
-declare -a data_sets run_keys
-# data_sets=( F{1..8})
-data_sets=( F2 F8 )
-# run_keys=( \
+declare -a data_sets run_sets
+data_sets=( F{1..8})
+# data_sets=( F2 F8 )
+# run_sets=( \
 #     CHT-2026-06-26-1015 \
 #     CHT-2026-06-27-1000 \
 #     CHT-2026-06-27-1430 \
@@ -21,11 +21,11 @@ data_sets=( F2 F8 )
 #     SRB-2026-06-26-1045-arr{8,12} \
 # )
 
-run_keys=( \
+run_sets=( \
     CHT-2026-06-28-2315 \
 )
 
-for run_key in "${run_keys[@]}"
+for run_set in "${run_sets[@]}"
 do
     source ../SModule-Run-specs-scattered
 done

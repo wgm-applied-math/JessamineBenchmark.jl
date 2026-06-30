@@ -4,7 +4,7 @@
 # Set data_sets to an array of stems of data sets
 # Set data_set_dir to the directory where data set files are found
 # Set data_set_ext to the extension of the filename of a data set
-# Set run_key to a configuration run key
+# Set run_set to a configuration run key
 # Set super_specs to an array of paths to super spec files
 #   Note that specs earlier in the array take priority over later ones
 # Then source this script.
@@ -33,9 +33,9 @@ then
     exit 1
 fi
 
-if [[ ! -v run_key ]]
+if [[ ! -v run_set ]]
 then
-   echo "Must set run_key"
+   echo "Must set run_set"
    exit 1
 fi
 
@@ -55,8 +55,8 @@ do
     julia --project=@. -q -m JessamineCLI.AppSimple -- \
         setup_samples \
         "${configs[@]}" \
-        --config-path-template "Specs/$run_key/$data_set-%03d.toml" \
-        --sr-output-dir "Generated/$run_key" \
+        --config-path-template "Specs/$run_set/$data_set-%03d.toml" \
+        --sr-output-dir "Generated/$run_set" \
         --data-file "$data_set_dir/$data_set$data_set_ext" \
         || exit
 done

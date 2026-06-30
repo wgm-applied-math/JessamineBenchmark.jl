@@ -13,7 +13,7 @@ declare -a data_sets
 data_sets=( f1{a,b,c,d} )
 # data_sets=( f1{a,b} )
 
-for run_key in \
+for run_set in \
     CHT-2026-06-25-1700 \
     CHT-2026-06-25-1845 \
     SRB-2026-06-25-1715-arr{8,12} \
