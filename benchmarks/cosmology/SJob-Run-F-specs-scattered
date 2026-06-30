@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --ntasks=192
+#SBATCH --ntasks=32
 #SBATCH --cpus-per-task=1
 
 if [[ ! -v SLURM_JOB_ID ]]
@@ -22,7 +22,7 @@ data_sets=( F2 F8 )
 # )
 
 run_sets=( \
-    CHT-2026-06-30-1245 \
+    CHT-2026-06-30-1330 \
 )
 
 for run_set in "${run_sets[@]}"
