@@ -22,7 +22,7 @@ data_sets=( F2 F8 )
 # )
 
 run_sets=( \
-    CHT-2026-06-30-1145 \
+    CHT-2026-06-30-1245 \
 )
 
 for run_set in "${run_sets[@]}"
