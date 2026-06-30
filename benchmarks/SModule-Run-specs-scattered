@@ -15,6 +15,10 @@ fi
 # This should flush any recompilation
 julia --project=@. -q -m JessamineCLI.AppSimple -- sr --version
 
+# Make a filename glob expand to nothing instead of the literal glob
+# if there are no matches.
+shopt -s nullglob
+
 for data_set in "${data_sets[@]}"
 do
     for spec in "Specs/$run_set/$data_set-"*".toml"
