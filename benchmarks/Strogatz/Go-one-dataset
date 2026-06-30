@@ -2,15 +2,16 @@
 dataset=${1:-d_vdp}
 mkdir -p Generated
 
-out_file="Generated/$dataset.json"
+progress_file_stem="Generated/$dataset/progress"
+out_file_stem="Generated/$dataset/result"
 log_file="Generated/$dataset.log"
 err_file="Generated/$dataset.errlog"
 
-if [ -f "$out_file" ]
+if [ -f "$out_file_stem.json" ]
 then
-    echo "Output file already exists: $out_file"
+    echo "Output file already exists: $out_file_stem.json"
 else
-    echo "Generating $out_file"
+    echo "Generating $out_file_stem"
     rm -f "$log_file" "$err_file"
     julia --project=@. -m JessamineCLI.AppSimple -- \
         sr \
@@ -22,7 +23,8 @@ else
         --max-generations 25 \
         --max-time 7200 \
         --lambda-op 1.0e-6 \
-        --output-file "$out_file" \
+        --progress-file-stem "$progress_file_stem" \
+        --output-file-stem "$out_file_stem" \
         > "$log_file" 2> "$err_file"
     echo "Done generating $out_file"
 fi

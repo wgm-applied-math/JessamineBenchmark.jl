@@ -8,9 +8,9 @@ julia -q --project=@. -m JessamineCLI.AppSimple \
     --stop-threshold 2.0e-9 \
     --max-time 60 \
     --config-file test-random-state.toml \
-    --config-dump-file "Generated/$dataset-config.toml" \
-    --progress-file "Generated/$dataset-progress.json" \
+    --config-dump-file "Generated/$dataset/config.toml" \
     --verbosity 2 \
-    --output-file "Generated/$dataset.json"
+    --output-file-stem "Generated/$dataset/result" \
+    --progress-file-stem "Generated/$dataset/progress" \
 
 #      --log-file "Generated/$dataset.log" \

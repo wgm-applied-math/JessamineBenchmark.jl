@@ -23,16 +23,17 @@ for data_set in "${data_sets[@]}"
 do
     for spec in "Specs/$run_set/$data_set-"*".toml"
     do
-        out_file=$(tomlq -r '.output_file' "$spec")
-        out_dir=$(dirname "$out_file")
-        if [ -f "$out_file" ]
+        output_file_stem=$(tomlq -r '.output_file_stem' "$spec")
+        output_file="$output_file_stem.json"
+        output_dir=$(dirname "$output_file")
+        if [ -f "$output_file" ]
         then
-            echo "Output file exists, skipping: $out_file"
+            echo "Output file exists, skipping: $output_file"
         else
-            echo "Scheduling build of $out_file"
+            echo "Scheduling build of $output_file"
             srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 \
-                --output "$out_dir/stdout-%J.txt" \
-                --error "$out_dir/stderr-%J.txt" \
+                --output "$output_dir/stdout-%J.txt" \
+                --error "$output_dir/stderr-%J.txt" \
                 ./Run-one-spec "$spec" &
         fi
     done

@@ -110,10 +110,10 @@ def try_one_discovery(r, X, y, input_columns, verbose=False):
 
 def make_report(config, verbose=False):
     data_file = Path(config["data_file"])
-    output_file = Path(config["output_file"])
-    data_set = output_file.parent.parent.name
-    run_set = output_file.parent.parent.parent.name
-    sample_num = int(output_file.parent.name)
+    output_file_stem = Path(config["output_file_stem"])
+    data_set = output_file_stem.parent.parent.name
+    run_set = output_file_stem.parent.parent.parent.name
+    sample_num = int(output_file_stem.parent.name)
 
     df = pd.read_csv(data_file)
     output_column = config.get("output_column", "label")
@@ -122,7 +122,7 @@ def make_report(config, verbose=False):
     y = df[output_column]
     X = df[input_columns]
 
-    with output_file.open("rt") as f:
+    with output_file_stem.with_suffix(".json").open("rt") as f:
         result = json.load(f)
 
     n_disc = len(result["discoveries"])
@@ -152,8 +152,8 @@ def make_or_load_report(config_file, force=False, verbose=False):
     # *shrug* tomllib requires a binary stream
     with open(config_file, "rb") as f:
         config = tomllib.load(f)
-    output_file = Path(config["output_file"])
-    report_file = output_file.with_name("full-report.json")
+    output_file_stem = Path(config["output_file_stem"])
+    report_file = output_file_stem.with_name("full-report.json")
     report = None
     if not force and report_file.is_file():
         try:
