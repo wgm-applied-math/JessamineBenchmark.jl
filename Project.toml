@@ -24,6 +24,11 @@ Random123 = "74087812-796a-5b5d-8853-05524746bad3"
 Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
+[sources]
+Jessamine = {path = "../Jessamine.jl"}
+JessamineSymbolics = {path = "../JessamineSymbolics.jl"}
+JessamineCLI = {path = "../JessamineCLI.jl"}
+
 [compat]
 Aqua = "0.8.16"
 ArgParse = "1.2.0"
