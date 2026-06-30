@@ -10,8 +10,8 @@ then
 fi
 
 declare -a data_sets run_sets
-data_sets=( F{1..8})
-# data_sets=( F2 F8 )
+# data_sets=( F{1..8})
+data_sets=( F2 F8 )
 # run_sets=( \
 #     CHT-2026-06-26-1015 \
 #     CHT-2026-06-27-1000 \
@@ -22,7 +22,7 @@ data_sets=( F{1..8})
 # )
 
 run_sets=( \
-    CHT-2026-06-28-2315 \
+    CHT-2026-06-30-1145 \
 )
 
 for run_set in "${run_sets[@]}"
