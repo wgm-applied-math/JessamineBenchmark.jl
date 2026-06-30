@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export JULIA_DEBUG=Jessamine,JessamineSymbolics,JessamineCLI,JessamineCLI.AppSimple
+julia --project=@. \
+    -m JessamineCLI.AppSimple \
+    sr \
+    --verbosity 2 \
+    --config-file "$1"
+
+    # --bug-report=rr-local \
