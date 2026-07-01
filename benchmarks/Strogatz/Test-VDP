@@ -1,6 +1,7 @@
 #!/bin/bash
 dataset=d_vdp1
 mkdir -p Generated
+export JULIA_DEBUG='JessamineCLI,JessamineCLI.AppSimple'
 julia -q --project=@. -m JessamineCLI.AppSimple \
     sr \
     --data-file "ode-strogatz/$dataset.txt" \
@@ -8,9 +9,8 @@ julia -q --project=@. -m JessamineCLI.AppSimple \
     --stop-threshold 2.0e-9 \
     --max-time 60 \
     --config-file test-random-state.toml \
-    --config-dump-file "Generated/$dataset/config.toml" \
+    --config-dump-file "Generated/Test_$dataset/config.toml" \
     --verbosity 2 \
-    --output-file-stem "Generated/$dataset/result" \
-    --progress-file-stem "Generated/$dataset/progress" \
-
-#      --log-file "Generated/$dataset.log" \
+    --output-file-stem "Generated/Test_$dataset/result" \
+    --progress-file-stem "Generated/Test_$dataset/progress" \
+     --log-file "Generated/Test_$dataset/log.txt"
