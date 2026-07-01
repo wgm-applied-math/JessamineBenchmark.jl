@@ -39,4 +39,5 @@ do
     done
 done
 
-wait
+# The calling script should do this:
+# wait

@@ -23,3 +23,5 @@ do
     echo "Working on $run_set"
     source ../SModule-Run-specs-scattered
 done
+
+wait

@@ -26,3 +26,5 @@ for run_set in "${run_sets[@]}"
 do
     source ../SModule-Run-specs-scattered
 done
+
+wait
