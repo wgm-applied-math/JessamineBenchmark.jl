@@ -13,10 +13,10 @@ declare -a data_sets
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 # data_sets=( d_{glider,sfgrid,shearflow}{1,2} )
 
-# run_key=2026-06-21-2030
-# run_key=2026-06-21-2100
+# run_set=2026-06-21-2030
+# run_set=2026-06-21-2100
 # 2026-06-21-2100 2026-06-24-1500
-for run_key in \
+for run_set in \
     CHT-2026-06-25-1630 \
     CHT-2026-06-25-1645-arr{8,12}\
     SRB-2026-06-25-1715-arr{8,12}

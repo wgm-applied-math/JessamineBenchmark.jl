@@ -3,7 +3,7 @@
 # Script to make the primary spec files for the Strogatz benchmark.
 # These generally succeed on all data sets.
 
-run_key=2026-06-21-2030
+run_set=2026-06-21-2030
 
 declare -a data_sets super_specs
 data_set_dir=ode-strogatz

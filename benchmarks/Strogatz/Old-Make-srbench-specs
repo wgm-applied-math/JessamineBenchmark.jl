@@ -19,15 +19,15 @@
 # Modifying the selection numbers reduces selection by mortality.
 # Generally less successful on this corpus than 2026-06-21-2100.
 
-declare -a run_keys=( 2026-06-21-2100 2026-06-24-1500 )
+declare -a run_sets=( 2026-06-21-2100 2026-06-24-1500 )
 
 declare -a data_sets super_specs
 data_set_dir=ode-strogatz
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 data_set_ext=.txt
 
-for run_key in "${run_keys[@]}"
+for run_set in "${run_sets[@]}"
 do
-    super_specs=( srbench-$run_key baseline this-corpus )
+    super_specs=( srbench-$run_set baseline this-corpus )
     source ../Module-Make-specs
 done
