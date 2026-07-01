@@ -46,7 +46,7 @@ def load-report [] {
 }
 
 def nice-nums [] {
-  update rating { format number | get lowerexp } 
+  update rating { into float | format number | get lowerexp } 
 }
 
 def best-runs [col="rating"] {
@@ -57,7 +57,7 @@ def best-runs [col="rating"] {
    | polars collect
    | polars sort-by run_set data_set
    | polars into-nu
-   | update $col { format number | get lowerexp } 
+   | update $col { into float | format number | get lowerexp } 
   )
 }
 
