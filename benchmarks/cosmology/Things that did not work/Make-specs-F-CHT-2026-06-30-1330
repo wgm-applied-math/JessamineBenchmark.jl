@@ -13,7 +13,7 @@ super_spec_base=(\
     mutation-h2 weights-4 \
     pop-size-200 \
     gens-100 \
-    genome-4arr genome-2ts \
+    genome-arr4 genome-2ts \
     baseline this-corpus )
 
 # super_specs=( polynomial polynomial-seed "${super_spec_base[@]}" )

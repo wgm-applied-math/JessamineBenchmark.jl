@@ -16,7 +16,7 @@ data_set_ext=.csv
 
 super_spec_base=(\
     mutation-h2 weights-4 \
-    genome-4arr genome-3ts \
+    genome-arr4 genome-3ts \
     baseline this-corpus )
 
 # super_specs=( polynomial polynomial-seed "${super_spec_base[@]}" )
