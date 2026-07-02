@@ -5,7 +5,7 @@ export JULIA_DEBUG='JessamineCLI,JessamineCLI.AppSimple'
 julia -q --project=@. -m JessamineCLI.AppSimple \
     sr \
     --data-file "ode-strogatz/$dataset.txt" \
-    --op-inventory "Polynomial" \
+    --op-inventory "+ - * pow(2)" \
     --stop-threshold 2.0e-9 \
     --max-time 60 \
     --config-file test-random-state.toml \
