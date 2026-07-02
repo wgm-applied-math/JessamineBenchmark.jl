@@ -1,0 +1,11 @@
+[operation_weights]
+identity = 1.0
+additive = 1.0
+multiplicative = 1.0
+power = 2.0
+exponential = 3.0
+trigonometric = 3.0
+extended_trig = 4.0
+hyperbolic = 4.0
+corner = 2.0
+fuzzy_logic = 2.0

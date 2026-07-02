@@ -1,0 +1,6 @@
+# Higher operand mutation rates.
+p_duplicate_index = 0.075
+p_delete_index = 0.075
+p_duplicate_instruction = 0.015
+p_delete_instruction = 0.015
+p_hop_instruction = 0.015
