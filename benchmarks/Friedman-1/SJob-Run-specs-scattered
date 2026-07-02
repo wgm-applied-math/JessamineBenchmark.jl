@@ -21,3 +21,5 @@ for run_set in \
 do
     source ../SModule-Run-specs-scattered
 done
+
+wait
