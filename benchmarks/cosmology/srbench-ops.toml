@@ -1,1 +1,1 @@
-op_inventory = "+ - * / sqrt exp log sin cos"
+op_inventory = "+ - * / pow(2) pow(3) sqrt exp log sin cos"
