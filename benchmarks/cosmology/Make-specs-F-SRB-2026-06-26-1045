@@ -5,17 +5,19 @@
 
 run_set_base=SRB-2026-06-26-1045
 
-declare -a data_sets super_specs
+declare -a data_sets super_specs_base super_specs
 data_set_dir=Things-to-bench/datasets
 data_set_ext=.csv
 data_sets=( F{1..8} )
 
-run_set="$run_set_base-arr12"
-echo "== Working on $run_set =="
-super_specs=( srbench-ops genome-3ts srbench-seed baseline this-corpus )
-source ../Module-Make-specs
+super_specs_base=( srbench-ops genome-3ts srbench-seed baseline this-corpus )
+
+# run_set="$run_set_base-arr12"
+# echo "== Working on $run_set =="
+# super_specs=( "${super_specs_base[@]}" )
+# source ../Module-Make-specs
 
 run_set="$run_set_base-arr8"
 echo "== Working on $run_set =="
-super_specs=( srbench-ops genome-3ts genome-8arr srbench-seed baseline this-corpus )
+super_specs=( genome-8arr "${super_specs_base[@]}")
 source ../Module-Make-specs
