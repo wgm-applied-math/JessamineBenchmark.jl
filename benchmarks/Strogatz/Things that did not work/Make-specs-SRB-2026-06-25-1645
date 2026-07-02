@@ -20,5 +20,5 @@ source ../Module-Make-specs
 
 run_base="$run_base_base-arr8"
 echo "== Working on $run_base =="
-super_specs=( srbench-ops genome-8arr srb-seed baseline this-corpus )
+super_specs=( srbench-ops genome-arr8 srb-seed baseline this-corpus )
 source ../Module-Make-specs

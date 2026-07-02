@@ -10,7 +10,7 @@ declare -a data_sets super_specs
 data_set_dir=ode-strogatz
 data_set_ext=.txt
 
-super_specs=( polynomial polynomial-seed genome-3ts genome-8arr baseline this-corpus )
+super_specs=( polynomial polynomial-seed genome-3ts genome-arr8 baseline this-corpus )
 data_sets=( d_{lv,vdp}{1,2} )
 source ../Module-Make-specs
 

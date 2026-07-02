@@ -17,5 +17,5 @@ data_set_ext=.txt
 
 run_set="$run_set_base-arr8"
 echo "== Working on $run_set =="
-super_specs=( srbench-ops genome-3ts genome-8arr srbench-seed baseline this-corpus )
+super_specs=( srbench-ops genome-3ts genome-arr8 srbench-seed baseline this-corpus )
 source ../Module-Make-specs
