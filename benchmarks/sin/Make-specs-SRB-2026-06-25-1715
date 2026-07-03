@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Script to make specs for some srbench-like configurations.
+# There are variants with 8 and 12 output and scratch slots.
+
+run_set_base=SRB-2026-06-25-1715
+
+declare -a data_sets super_specs
+data_set_dir=datasets
+data_sets=( sin )
+data_set_ext=.txt
+
+super_specs_base=(
+    srbench-ops
+    srbench-seed
+    genome-3ts
+    baseline
+    this-corpus
+    )
+
+run_set="$run_set_base-arr8"
+echo "== Working on $run_set =="
+super_specs=( genome-arr8 "${super_specs_base[@]}" )
+source ../Module-Make-specs

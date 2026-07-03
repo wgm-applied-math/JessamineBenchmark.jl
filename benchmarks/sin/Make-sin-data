@@ -1,0 +1,12 @@
+#!/bin/bash
+
+julia --project=@. -m JessamineBenchmark.SinFunction \
+      --num-samples 100 \
+      --random-state 0x378f4c59527ef75c \
+      datasets/sin-noise-0.csv
+
+julia --project=@. -m JessamineBenchmark.SinFunction \
+      --num-samples 100 \
+      --random-state 0xe8d47acdc757f6cb \
+      --noise-std 0.1 \
+      datasets/sin-noise-1.csv
