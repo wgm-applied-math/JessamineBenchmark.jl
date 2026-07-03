@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --ntasks=192
+#SBATCH --ntasks=256
 #SBATCH --cpus-per-task=1
 
 if [[ ! -v SLURM_JOB_ID ]]
@@ -9,13 +9,15 @@ then
     exit 1
 fi
 
-declare -a data_sets
+declare -a data_sets run_sets
 data_sets=( C1{a..d} C2{a,b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
 
-for run_set in \
-    CHT-2026-06-26-1100 \
-    SRB-2026-06-26-1115-arr{8,12} \
-    SRB-2026-06-26-1130-arr{8,12}
+run_sets=(
+    CHT-2026-06-28-2315
+    # SRB-2026-06-26-1130-arr8
+)
+
+for run_set in "${run_sets[@]}"
 do
     source ../SModule-Run-specs-scattered
 done
