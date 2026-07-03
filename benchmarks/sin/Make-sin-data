@@ -10,3 +10,9 @@ julia --project=@. -m JessamineBenchmark.SinFunction \
       --random-state 0xe8d47acdc757f6cb \
       --noise-std 0.1 \
       datasets/sin-noise-1.csv
+
+julia --project=@. -m JessamineBenchmark.SinFunction \
+      --num-samples 100 \
+      --random-state 0xe8d47acdc757f6cb \
+      --noise-std 0.01 \
+      datasets/sin-noise-2.csv
