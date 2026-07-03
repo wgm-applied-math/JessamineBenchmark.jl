@@ -77,6 +77,16 @@ args_generate_general = [
         :help => "how many sample points (rows) to generate",
         :arg_type => Int64,
     ),
+    ["--x-min"],
+    Dict(
+        :help => "minimum value of x",
+        :arg_type => Float64
+    ),
+    ["--x-max"],
+    Dict(
+        :help => "maximum value of x",
+        :arg_type => Float64
+    ),
     ["--noise-std"],
     Dict(
         :help => "add noise to the y column, using a normal distribution with mean 0 and this standard deviation",
@@ -104,14 +114,16 @@ function (@main)(args = ARGS)
     @cfield prespec num_samples 100
     @cfield prespec noise_std nothing Union{Nothing,Float64}
     output_file = prespec["output_file"]
-
+    @cfield prespec x_min -π Float64
+    @cfield prespec x_max π Float64
     if isnothing(noise_std)
         noise_dist = Dirac(0.0)
     else
         noise_dist = Normal(0.0, noise_std)
     end
+    input_dist = Uniform(x_min, x_max)
 
-    df = make_rand_sin(;num_samples, noise_dist)
+    df = make_rand_sin(; input_dist, num_samples, noise_dist)
 
     mkpath_and_open(output_file, "w") do io
         CSV.write(io, df)
