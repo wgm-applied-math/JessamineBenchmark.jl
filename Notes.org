@@ -1,20 +1,24 @@
 Notes and to-do list for JessamineBenchmark
 
 * Debugging
-** Figure out the segfault
-See ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4b/009~
-and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4b/009~
-and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/001~
-and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/004~
-and ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/007~
+** DONE Figure out the segfault
+CLOSED: [2026-07-03 Fri 15:03]
+I never figured out what was causing this, so it may have been a compilation or package problem.
+- ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4b/009~
+- ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4b/009~
+- ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/001~
+- ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/004~
+- ~stderr-111231.3.txt/Generated/CHT-2026-06-26-1100/C4e/007~
+
 
 * Experiments
 ** DONE SRBench with 50 time steps
 CLOSED: [2026-06-29 Mon 09:25]
 I think the reason I was getting poor results in Friedman was from using 4 genome time steps.
 But I also made several other configuration changes to get
-Maybe with 50 time steps, it will have time to search more populations and that spec will yield better performance on other datasets.
-** DONE Friedman F1: use random subsets of 100
+Maybe with 50 time steps, it will have time to search more populations and that spec will yield better performance on other datasets?
+Didn't seem to help.
+** DONE Friedman F1: use random subsets
 CLOSED: [2026-06-28 Sun 16:01]
 I don't think simultaneously considering all 1000 points in the larger dataset does any good.
 Opportunity for an interesting comparison?
@@ -24,7 +28,10 @@ Not F2, though.
 Run set ~CHT-2026-06-30-1145~ can solve F8 but still not F2.
 ** Trying to get cosmology F2 to work
 If I narrow things down completely, it will work, see ~CHT-2026-06-30-1245~.
-Possibility: Since so many things in Jessamine default to 0, a random multiplicative operation will probably have a 0 somewhere in its operands, so that genome kind of goes nowhere.
+- Possibility: Since so many things in Jessamine default to 0, a random multiplicative operation will probably have a 0 somewhere in its operands, so that genome kind of goes nowhere.
+  But when I started initializing operand indices using only x and p, things didn't improve.
+- Possibility: Since functions of the form \(b_1 x + b_2 \sin(p_1 x)\) are not good approximations to F2, there's no way for the selection process to know that the \(x\) and \(\sin(p_1 x)\) terms are useful.
+  So it has to discover the key pair of instructions, all or nothing.
 ** Trying the new random initialization that uses operands only for x and p
 In general, the fraction of 15-minute samples that solve each
 problem with a rating < 5.0e-7 are way up after this change.
@@ -33,22 +40,23 @@ In Strogatz:
 ~CHT-2026-06-25-1630~ solved everything
 ~SRB-2026-06-25-1715-arr8~ and ~arr12~ solved everything but ~shearflow1~
 *** After the change
+Generally things are working much better.
+A *lot* less division by zero drama.
+Most runs are more likely to succeed.
 **** In Strogatz:
-***** ~CHT-2026-06-25-1630~ still solves everything
-bacres, barmag, glider, lv, predprey, vdp: 32/32
-shearflow and sfgrid: 25/32 or better
-***** DONE ~SRB-2026-06-25-1715-arr12~ solves everything except shearflow1
-CLOSED: [2026-07-01 Wed 18:06]
-bacres, barmag, glider, lv, vdp, shearflow2, sfgrid2: 32/32
-predprey1 19/32, predprey2 16/32
-sfgrid1: 1/32
-shearflow1: 0/32
-***** DONE ~SRB-2026-06-25-1715-arr8~ solves everything except shearflow1
-CLOSED: [2026-07-01 Wed 18:07]
-bacres, barmag, glider, lv, vdp, shearflow2, sfgrid2: 32/32
-predprey1 17/32, predprey2 9/32
-sfgrid1 1/32
-shearflow1 0/32
+- ~CHT-2026-06-25-1630~ still solves everything
+  bacres, barmag, glider, lv, predprey, vdp: 32/32,
+  shearflow and sfgrid: 25/32 or better
+- ~SRB-2026-06-25-1715-arr12~ solves everything except shearflow1
+  bacres, barmag, glider, lv, vdp, shearflow2, sfgrid2: 32/32,
+  predprey1 19/32, predprey2 16/32,
+  sfgrid1: 1/32,
+  shearflow1: 0/32
+- ~SRB-2026-06-25-1715-arr8~ solves everything except shearflow1
+  bacres, barmag, glider, lv, vdp, shearflow2, sfgrid2: 32/32,
+  predprey1 17/32, predprey2 9/32,
+  sfgrid1 1/32,
+  shearflow1 0/32
 
 **** In cosmology:
 Again using 5.0e-7 as the solve threshold
@@ -60,17 +68,14 @@ I really thought changing the initialization would give it the head start to sol
 Also, F4 is a polynomial, and I'm disappointed that it's turning out to be hard to solve.
 Then again, F4 has \(x^4\), so it takes some fiddling for Jessamine to find it.
 
-***** ~SRB-2026-06-26-1030-arr8~
-F1 15/32, F2 1/32, F5 32/32, F7 3/32
-
-***** ~SRB-2026-06-26-1045-arr8~
-F1 10/32, F4 1/32, F5 32/32, F7 5/32, F8 1/32
-
-***** ~SRB-2026-06-26-1030-arr12~
-only solves F5 and F1 1-ish
-
-***** ~CHT-2026-06-28-2315~
-solves F8 13/32, but not F2
+- ~SRB-2026-06-26-1030-arr8~
+  F1 15/32, F2 1/32, F5 32/32, F7 3/32
+- ~SRB-2026-06-26-1045-arr8~
+  F1 10/32, F4 1/32, F5 32/32, F7 5/32, F8 1/32
+- ~SRB-2026-06-26-1030-arr12~
+  only solves F5 and F1 1-ish
+- ~CHT-2026-06-28-2315~
+  solves F8 13/32, but not F2
 
 * To implement
 ** DONE Make operation weight configuration available to scikit-learn
@@ -91,7 +96,25 @@ and use the script file as the master source?
 CLOSED: [2026-07-01 Wed 10:46]
 The JSON file is too hard to deserialize.
 I may as well make the JSON save file more human-friendly and save the full structure as a different kind of file, and JLD2 looks promising.
-** TODO For initial population: Draw operands from inputs & parameters
+** DONE For initial population: Draw operands from inputs & parameters
+CLOSED: [2026-07-03 Fri 15:06]
 When making a random initial population, instead of selecting the operand indices uniformly over the entire range, select them from the inputs and parameters.
+This seems to be very helpful.
+*** DONE Implement
+CLOSED: [2026-07-02 Thu 09:58]
 That might result in fewer situations where the genome computes a bunch of zeros and never gets anywhere.
-Put in an option in AppSimple for this.
+*** TODO Put in an option in AppSimple for this.
+** DONE Add power 2 .. 4 to the list of available operations
+CLOSED: [2026-07-03 Fri 15:06]
+This now lets me set up exactly the same operation inventory as SRBench.
+
+* To put in the write-up
+** TODO Key details of the implementation
+- [ ] Sorting so that old agents fall off the bottom
+- [ ] Random initialization using only parameter and input indices
+- [ ] Weighting of operations during mutations
+** TODO Demo with sin function
+How the noise and domain make it nearly impossible to distinguish \(\sin x\) from so many other functions.
+** TODO Details of the SRB-family of run sets
+** TODO Some details of the CHT-family
+These can show how much the operation inventory affects the success rate.
