@@ -17,9 +17,12 @@ data_set_dir=Things-to-bench/datasets
 data_set_ext=.csv
 
 super_specs_base=(
-    mutation-h2 weights-3
-    genome-arr4 genome-3ts
-    baseline this-corpus
+    mutation-h2
+    weights-3
+    genome-arr4
+    genome-3ts
+    baseline
+    this-corpus
 )
 
 super_specs=( polynomial polynomial-seed "${super_specs_base[@]}" )
