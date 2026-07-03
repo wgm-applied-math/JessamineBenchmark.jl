@@ -15,10 +15,10 @@ data_sets=( F{1..8} )
 
 run_set="$run_set_base-arr12"
 echo "== Working on $run_set =="
-super_specs=( srbench-ops srb-seed baseline this-corpus )
+super_specs=( srbench-ops srbench-seed baseline this-corpus )
 source ../Module-Make-specs
 
 run_set="$run_set_base-arr8"
 echo "== Working on $run_set =="
-super_specs=( srbench-ops genome-8arr srb-seed baseline this-corpus )
+super_specs=( srbench-ops genome-arr8 srbench-seed baseline this-corpus )
 source ../Module-Make-specs

@@ -19,5 +19,5 @@ super_specs_base=( srbench-ops genome-3ts srbench-seed baseline this-corpus )
 
 run_set="$run_set_base-arr8"
 echo "== Working on $run_set =="
-super_specs=( genome-8arr "${super_specs_base[@]}")
+super_specs=( genome-arr8 "${super_specs_base[@]}")
 source ../Module-Make-specs
