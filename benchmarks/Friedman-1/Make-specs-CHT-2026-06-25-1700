@@ -4,12 +4,29 @@
 # benchmark.  These have exactly the right inventory and not too
 # many resources, so performance here should be an upper bound.
 
-run_key=CHT-2026-06-25-1700
+run_set_base=CHT-2026-06-25-1700
 
-declare -a data_sets super_specs
+declare -a data_sets super_specs_base super_specs
 data_sets=( f1{a,b,c,d} )
 data_set_dir=datasets
 data_set_ext=.csv
 
-super_specs=( trig genome-3ts genome-8arr cheat-seed baseline this-corpus )
+super_specs_base=(
+    trig
+    cheat-seed
+    genome-arr8
+    genome-3ts
+    baseline
+    this-corpus
+    )
+
+run_set="$run_set_base"
+echo "== Working on $run_set"
+super_specs=( "${super_specs_base[@]}")
+source ../Module-Make-specs
+
+run_set="$run_set_base-subset"
+data_sets=( f1{b,d} )
+echo "== Working on $run_set"
+super_specs=( subset-100 "${super_specs_base[@]}")
 source ../Module-Make-specs
