@@ -10,12 +10,15 @@ data_set_dir=ode-strogatz
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
 data_set_ext=.txt
 
-# run_set="$run_set_base-arr12"
-# echo "== Working on $run_set =="
-# super_specs=( srbench-ops genome-3ts srbench-seed baseline this-corpus )
-# source ../Module-Make-specs
+super_specs_base=(
+    srbench-ops
+    srbench-seed
+    genome-3ts
+    baseline
+    this-corpus
+    )
 
 run_set="$run_set_base-arr8"
 echo "== Working on $run_set =="
-super_specs=( srbench-ops genome-3ts genome-arr8 srbench-seed baseline this-corpus )
+super_specs=( genome-arr8 "${super_specs_base[@]}" )
 source ../Module-Make-specs
