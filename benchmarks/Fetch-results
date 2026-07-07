@@ -1,4 +1,7 @@
 #!/bin/bash
 remote_host=hpc.cofc.edu
 here=$(realpath --relative-to "$HOME" .)
-rsync -avR --exclude="log.txt" --exclude="std*.txt" $remote_host:"$here/Generated/full-report.csv" .
+# The extra . here is important.
+# It means files are copied with their path relative to the current
+# directory, and all intermediate directories are created along the way.
+rsync -avR --exclude="log.txt" --exclude="std*.txt" $remote_host:"$here/./Generated/full-report.csv" .
