@@ -1,0 +1,4 @@
+#!/bin/bash
+remote_host=hpc.cofc.edu
+here=$(realpath --relative-to "$HOME" .)
+rsync -avR --exclude="log.txt" --exclude="std*.txt" $remote_host:"$here/Generated/full-report.csv" .
