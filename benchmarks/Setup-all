@@ -5,7 +5,7 @@
 for d in \
     "Strogatz" \
     "Friedman-1" \
-    "cosmoloy" \
+    "cosmology" \
     "sin"
 do
     ./Setup-subdir "$d"
