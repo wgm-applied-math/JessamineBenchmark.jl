@@ -18,7 +18,7 @@ cd "$subdir"
 # Or: Anything that is a broken link
 # print it out and delete it.
 # The -xtype <t> is a little convoluted.
-# It means to check whether a file is of type <r>. It follows
+# It means to check whether a file is of type <t>. It follows
 # links if possible and checks the target of the link.
 # If the link is bad somehow, the link itself is checked
 # so -xtype l only matches links that don't resolve to a non-link file.
@@ -39,6 +39,7 @@ find . \
 for link in \
     AssembleSymPyReports.py \
     Fetch-data \
+    Fetch-results \
     Module-Assemble-results.nu \
     QuickReport.py \
     SJob-Run-some-specs \

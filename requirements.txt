@@ -1,8 +1,10 @@
-# Pip-formatted requirements
+# Pip-formatted Python requirements
 
-# The main apps work without much Python but some of the scripts
-# make use of some Python packages.  This file provides a list of
-# those useful packages.
+numpy ~= 2.3.5
+pandas ~= 2.3.3
+seaborn ~= 0.13.2
+sympy ~= 1.14.0
 
-# Need yq for the tomlq command
-yq
+# Need yq for the tomlq command, required by several scripts
+yq ~= 4.47.1
+
