@@ -38,6 +38,7 @@ find . \
 
 for link in \
     AssembleSymPyReports.py \
+    AnalysisUtils.py \
     Fetch-data \
     Fetch-results \
     Module-Assemble-results.nu \
