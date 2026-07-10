@@ -52,14 +52,9 @@ def generous_simplify(expr, tolerance=5e-3):
     expr = sympy.expand(expr, rational=False).evalf()
     expr = replace_near_integer(expr, tolerance=tolerance)
     expr = sympy.simplify(expr)
-    expr = sympy.nsimplify(expr, tolerance=tolerance)
+    expr = sympy.cancel(expr)
+    expr = replace_near_integer(expr, tolerance=tolerance)
     return expr
-
-
-def count_by_threshold(df, threshold):
-    """Count rows in a dataframe where the 'mse' column is less than the threshold."""
-    return sum(df["mse"] < threshold)
-
 
 def apply_sym(expr, x, x_sym=sympy.abc.x):
     """Apply a sympy expression to a numeric value x, which can be an array."""
@@ -80,3 +75,7 @@ def complexity(expr):
     for arg in sympy.preorder_traversal(expr):
         c += 1
     return c
+
+def count_by_threshold(df, threshold=1.0e-19):
+    """Count the number of rows in a dataframe where the 'mse' column is less than the given threshold."""
+    return (df["mse"] < threshold).groupby(level="data_set").sum()
