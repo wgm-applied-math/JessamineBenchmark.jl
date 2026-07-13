@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Script to make specs for some srbench-like configurations.
+
+run_set_base=SRB-2026-07-13-1130
+
+declare -a data_sets super_specs_base super_specs
+data_set_dir=Things-to-bench/cosmo_data
+data_set_ext=.csv
+data_sets=( C1{a..d} C2{a,b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
+
+super_specs_base=(
+    srbench-ops
+    srbench-seed
+    generations-100
+    genome-arr8
+    baseline
+    this-corpus
+)
+
+run_set="$run_set_base"
+echo "== Working on $run_set =="
+super_specs=( genome-arr8 "${super_specs_base[@]}" )
+source ../Module-Make-specs
