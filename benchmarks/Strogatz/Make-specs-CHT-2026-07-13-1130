@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Script to make the "cheat" spec files for the Strogatz
+# benchmark.  These have exactly the right inventory and not too
+# many resources, so performance here should be an upper bound.
+
+run_set=CHT-2026-07-13-1130
+
+declare -a data_sets supser_specs_base super_specs
+data_set_dir=ode-strogatz
+data_set_ext=.txt
+
+super_specs_base=(
+    generations-100
+    genome-arr8
+    baseline
+    this-corpus
+    )
+
+super_specs=( polynomial polynomial-seed "${super_specs_base[@]}" )
+data_sets=( d_{lv,vdp}{1,2} )
+source ../Module-Make-specs
+
+super_specs=( rational rational-seed "${super_specs_base[@]}" )
+data_sets=( d_{bacres,predprey}{1,2} )
+source ../Module-Make-specs
+
+super_specs=( trig trig-seed "${super_specs_base[@]}" )
+data_sets=( d_{barmag,glider,sfgrid,shearflow}{1,2} )
+source ../Module-Make-specs

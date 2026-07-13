@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Script to make specs for some srbench-like configurations.
+
+run_set_base=SRB-2026-07-13-1130
+
+declare -a data_sets super_specs
+data_set_dir=ode-strogatz
+data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
+data_set_ext=.txt
+
+super_specs_base=(
+    srbench-ops
+    srbench-seed
+    generations-100
+    genome-arr8 
+    baseline
+    this-corpus
+    )
+
+run_set="$run_set_base"
+echo "== Working on $run_set =="
+super_specs=( "${super_specs_base[@]}" )
+source ../Module-Make-specs
