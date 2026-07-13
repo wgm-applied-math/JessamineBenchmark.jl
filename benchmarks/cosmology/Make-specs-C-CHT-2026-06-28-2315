@@ -26,11 +26,11 @@ super_specs_base=(
 )
 
 super_specs=( polynomial polynomial-seed "${super_specs_base[@]}" )
-data_sets=( C{2a,5f})
+data_sets=( C2a )
 source ../Module-Make-specs
 
 super_specs=( rational rational-seed "${super_specs_base[@]}" )
-data_sets=( C{3g,3h,5a,5b,5c,5d,5e} )
+data_sets=( C{3g,3h,5a,5b,5c,5d,5e,5f} )
 source ../Module-Make-specs
 
 super_specs=( exp-log exp-log-seed "${super_specs_base[@]}" )
