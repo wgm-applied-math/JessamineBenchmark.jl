@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Script to make specs for some srbench-like configurations.
-# There are variants with 8 and 12 output and scratch slots.
 
 run_set_base=SRB-2026-06-26-1045
 
