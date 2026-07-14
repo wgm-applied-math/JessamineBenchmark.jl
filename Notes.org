@@ -12,11 +12,11 @@ I never figured out what was causing this, so it may have been a compilation or 
 
 
 * Experiments
-** DONE SRBench with 50 time steps
+** DONE SRBench with 50 generations
 CLOSED: [2026-06-29 Mon 09:25]
 I think the reason I was getting poor results in Friedman was from using 4 genome time steps.
 But I also made several other configuration changes to get
-Maybe with 50 time steps, it will have time to search more populations and that spec will yield better performance on other datasets?
+Maybe with 50 generations, it will have time to search more populations and that spec will yield better performance on other datasets?
 Didn't seem to help.
 ** DONE Friedman F1: use random subsets
 CLOSED: [2026-06-28 Sun 16:01]
@@ -44,7 +44,7 @@ Generally things are working much better.
 A *lot* less division by zero drama.
 Most runs are more likely to succeed.
 **** In Strogatz:
-- ~CHT-2026-06-25-1630~ still solves everything
+- ~CHT-2026-06-25-1630~ solves everything?
   bacres, barmag, glider, lv, predprey, vdp: 32/32,
   shearflow and sfgrid: 25/32 or better
 - ~SRB-2026-06-25-1715-arr12~ solves everything except shearflow1
@@ -52,11 +52,14 @@ Most runs are more likely to succeed.
   predprey1 19/32, predprey2 16/32,
   sfgrid1: 1/32,
   shearflow1: 0/32
-- ~SRB-2026-06-25-1715-arr8~ solves everything except shearflow1
+- ~CHT-2026-07-02-1730~ keep - solves everything
+- ~CHT-2026-07-13-1130~ keep - solves everything
+- ~SRB-2026-06-25-1715-arr8~ keep - solves everything except shearflow1
   bacres, barmag, glider, lv, vdp, shearflow2, sfgrid2: 32/32,
   predprey1 17/32, predprey2 9/32,
   sfgrid1 1/32,
   shearflow1 0/32
+- ~SRB-2026-07-13-1130~ keep - solves everything except sfgrid1 and shearflow1
 
 **** In cosmology:
 Again using 5.0e-7 as the solve threshold
@@ -70,12 +73,23 @@ Then again, F4 has \(x^4\), so it takes some fiddling for Jessamine to find it.
 
 - ~SRB-2026-06-26-1030-arr8~
   F1 15/32, F2 1/32, F5 32/32, F7 3/32
-- ~SRB-2026-06-26-1045-arr8~
-  F1 10/32, F4 1/32, F5 32/32, F7 5/32, F8 1/32
 - ~SRB-2026-06-26-1030-arr12~
   only solves F5 and F1 1-ish
-- ~CHT-2026-06-28-2315~
+- ~SRB-2026-06-26-1045-arr8~ keep
+  F1 10/32, F4 1/32, F5 32/32, F7 5/32, F8 1/32
+- ~CHT-2026-06-28-2315~ keep
+  solve F1, F4, F7, F8
   solves F8 13/32, but not F2
+- ~CHT-2026-07-13-1130~ keep
+  solves F1, F2, F4, F5, F7
+  solves F2 but not F8
+- ~SRB-2026-07-13-1130~ keep
+  solves F1, F4, F5, F7
+  doesn't solve F2 or F8
+** Another round or two
+I've set up specs stamped 2026-07-13-1130, both CHT (cheating only on the operation inventory) and SRB (using SRBench inventory).
+I'm trying to improve performance on the rational functions in the Strogatz benchmark.
+I think the overall lesson here is that different configurations lead to success or failure on different problems and there really isn't a one-size-fits-all configuration.
 
 * To implement
 ** DONE Make operation weight configuration available to scikit-learn
@@ -108,13 +122,89 @@ That might result in fewer situations where the genome computes a bunch of zeros
 CLOSED: [2026-07-03 Fri 15:06]
 This now lets me set up exactly the same operation inventory as SRBench.
 
-* To put in the write-up
+* To include in the article
 ** TODO Key details of the implementation
 - [ ] Sorting so that old agents fall off the bottom
 - [ ] Random initialization using only parameter and input indices
 - [ ] Weighting of operations during mutations
 ** TODO Demo with sin function
 How the noise and domain make it nearly impossible to distinguish \(\sin x\) from so many other functions.
+** TODO Partial credit
+Some functions like $F_2$ and $F_3$ from cosmology admit no partial credit, so they are very hard to find.
+In this case, it's a good idea to run lots of samples with short evolution time and hope that the right term shows up somewhere.
 ** TODO Details of the SRB-family of run sets
 ** TODO Some details of the CHT-family
 These can show how much the operation inventory affects the success rate.
+** TODO Fuzz, cruft
+Fuzz is a term multiplied by a small constant.
+These show up because when solving for $p$'s and $b$'s, sometimes a number that should be zero comes out instead with a small magnitude.
+Cruft is where there's a wrong function, for example, an $x^2$ that should be a $2(1 - \cos x)$ or conversely.
+Defuzzing is where I go through the expression tree and convert tiny constants to 0.
+I'm kind of stuck with the cruft.
+Correctness ends up being subjective:
+What if you can leave out a fairly large fuzz term, but the remaining coefficients are pretty far off?
+Then it's hard to document:
+You have to record a judgment call for every sample.
+Also, a long evolution time gives Jessamine time to eliminate cruft.
+** TODO Inventory intuition
+If the inventory is too big, the search wastes time considering functions that can't possibly be correct, and risks incorporating cruft.
+If the inventory is too small, it will have to find an approximation (series, rational function) because the necessary function isn't available.
+** TODO No single perfect configuration
+Some kind of adaptive search, VNS, or sweeping configuration is necessary to solve everything.
+** TODO Numerical thresholds
+Not easy to set because the solving process for a correct expression might vary in how low it can get the MSE.
+
+* Details for specific benchmarks to include in the article
+** Function with noise: $\sin$
+Talk about single period, how $\lambda_\mathrm{op}$ needs to be the same magnitude as the noise, so for most of what follows, we'll work only on clean data.
+In practice, you should estimate the noise and configure symbolic regression accordingly, otherwise, it will fit the noise.
+Or incorporate a train-test split into the fitness function.
+** Strogatz
+Need
+*** Polynomials
+are no problem.
+*** Rational functions
+can be a problem.
+Mainly the challenge with the ~d_bacres~ data sets is that they are from trajectories that don't pass close to $x = 0$, so there's minimal evidence that a series in $1/x$ is incorrect.
+I did find a way to cheat to make a couple of perfect solutions show up.
+*** Trig functions
+are mostly no problem.
+This works largely thanks to two important features:
+- initialization using only indices for $x_j$s and $p_j$s as operands
+- weighting of mutations so that we don't get so many nested trig functions
+The ~shearflow~ data sets are hard using the SRB operation inventory because it has to discover $\cos(y) \cos(x) / \sin(y)$, which requires a multiplication layer and a division layer.
+If you "cheat" and include $\cot$ in the operation inventory, success happens much more often, since $\cot(y) \cos(x)$ requires only one multiplication layer.
+Additional complications are that sometimes Jessamine finds these almost-right expressions:
+- a translation identity, $\sin(x + p)$ instead of $\cos(x)$, and then it solves for $p \approx \pi/2$
+- a Pythagorean identity
+** Friedman F1
+- f1a: 100 points, no distractors
+  SRB does okay, CHT does better
+- f1b: 1000 points, no distractors
+  SRB finds it sometimes, CHT is a bit better.
+  More data apparently slows things down in this case, searches fewer islands.
+- f1c: 100 points, 5 distractors
+  SRB finds one weird almost-solution using $\cos$, CHT finds 4, plus a few with that same weird almost-solution
+- f1d: 1000 points, 5 distractors
+  SRB can't do this one, CHT solves only once
+The lesson here is that needle-in-a haystack-problems are harder than I thought they would be.
+** Cosmology F
+*** Polynomials
+are not much problem.
+After de-fuzzing, SRB2 solves $F_1$ perfectly except for 1 sample.
+CHT solves $F_1$ perfectly every time.
+*** Rational functions
+are not great.
+The only one is $F_4$, and SRB2 gets it correct only once or twice.
+CHT solves it perfectly about 10 or 12 times.
+*** Medium hard: $F_5$
+This one requires finding two transcendental terms.
+SRB gets all but two samples exactly correct.
+*** Hard: $F_2$
+This one is surprisingly difficult.
+CHT2 solved it once, no other correct solutions.
+The challenge seems to be that a $b \sin (p x)$ component alone is not a good component of a solution, so the search has to land exactly on $b x \sin (p x)$, which is unlikely.
+*** Hard: $F_8$
+CHT3 solved it 10 times, but otherwise, nothing worked.
+*** Too hard: $F_3$, $F_6$
+Nope.
