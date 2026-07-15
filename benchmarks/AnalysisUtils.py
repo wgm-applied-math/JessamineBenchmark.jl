@@ -6,6 +6,10 @@ import seaborn as sns
 import sympy
 import sympy.abc
 
+sns.set_theme("notebook", style="darkgrid")
+
+
+
 
 def parse_if_needed(expr_or_str) -> sympy.Expr:
     """Parse a string into a sympy expression, or return the expression if it is already a sympy expression."""
@@ -78,9 +82,21 @@ def complexity(expr):
         c += 1
     return c
 
-def count_by_threshold(df, threshold=1.0e-19):
+def count_by_threshold(df, threshold=1.0e-19, groupby="data_set"):
     """Count the number of rows in a dataframe where the 'mse' column is less than the given threshold."""
-    return (df["mse"] < threshold).groupby(level="data_set").sum()
+    comparisons = df["mse"] < threshold
+    if groupby:
+        return comparisons.groupby(level=groupby).sum()
+    return comparisons.sum()
+
+def savefig(fig, file_stem=None, picture_dir=Path("Generated/Pictures")):
+    """Save a figure to the given directory with the given file stem."""
+    if file_stem is not None:
+        picture_dir = Path(picture_dir)
+        picture_dir.mkdir(parents=True, exist_ok=True)
+        fig.savefig((picture_dir / file_stem).with_suffix(".png"), dpi=600)
+        fig.savefig((picture_dir / file_stem).with_suffix(".svg"))
+        fig.savefig((picture_dir / file_stem).with_suffix(".pdf"))
 
 def complexity_mse_displot(data, spiffy_titles=None, complexity_col="complexity", mse_col="mse",
                      complexity_binwidth=20, mse_binwidth=0.8, complexity_lims=(0, 449), mse_lims=(1.0e-12, 0.99e2),
@@ -103,10 +119,5 @@ def complexity_mse_displot(data, spiffy_titles=None, complexity_col="complexity"
         for ax, title in zip(fig.axes.flat, spiffy_titles):
             ax.set_title(title)
     fig.set(**kwargs)
-    if file_stem is not None:
-        picture_dir = Path(picture_dir)
-        picture_dir.mkdir(parents=True, exist_ok=True)
-        fig.savefig((picture_dir / file_stem).with_suffix(".png"), dpi=600)
-        fig.savefig((picture_dir / file_stem).with_suffix(".svg"))
-        fig.savefig((picture_dir / file_stem).with_suffix(".pdf"))
+    savefig(fig, file_stem=file_stem, picture_dir=picture_dir)
     return fig
