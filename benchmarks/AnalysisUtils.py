@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -79,3 +81,32 @@ def complexity(expr):
 def count_by_threshold(df, threshold=1.0e-19):
     """Count the number of rows in a dataframe where the 'mse' column is less than the given threshold."""
     return (df["mse"] < threshold).groupby(level="data_set").sum()
+
+def complexity_mse_displot(data, spiffy_titles=None, complexity_col="complexity", mse_col="mse",
+                     complexity_binwidth=20, mse_binwidth=0.8, complexity_lims=(0, 449), mse_lims=(1.0e-12, 0.99e2),
+                     picture_dir=Path("Generated/Pictures"),
+                     file_stem=None,
+                     **kwargs):
+    """Create a displot of complexity vs mse for each data set in the given dataframe."""
+    mse_lims_log = (np.log10(mse_lims[0]), np.log10(mse_lims[1]))
+    fig = sns.displot(data=data,
+                      x=complexity_col,
+                      y=mse_col,
+                      col="data_set",
+                      col_wrap=2,
+                      log_scale=[False, True],
+                      binwidth=(complexity_binwidth, mse_binwidth),
+                      binrange=(complexity_lims, mse_lims_log),
+                      )
+    fig.set(xlim=complexity_lims, ylim=mse_lims)
+    if spiffy_titles is not None:
+        for ax, title in zip(fig.axes.flat, spiffy_titles):
+            ax.set_title(title)
+    fig.set(**kwargs)
+    if file_stem is not None:
+        picture_dir = Path(picture_dir)
+        picture_dir.mkdir(parents=True, exist_ok=True)
+        fig.savefig((picture_dir / file_stem).with_suffix(".png"), dpi=600)
+        fig.savefig((picture_dir / file_stem).with_suffix(".svg"))
+        fig.savefig((picture_dir / file_stem).with_suffix(".pdf"))
+    return fig
