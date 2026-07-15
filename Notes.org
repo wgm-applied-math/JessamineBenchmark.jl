@@ -179,15 +179,20 @@ Additional complications are that sometimes Jessamine finds these almost-right e
 - a Pythagorean identity
 ** Friedman F1
 - f1a: 100 points, no distractors
-  SRB does okay, CHT does better
+  SRB does okay 17+2.
+  CHT does better 25.
 - f1b: 1000 points, no distractors
-  SRB finds it sometimes, CHT is a bit better.
+  SRB finds it sometimes 4+1.
+  CHT is a bit better 7.
   More data apparently slows things down in this case, searches fewer islands.
 - f1c: 100 points, 5 distractors
-  SRB finds one weird almost-solution using $\cos$, CHT finds 4, plus a few with that same weird almost-solution
+  SRB finds it 6+2.
+  CHT finds it 4.
 - f1d: 1000 points, 5 distractors
-  SRB can't do this one, CHT solves only once
-The lesson here is that needle-in-a haystack-problems are harder than I thought they would be.
+  SRB can't do this one, only gets close once.
+  CHT solves only once.
+- Needle-in-a haystack-problems are harder than I thought they would be.
+- Sub-setting doesn't seem to make much difference in this case.
 ** Cosmology F
 *** Polynomials
 are not much problem.
