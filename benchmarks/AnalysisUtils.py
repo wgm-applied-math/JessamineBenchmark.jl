@@ -9,8 +9,6 @@ import sympy.abc
 sns.set_theme("notebook", style="darkgrid")
 
 
-
-
 def parse_if_needed(expr_or_str) -> sympy.Expr:
     """Parse a string into a sympy expression, or return the expression if it is already a sympy expression."""
     if isinstance(expr_or_str, str):
@@ -62,6 +60,7 @@ def generous_simplify(expr, tolerance=5e-3):
     expr = replace_near_integer(expr, tolerance=tolerance)
     return expr
 
+
 def apply_sym(expr, x, x_sym=sympy.abc.x):
     """Apply a sympy expression to a numeric value x, which can be an array."""
     expr = parse_if_needed(expr)
@@ -82,12 +81,14 @@ def complexity(expr):
         c += 1
     return c
 
+
 def count_by_threshold(df, threshold=1.0e-19, groupby="data_set"):
     """Count the number of rows in a dataframe where the 'mse' column is less than the given threshold."""
     comparisons = df["mse"] < threshold
     if groupby:
         return comparisons.groupby(level=groupby).sum()
     return comparisons.sum()
+
 
 def savefig(fig, file_stem=None, picture_dir=Path("Generated/Pictures")):
     """Save a figure to the given directory with the given file stem."""
@@ -98,22 +99,32 @@ def savefig(fig, file_stem=None, picture_dir=Path("Generated/Pictures")):
         fig.savefig((picture_dir / file_stem).with_suffix(".svg"))
         fig.savefig((picture_dir / file_stem).with_suffix(".pdf"))
 
-def complexity_mse_displot(data, spiffy_titles=None, complexity_col="complexity", mse_col="mse",
-                     complexity_binwidth=20, mse_binwidth=0.8, complexity_lims=(0, 449), mse_lims=(1.0e-12, 0.99e2),
-                     picture_dir=Path("Generated/Pictures"),
-                     file_stem=None,
-                     **kwargs):
+
+def complexity_mse_displot(
+    data,
+    spiffy_titles=None,
+    complexity_col="complexity",
+    mse_col="mse",
+    complexity_binwidth=20,
+    mse_binwidth=0.8,
+    complexity_lims=(0, 449),
+    mse_lims=(1.0e-12, 0.99e2),
+    picture_dir=Path("Generated/Pictures"),
+    file_stem=None,
+    **kwargs
+):
     """Create a displot of complexity vs mse for each data set in the given dataframe."""
     mse_lims_log = (np.log10(mse_lims[0]), np.log10(mse_lims[1]))
-    fig = sns.displot(data=data,
-                      x=complexity_col,
-                      y=mse_col,
-                      col="data_set",
-                      col_wrap=2,
-                      log_scale=[False, True],
-                      binwidth=(complexity_binwidth, mse_binwidth),
-                      binrange=(complexity_lims, mse_lims_log),
-                      )
+    fig = sns.displot(
+        data=data,
+        x=complexity_col,
+        y=mse_col,
+        col="data_set",
+        col_wrap=2,
+        log_scale=[False, True],
+        binwidth=(complexity_binwidth, mse_binwidth),
+        binrange=(complexity_lims, mse_lims_log),
+    )
     fig.set(xlim=complexity_lims, ylim=mse_lims)
     if spiffy_titles is not None:
         for ax, title in zip(fig.axes.flat, spiffy_titles):
