@@ -114,6 +114,13 @@ def complexity_mse_displot(
     **kwargs
 ):
     """Create a displot of complexity vs mse for each data set in the given dataframe."""
+    assert mse_lims[0] < mse_lims[1], "mse_lims must be in increasing order"
+    assert complexity_lims[0] < complexity_lims[1], "complexity_lims must be in increasing order"
+    assert complexity_binwidth > 0, "complexity_binwidth must be positive"
+    assert mse_binwidth > 0, "mse_binwidth must be positive"
+    assert complexity_col in data.columns, f"{complexity_col} not in dataframe columns"
+    assert mse_col in data.columns, f"{mse_col} not in dataframe columns"
+
     mse_lims_log = (np.log10(mse_lims[0]), np.log10(mse_lims[1]))
     fig = sns.displot(
         data=data,
@@ -121,7 +128,7 @@ def complexity_mse_displot(
         y=mse_col,
         col="data_set",
         col_wrap=2,
-        log_scale=[False, True],
+        log_scale=(False, True),
         binwidth=(complexity_binwidth, mse_binwidth),
         binrange=(complexity_lims, mse_lims_log),
     )
