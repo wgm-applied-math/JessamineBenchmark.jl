@@ -89,6 +89,7 @@ Then again, F4 has \(x^4\), so it takes some fiddling for Jessamine to find it.
 ** Another round or two
 I've set up specs stamped 2026-07-13-1130, both CHT (cheating only on the operation inventory) and SRB (using SRBench inventory).
 I'm trying to improve performance on the rational functions in the Strogatz benchmark.
+The ~bacres~ problems are hard mostly because of the data, not the search parameters.
 I think the overall lesson here is that different configurations lead to success or failure on different problems and there really isn't a one-size-fits-all configuration.
 
 * To implement
@@ -130,15 +131,15 @@ This now lets me set up exactly the same operation inventory as SRBench.
 ** TODO Demo with sin function
 How the noise and domain make it nearly impossible to distinguish \(\sin x\) from so many other functions.
 ** TODO Partial credit
-Some functions like $F_2$ and $F_3$ from cosmology admit no partial credit, so they are very hard to find.
+Some functions like \(F_2\) and \(F_3\) from cosmology admit no partial credit, so they are very hard to find.
 In this case, it's a good idea to run lots of samples with short evolution time and hope that the right term shows up somewhere.
 ** TODO Details of the SRB-family of run sets
 ** TODO Some details of the CHT-family
 These can show how much the operation inventory affects the success rate.
 ** TODO Fuzz, cruft
 Fuzz is a term multiplied by a small constant.
-These show up because when solving for $p$'s and $b$'s, sometimes a number that should be zero comes out instead with a small magnitude.
-Cruft is where there's a wrong function, for example, an $x^2$ that should be a $2(1 - \cos x)$ or conversely.
+These show up because when solving for \(p\)'s and \(b\)'s, sometimes a number that should be zero comes out instead with a small magnitude.
+Cruft is where there's a wrong function, for example, an \(x^2\) that should be a \(2(1 - \cos x)\) or conversely.
 Defuzzing is where I go through the expression tree and convert tiny constants to 0.
 I'm kind of stuck with the cruft.
 Correctness ends up being subjective:
@@ -155,8 +156,8 @@ Some kind of adaptive search, VNS, or sweeping configuration is necessary to sol
 Not easy to set because the solving process for a correct expression might vary in how low it can get the MSE.
 
 * Details for specific benchmarks to include in the article
-** Function with noise: $\sin$
-Talk about single period, how $\lambda_\mathrm{op}$ needs to be the same magnitude as the noise, so for most of what follows, we'll work only on clean data.
+** Function with noise: \(\sin\)
+Talk about single period, how \(\lambda_\mathrm{op}\) needs to be the same magnitude as the noise, so for most of what follows, we'll work only on clean data.
 In practice, you should estimate the noise and configure symbolic regression accordingly, otherwise, it will fit the noise.
 Or incorporate a train-test split into the fitness function.
 ** Strogatz
@@ -165,17 +166,17 @@ Need
 are no problem.
 *** Rational functions
 can be a problem.
-Mainly the challenge with the ~d_bacres~ data sets is that they are from trajectories that don't pass close to $x = 0$, so there's minimal evidence that a series in $1/x$ is incorrect.
+Mainly the challenge with the ~d_bacres~ data sets is that they are from trajectories that don't pass close to \(x = 0\), so there's minimal evidence that a series in \(1/x\) is incorrect.
 I did find a way to cheat to make a couple of perfect solutions show up.
 *** Trig functions
 are mostly no problem.
 This works largely thanks to two important features:
-- initialization using only indices for $x_j$s and $p_j$s as operands
+- initialization using only indices for \(x_j\)s and \(p_j\)s as operands
 - weighting of mutations so that we don't get so many nested trig functions
-The ~shearflow~ data sets are hard using the SRB operation inventory because it has to discover $\cos(y) \cos(x) / \sin(y)$, which requires a multiplication layer and a division layer.
-If you "cheat" and include $\cot$ in the operation inventory, success happens much more often, since $\cot(y) \cos(x)$ requires only one multiplication layer.
+The ~shearflow~ data sets are hard using the SRB operation inventory because it has to discover \(\cos(y) \cos(x) / \sin(y)\), which requires a multiplication layer and a division layer.
+If you "cheat" and include \(\cot\) in the operation inventory, success happens much more often, since \(\cot(y) \cos(x)\) requires only one multiplication layer.
 Additional complications are that sometimes Jessamine finds these almost-right expressions:
-- a translation identity, $\sin(x + p)$ instead of $\cos(x)$, and then it solves for $p \approx \pi/2$
+- a translation identity, \(\sin(x + p)\) instead of \(\cos(x)\), and then it solves for \(p \approx \pi/2\)
 - a Pythagorean identity
 ** Friedman F1
 - f1a: 100 points, no distractors
@@ -196,20 +197,26 @@ Additional complications are that sometimes Jessamine finds these almost-right e
 ** Cosmology F
 *** Polynomials
 are not much problem.
-After de-fuzzing, SRB2 solves $F_1$ perfectly except for 1 sample.
-CHT solves $F_1$ perfectly every time.
+After de-fuzzing, SRB2 solves \(F_1\) perfectly except for 1 sample.
+CHT solves \(F_1\) perfectly every time.
 *** Rational functions
 are not great.
-The only one is $F_4$, and SRB2 gets it correct only once or twice.
+The only one is \(F_4\), and SRB2 gets it correct only once or twice.
 CHT solves it perfectly about 10 or 12 times.
-*** Medium hard: $F_5$
+*** Medium hard: \(F_5\)
 This one requires finding two transcendental terms.
 SRB gets all but two samples exactly correct.
-*** Hard: $F_2$
+*** Hard: \(F_2\)
 This one is surprisingly difficult.
 CHT2 solved it once, no other correct solutions.
-The challenge seems to be that a $b \sin (p x)$ component alone is not a good component of a solution, so the search has to land exactly on $b x \sin (p x)$, which is unlikely.
-*** Hard: $F_8$
+The challenge seems to be that a \(b \sin (p x)\) component alone is not a good component of a solution, so the search has to land exactly on \(b x \sin (p x)\), which is unlikely.
+*** Hard: \(F_8\)
 CHT3 solved it 10 times, but otherwise, nothing worked.
-*** Too hard: $F_3$, $F_6$
+*** Too hard: \(F_3\), \(F_6\)
 Nope.
+
+
+# Local Variables:
+# mode: org
+# eval: (org-indent-mode 1)
+# End:
