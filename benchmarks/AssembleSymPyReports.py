@@ -17,7 +17,9 @@ def make_all_reports():
             traceback.print_exc()
             # raise
     df = pd.DataFrame(reports)
-    return df[["run_set", "data_set", "sample_num", "rating", "mse", "expr_original_syms", "expr"]]
+    return df[["run_set", "data_set", "sample_num", "rating", "mse",
+               "complexity", "complexity_defuzz",
+               "expr", "expr_original_syms", "expr_original_syms_defuzz"]]
 
 def main():
     df = make_all_reports()
