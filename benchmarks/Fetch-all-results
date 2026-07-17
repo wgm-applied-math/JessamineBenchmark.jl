@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for corpus in "sin" "Friedman-1" "Strogatz" "cosmology"
+do
+    pushd "$corpus"
+    ./Fetch-results
+    popd
+done
