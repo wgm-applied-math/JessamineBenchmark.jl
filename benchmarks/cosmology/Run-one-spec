@@ -1,5 +1,1 @@
-#!/bin/bash
-
-julia --project=@. -q -m JessamineCLI.AppSimple \
-    sr \
-    --config-file "$1"
+../Run-one-spec

@@ -39,10 +39,12 @@ find . \
 for link in \
     AssembleSymPyReports.py \
     AnalysisUtils.py \
+    Debug-one-spec \
     Fetch-data \
     Fetch-results \
     Module-Assemble-results.nu \
     QuickReport.py \
+    Run-one-spec \
     SJob-Run-some-specs \
     SJob-Run-SymPy-reports \
     SymPyReport.py

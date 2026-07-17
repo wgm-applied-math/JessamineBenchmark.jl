@@ -1,7 +1,1 @@
-#!/bin/bash
-
-# export JULIA_DEBUG="JessamineCLI.AppSimple,JessamineCLI"
-julia --project=@. -q -m JessamineCLI.AppSimple \
-    sr \
-    --config-file "$1"
-# --verbosity 0 \
+../Run-one-spec

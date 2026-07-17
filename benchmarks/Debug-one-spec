@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Run a spec with all sorts of debugging options enabled
+
+export JULIA_DEBUG="JessamineCLI.AppSimple,JessamineCLI,JessamineSymbolics,Jessamine"
+julia --project=@. -q -m JessamineCLI.AppSimple \
+    sr \
+    --config-file "$1" \
+    --verbosity 2
