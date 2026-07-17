@@ -144,11 +144,11 @@ def make_report(config, verbose=False):
             report = run_with_time_limit(60, try_one_discovery, r, X, y, input_columns, verbose)
             break
         except Exception as e:
-            print("\nCaught exception, skipping:")
+            print(f"\nCaught exception, skipping: {output_file_stem}")
             print(e)
 
     if report is None:
-        raise NoSolutionError()
+        raise NoSolutionError(f"No report for {output_file_stem}")
 
     return report | {
             "run_set": run_set,
