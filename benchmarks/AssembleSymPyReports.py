@@ -1,3 +1,13 @@
+#!/bin/python
+
+# Script to go over all config files in Specs/, read the
+# corresponding data files in Generated/, and produce
+# Generated/full-report.csv with all the essential information
+# about each sample.
+#
+# Run this after SJob-Run-SymPy-reports.
+
+
 import pandas as pd
 from pathlib import Path
 import traceback

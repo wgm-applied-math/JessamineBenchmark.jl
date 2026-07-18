@@ -42,6 +42,7 @@ for link in \
     Debug-one-spec \
     Fetch-data \
     Fetch-results \
+    MakeSummaries.py \
     Module-Assemble-results.nu \
     QuickReport.py \
     Run-one-spec \

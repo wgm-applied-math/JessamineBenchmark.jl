@@ -141,15 +141,33 @@ def complexity_mse_displot(
     return fig
 
 
-def threshold_table(data):
-    """Make a DataFrame with counts of how many samples are <= various complexity and MSE thresholds."""
-    red = data[["mse", "complexity_defuzz"]].copy()
+def mse_threshold_table(data):
+    """Make a DataFrame with counts of how many samples are <= various MSE thresholds."""
+    red = data[["mse"]].copy()
     agg_items = {}
     for j in range(0, 33, 4):
         key = f"mse{j:02d}"
         red[key] = red.mse <= 10.0 ** (-j)
         agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
-    for j in range(400, 0, 50):
+    return (red
+            .groupby(["run_set", "data_set"])
+            .agg(
+                mse_min=pd.NamedAgg(column="mse", aggfunc="min"),
+                mse_med=pd.NamedAgg(column="mse", aggfunc="median"),
+                mse_max=pd.NamedAgg(column="mse", aggfunc="max"),
+                **agg_items
+            ))
+
+
+def complexity_threshold_table(data):
+    """Make a DataFrame with counts of how many samples are <= various complexity thresholds."""
+    red = data[["complexity_defuzz"]].copy()
+    agg_items = {}
+    for j in range(400, 0, -50):
+        key = f"cplx{j:03d}"
+        red[key] = red.complexity_defuzz <= j
+        agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
+    for j in range(50, 0, -10):
         key = f"cplx{j:03d}"
         red[key] = red.complexity_defuzz <= j
         agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
@@ -159,8 +177,5 @@ def threshold_table(data):
                 cplx_min=pd.NamedAgg(column="complexity_defuzz", aggfunc="min"),
                 cplx_med=pd.NamedAgg(column="complexity_defuzz", aggfunc="median"),
                 cplx_max=pd.NamedAgg(column="complexity_defuzz", aggfunc="max"),
-                mse_min=pd.NamedAgg(column="mse", aggfunc="min"),
-                mse_med=pd.NamedAgg(column="mse", aggfunc="median"),
-                mse_max=pd.NamedAgg(column="mse", aggfunc="max"),
                 **agg_items
             ))
