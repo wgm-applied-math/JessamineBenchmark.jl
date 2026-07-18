@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Script to fetch result files from the cluster.
+
+remote_host=hpc.cofc.edu
+here=$(realpath --relative-to "$HOME" .)
+# The extra . as in "$here/./" is important.  To rsync it means
+# files are copied with their path relative to the current
+# directory, and all intermediate directories are created along
+# the way.  The extra . tells it what remote directory to map to
+# the current directory.
+rsync -avR --exclude="log.txt" --exclude="std*.txt" $remote_host:"$here/./Generated/*.csv" $remote_host:"$here/./Generated/*.tex" .

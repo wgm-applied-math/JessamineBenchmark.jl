@@ -23,7 +23,7 @@ run_sets=(
 for run_set in "${run_sets[@]}"
 do
     echo "Working on $run_set"
-    source ../SModule-Run-specs-scattered
+    source SModule-Run-specs-scattered
 done
 
 wait

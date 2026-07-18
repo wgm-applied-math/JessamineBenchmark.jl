@@ -23,10 +23,10 @@ super_specs_base=(
 run_set="$run_set_base"
 echo "== Working on $run_set"
 super_specs=( "${super_specs_base[@]}")
-source ../Module-Make-specs
+source Module-Make-specs
 
 run_set="$run_set_base-subset"
 data_sets=( f1{b,d} )
 echo "== Working on $run_set"
 super_specs=( subset-100 "${super_specs_base[@]}")
-source ../Module-Make-specs
+source Module-Make-specs

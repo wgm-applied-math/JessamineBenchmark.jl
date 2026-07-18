@@ -1,1 +1,1 @@
-../QuickReport.py
+../Utils/QuickReport.py

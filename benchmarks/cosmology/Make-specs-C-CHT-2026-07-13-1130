@@ -19,22 +19,22 @@ super_specs_base=(
 
 super_specs=( polynomial polynomial-seed "${super_specs_base[@]}" )
 data_sets=( C2a )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( rational rational-seed "${super_specs_base[@]}" )
 data_sets=( C{3g,3h,5a,5b,5c,5d,5e,5f} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( exp-log exp-log-seed "${super_specs_base[@]}" )
 data_sets=( C{1a,1b,1c,1d,2b} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( exp-log-trig exp-log-trig-seed "${super_specs_base[@]}" )
 data_sets=( C{6a,6b,6c} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 # These have no known ground truth, so I'll run them with the baseline,
 # which has the progressive operation inventory.
 super_specs=( "${super_specs_base[@]}" )
 data_sets=( C3{a..f} C4{a..e} )
-source ../Module-Make-specs
+source Module-Make-specs

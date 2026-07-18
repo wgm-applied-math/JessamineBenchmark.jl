@@ -11,12 +11,12 @@ data_set_ext=.txt
 
 super_specs=( short baseline this-corpus )
 data_sets=( d_{lv,vdp}{1,2} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( long baseline this-corpus )
 data_sets=( d_{bacres,predprey}{1,2} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( long baseline this-corpus )
 data_sets=( d_{barmag,glider,sfgrid,shearflow}{1,2} )
-source ../Module-Make-specs
+source Module-Make-specs

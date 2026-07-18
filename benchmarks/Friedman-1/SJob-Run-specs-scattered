@@ -19,7 +19,7 @@ run_sets=(
 )
 for run_set in "${run_sets[@]}"
 do
-    source ../SModule-Run-specs-scattered
+    source SModule-Run-specs-scattered
 done
 
 data_sets=( f1{b,d} )
@@ -30,7 +30,7 @@ run_sets=(
 )
 for run_set in "${run_sets[@]}"
 do
-    source ../SModule-Run-specs-scattered
+    source SModule-Run-specs-scattered
 done
 
 wait

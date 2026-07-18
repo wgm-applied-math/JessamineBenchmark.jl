@@ -1,9 +1,16 @@
 #!/bin/bash
 
 # Script to set up links in a benchmark subdirectory.
+# These links point to files in ./Utils.
+#
 # Give the directory path relative to this directory
 # as an argument to this script.
-# Also cleans out an existing bad links
+#
+# Also cleans out any existing bad links.
+#
+# The idea is that I can replace a link with a custom file in a
+# benchmark directory if that corpus doesn't quite line up with
+# how all the others are structured.
 
 subdir="$1"
 
@@ -37,23 +44,25 @@ find . \
     -exec rm '{}' \;
 
 for link in \
-    AssembleSymPyReports.py \
     AnalysisUtils.py \
+    AssembleSymPyReports.py \
     Debug-one-spec \
     Fetch-data \
     Fetch-results \
     MakeSummaries.py \
     Module-Assemble-results.nu \
+    Module-Make-specs \
     QuickReport.py \
     Run-one-spec \
     SJob-Run-some-specs \
     SJob-Run-SymPy-reports \
+    SModule-Run-specs-scattered \
     SymPyReport.py
 do
-    if [ ! -f ../"$link" ]
+    if [ ! -f ../Utils/"$link" ]
     then
         echo "Bad link: $link"
         exit 1
     fi
-    ln -vsf ../"$link" .
+    ln -vsf ../Utils/"$link" .
 done

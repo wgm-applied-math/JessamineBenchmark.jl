@@ -27,20 +27,20 @@ super_specs_base=(
 
 super_specs=( polynomial polynomial-seed "${super_specs_base[@]}" )
 data_sets=( F{1,4} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( rational rational-seed "${super_specs_base[@]}" )
 data_sets=( F7 )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( trig trig-seed "${super_specs_base[@]}" )
 data_sets=( F2 )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( exp-log-trig exp-log-trig-seed "${super_specs_base[@]}" )
 data_sets=( F{3,5} )
-source ../Module-Make-specs
+source Module-Make-specs
 
 super_specs=( exp-log exp-log-seed "${super_specs_base[@]}" )
 data_sets=( F{6,8} )
-source ../Module-Make-specs
+source Module-Make-specs
