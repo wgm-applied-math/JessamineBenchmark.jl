@@ -139,3 +139,28 @@ def complexity_mse_displot(
     fig.set(**kwargs)
     savefig(fig, file_stem=file_stem, picture_dir=picture_dir)
     return fig
+
+
+def threshold_table(data):
+    """Make a DataFrame with counts of how many samples are <= various complexity and MSE thresholds."""
+    red = data[["mse", "complexity_defuzz"]].copy()
+    agg_items = {}
+    for j in range(0, 33, 4):
+        key = f"mse{j:02d}"
+        red[key] = red.mse <= 10.0 ** (-j)
+        agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
+    for j in range(400, 0, 50):
+        key = f"cplx{j:03d}"
+        red[key] = red.complexity_defuzz <= j
+        agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
+    return (red
+            .groupby(["run_set", "data_set"])
+            .agg(
+                cplx_min=pd.NamedAgg(column="complexity_defuzz", aggfunc="min"),
+                cplx_med=pd.NamedAgg(column="complexity_defuzz", aggfunc="median"),
+                cplx_max=pd.NamedAgg(column="complexity_defuzz", aggfunc="max"),
+                mse_min=pd.NamedAgg(column="mse", aggfunc="min"),
+                mse_med=pd.NamedAgg(column="mse", aggfunc="median"),
+                mse_max=pd.NamedAgg(column="mse", aggfunc="max"),
+                **agg_items
+            ))
