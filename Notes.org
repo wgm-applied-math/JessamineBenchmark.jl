@@ -161,7 +161,24 @@ Talk about single period, how \(\lambda_\mathrm{op}\) needs to be the same magni
 In practice, you should estimate the noise and configure symbolic regression accordingly, otherwise, it will fit the noise.
 Or incorporate a train-test split into the fitness function.
 ** Strogatz
-Need
+*** Run sets
+**** ~srb1:~ SRB-2026-06-25-1715-arr8
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- Baseline otherwise
+**** ~srb2:~ SRB-2026-07-13-1130 :primary:
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
+Only the number of generations differs compared to ~srb1~.
+Results are slightly better for this configuration compared to ~srb1~
+**** ~cht1:~ CHT-2026-07-02-1730
+Same as ~srb1~ but with problem-specific operation inventory.
+**** ~cht2:~ CHT-2026-07-13-1130 :primary:
+Same as ~srb2~ but with problem-specific operation inventory.
 *** Polynomials
 are no problem.
 *** Rational functions
@@ -179,22 +196,76 @@ Additional complications are that sometimes Jessamine finds these almost-right e
 - a translation identity, \(\sin(x + p)\) instead of \(\cos(x)\), and then it solves for \(p \approx \pi/2\)
 - a Pythagorean identity
 ** Friedman F1
-- f1a: 100 points, no distractors
+*** Run sets
+**** SRB-2026-06-25-1715-arr8
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- Baseline otherwise
+**** SRB-2026-06-25-1715-subset
+- Same as SRB-2026-06-25-1715-arr8 but trains each island on random subsets of 100 points
+**** SRB-2026-07-13-1130                                         :primary:
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
+Only the number of generations differs compared to SRB-2026-06-25-1715-arr8.
+Slightly better than SRB-2026-06-25-1715-arr8.
+**** SRB-2026-07-13-1130-subset
+Same as SRB-2026-07-13-1130 but trains each island on random subsets of 100 points
+**** CHT-2026-06-25-1700
+Same as SRB-2026-06-25-1715-arr8 but with trig inventory
+*** f1a: 100 points, no distractors
   SRB does okay 17+2.
   CHT does better 25.
-- f1b: 1000 points, no distractors
+*** f1b: 1000 points, no distractors
   SRB finds it sometimes 4+1.
   CHT is a bit better 7.
   More data apparently slows things down in this case, searches fewer islands.
-- f1c: 100 points, 5 distractors
+*** f1c: 100 points, 5 distractors
   SRB finds it 6+2.
   CHT finds it 4.
-- f1d: 1000 points, 5 distractors
+*** f1d: 1000 points, 5 distractors
   SRB can't do this one, only gets close once.
   CHT solves only once.
+*** Summary
 - Needle-in-a haystack-problems are harder than I thought they would be.
 - Sub-setting doesn't seem to make much difference in this case.
+- There's really no need for the CHT runs since the SRBench operation inventory includes everything necessary.  The fact that the CHT runs do slightly better suggests that the 100 generations is wasting time on this problem, which makes sense given the function's form.
 ** Cosmology F
+*** Run sets
+**** ~srb1:~ SRB-2026-06-26-1045
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- Baseline otherwise
+**** ~srb2:~  SRB-2026-07-13-1130
+- Array size 8
+- Genome time steps 4
+- SRBench operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
+Only the number of generations differs compared to SRB-2026-06-26-1045-arr8.
+**** ~cht1:~ CHT-2026-07-02-1845
+- High mutation rate h2
+- Mutation weights 3
+- Array size 8
+- Genome time steps 3
+- Problem-specific operation inventory
+**** ~cht2:~ CHT-2026-07-13-1130
+- Array size 8
+- Genome time steps 3
+- 100 generations exploration and simplification
+- Problem-specific operation inventory
+- Baseline otherwise
+So this is like ~srb2~ except for the operation inventory.
+**** ~cht3:~ CHT-2026-06-28-2315
+- High mutation rate h2
+- Mutation weights 3
+- Array size 4
+- Genome time steps 3
+I only kept this one because it solves $F_8$ once.
 *** Polynomials
 are not much problem.
 After de-fuzzing, SRB2 solves \(F_1\) perfectly except for 1 sample.
@@ -220,3 +291,35 @@ Nope.
 # mode: org
 # eval: (org-indent-mode 1)
 # End:
+** Cosmology C
+*** Run sets
+**** ~srb1:~ SRB-2026-06-26-1130-arr8
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- Baseline otherwise
+**** ~srb2:~  SRB-2026-07-13-1130
+- Array size 8
+- Genome time steps 4
+- SRBench operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
+The number of generations and genome timesteps differ compared to ~srb1~.
+**** ~cht1:~ CHT-2026-07-02-1845
+- High mutation rate h2
+- Mutation weights 3
+- Array size 8
+- Genome time steps 3
+- Problem-specific operation inventory
+**** ~cht2:~ CHT-2026-07-13-1130
+- Array size 8
+- Genome time steps 4
+- 100 generations exploration and simplification
+- Problem-specific operation inventory
+- Baseline otherwise
+**** ~cht3:~ CHT-2026-06-28-2315
+- High mutation rate h2
+- Mutation weights 3
+- Array size 4
+- Genome time steps 3
+I only kept this one because it solves $F_8$ once.
