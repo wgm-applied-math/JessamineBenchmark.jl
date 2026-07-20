@@ -2,7 +2,7 @@
 
 # Script to make specs for some srbench-like configurations.
 
-run_set_base=SRB-2026-07-13-1130
+run_set_base=SRB-2026-07-20-1300
 
 declare -a data_sets super_specs_base super_specs
 data_set_dir=Things-to-bench/datasets
