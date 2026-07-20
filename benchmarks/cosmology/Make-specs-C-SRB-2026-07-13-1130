@@ -20,5 +20,5 @@ super_specs_base=(
 
 run_set="$run_set_base"
 echo "== Working on $run_set =="
-super_specs=( genome-arr8 "${super_specs_base[@]}" )
+super_specs=( "${super_specs_base[@]}" )
 source Module-Make-specs
