@@ -247,6 +247,12 @@ Same as SRB-2026-06-25-1715-arr8 but with trig inventory
 - 100 generations exploration and simplification
 - Baseline otherwise
 Only the number of generations differs compared to SRB-2026-06-26-1045-arr8.
+**** ~srb3:~  SRB-2026-07-20-1300 :primary:
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
 **** ~cht1:~ CHT-2026-07-02-1845
 - High mutation rate h2
 - Mutation weights 3
@@ -266,6 +272,13 @@ So this is like ~srb2~ except for the operation inventory.
 - Array size 4
 - Genome time steps 3
 I only kept this one because it solves $F_8$ once.
+**** ~cht4:~  CHT-2026-07-20-1300                                :primary:
+- Array size 8
+- Genome time steps 3
+- Problem-specific operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
+Same as ~srb3~ except for the operation inventory.
 *** Polynomials
 are not much problem.
 After de-fuzzing, SRB2 solves \(F_1\) perfectly except for 1 sample.
@@ -305,6 +318,12 @@ Nope.
 - 100 generations exploration and simplification
 - Baseline otherwise
 The number of generations and genome timesteps differ compared to ~srb1~.
+**** ~srb3:~  SRB-2026-07-20-1300 :primary:
+- Array size 8
+- Genome time steps 3
+- SRBench operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
 **** ~cht1:~ CHT-2026-07-02-1845
 - High mutation rate h2
 - Mutation weights 3
@@ -323,3 +342,10 @@ The number of generations and genome timesteps differ compared to ~srb1~.
 - Array size 4
 - Genome time steps 3
 I only kept this one because it solves $F_8$ once.
+**** ~cht4:~  CHT-2026-07-20-1300                                :primary:
+- Array size 8
+- Genome time steps 3
+- Problem-specific operation inventory
+- 100 generations exploration and simplification
+- Baseline otherwise
+Same as ~srb3~ except for the operation inventory.
