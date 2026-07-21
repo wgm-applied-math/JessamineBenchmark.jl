@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Script to make all SymPy report files
+# but without going through slurm.  This will generally
+# take a very long time because it does everything
+# sequentially, not in parallel.
+# To do the same in parallel, use SJob-Run-SymPy-reports.
+#
+# Enable ** globs
+shopt -s globstar
+
+for file in Specs/**/*.toml
+do
+    python SymPyReport.py "$file"
+done
+
+python -u AssembleSymPyReports.py
