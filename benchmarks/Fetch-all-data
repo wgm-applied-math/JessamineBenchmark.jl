@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Script to call Fetch-data within all benchmark
+# subdirectories.
+
+for corpus in "sin" "Friedman-1" "Strogatz" "cosmology"
+do
+    pushd "$corpus"
+    ./Fetch-data
+    popd
+done
