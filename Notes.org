@@ -157,6 +157,14 @@ Not easy to set because the solving process for a correct expression might vary 
 ** TODO Subsetting
 Random subsets of a data set are used for evolving individual populations.
 The whole data set is used to compute the MSE in the analysis.
+** TODO Citations
+*** TODO Julia
+*** TODO Slurm
+*** TODO parallel
+*** TODO pandas
+*** TODO scikit-learn
+*** TODO SymPy
+*** TODO nu
 
 * Details for specific benchmarks to include in the article
 ** Function with noise: \(\sin\)
