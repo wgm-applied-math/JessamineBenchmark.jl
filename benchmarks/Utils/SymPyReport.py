@@ -99,11 +99,12 @@ def try_one_discovery(r, X, y, input_columns, verbose=False):
     mse = (np.abs(y - y_hat)**2).mean()
 
     complexity = au.complexity(expr)
-    expr_original_syms_defuzz = au.replace_near_integer(expr.evalf())
-    complexity_defuzz = au.complexity(expr_original_syms_defuzz)
+    expr_defuzz = au.replace_near_integer(expr.evalf())
+    complexity_defuzz = au.complexity(expr_defuzz)
 
     if not math.isnan(mse) and math.isfinite(mse):
         expr_original_syms = expr.subs(zip(f_arg_syms, orignal_syms))
+        expr_original_syms_defuzz = expr_defuzz.subs(zip(f_arg_syms, orignal_syms))
         sys.stdout.write(f" {mse}\n")
         return {
             "rating": rating,
@@ -111,6 +112,7 @@ def try_one_discovery(r, X, y, input_columns, verbose=False):
             "complexity": complexity,
             "complexity_defuzz": complexity_defuzz,
             "expr": str(expr),
+            "expr_defuzz": str(expr_defuzz),
             "expr_original_syms": str(expr_original_syms),
             "expr_original_syms_defuzz": str(expr_original_syms_defuzz)
         }
