@@ -1,4 +1,4 @@
 # Some of these files have many thousands of entries.
 # 400 is the size of the Strogatz datasets.
-random_subset = 400
+random_subset_count = 400
 output_column = "target"
