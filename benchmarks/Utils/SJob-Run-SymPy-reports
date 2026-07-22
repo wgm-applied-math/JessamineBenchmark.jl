@@ -9,18 +9,13 @@ then
     exit 1
 fi
 
-# Enable ** globs
-shopt -s globstar
+# The --exact here means that the srun will be given the
+# resources it requested and not the whole allocation
+# given to this sbatch.
 
-for file in Specs/**/*.toml
-do
-    # The --exact here means that the srun will be given the
-    # resources it requested and not the whole allocation
-    # given to this sbatch.
-    srun --quiet --exact --ntasks=1 --cpus-per-task=1 --nodes=1 \
-        python SymPyReport.py "$file" &
-done
-
-wait
+find Specs -name '*.toml' -print \
+     | parallel --jobs $SLURM_NTASKS \
+         srun --quiet --exact --ntasks=1 \
+            python SymPyReport.py '{}'
 
 python -u AssembleSymPyReports.py
