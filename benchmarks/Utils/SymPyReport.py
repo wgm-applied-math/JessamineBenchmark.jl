@@ -186,9 +186,9 @@ def make_or_load_report(config_file, force=False, verbose=False):
 
 parser = argparse.ArgumentParser(
     prog="SymPyReport",
-    description="Read a configuration spec file and make a SymPy report file")
+    description="Read each configuration spec file and make a SymPy report file")
 
-parser.add_argument("spec_file")
+parser.add_argument("spec_file", nargs="*")
 parser.add_argument("--force",
                     action=argparse.BooleanOptionalAction,
                     default=False,
@@ -199,8 +199,8 @@ parser.add_argument("--verbose",
                     help="more verbose output")
 def main():
     args = parser.parse_args()
-    spec_file = args.spec_file
-    make_or_load_report(spec_file, force=args.force, verbose=args.verbose)
+    for spec_file in args.spec_file:
+        make_or_load_report(spec_file, force=args.force, verbose=args.verbose)
 
 if __name__ == "__main__":
     main()
