@@ -154,6 +154,9 @@ If the inventory is too small, it will have to find an approximation (series, ra
 Some kind of adaptive search, VNS, or sweeping configuration is necessary to solve everything.
 ** TODO Numerical thresholds
 Not easy to set because the solving process for a correct expression might vary in how low it can get the MSE.
+** TODO Subsetting
+Random subsets of a data set are used for evolving individual populations.
+The whole data set is used to compute the MSE in the analysis.
 
 * Details for specific benchmarks to include in the article
 ** Function with noise: \(\sin\)
