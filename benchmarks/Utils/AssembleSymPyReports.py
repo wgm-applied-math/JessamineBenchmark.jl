@@ -14,6 +14,7 @@ import traceback
 
 from SymPyReport import make_or_load_report
 
+
 def make_all_reports():
     spec_dir = Path("Specs")
     reports = []
@@ -27,13 +28,27 @@ def make_all_reports():
             traceback.print_exc()
             # raise
     df = pd.DataFrame(reports)
-    return df[["run_set", "data_set", "sample_num", "rating", "mse",
-               "complexity", "complexity_defuzz",
-               "expr", "expr_original_syms", "expr_original_syms_defuzz"]]
+    return df[
+        [
+            "run_set",
+            "data_set",
+            "sample_num",
+            "rating",
+            "mse",
+            "complexity",
+            "complexity_defuzz",
+            "expr",
+            "expr_defuzz",
+            "expr_original_syms",
+            "expr_original_syms_defuzz",
+        ]
+    ]
+
 
 def main():
     df = make_all_reports()
     df.to_csv("Generated/full-report.csv", index=False)
+
 
 if __name__ == "__main__":
     main()
