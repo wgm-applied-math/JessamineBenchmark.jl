@@ -6,7 +6,7 @@ run_set_base=SRB-2026-06-25-1715
 
 declare -a data_sets super_specs
 data_set_dir=datasets
-data_sets=( sin-{wide-,}noise-{0,1,2} )
+data_sets=( sin-noise-{0,1,2} )
 data_set_ext=.csv
 
 super_specs_base=(
