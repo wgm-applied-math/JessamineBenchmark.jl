@@ -311,10 +311,6 @@ CHT3 solved it 10 times, but otherwise, nothing worked.
 Nope.
 
 
-# Local Variables:
-# mode: org
-# eval: (org-indent-mode 1)
-# End:
 ** Cosmology C
 *** Run sets
 **** ~srb1:~ SRB-2026-06-26-1130-arr8
@@ -360,3 +356,31 @@ I only kept this one because it solves $F_8$ once.
 - 100 generations exploration and simplification
 - Baseline otherwise
 Same as ~srb3~ except for the operation inventory.
+**** Polynomials: C2a
+No problem, all correct in SRB.
+**** Rational: C3g, C3h, C5a, C5b, C5c, C5d, C5e, C5f
+***** Using SRB
+- C3g and C3h are numerically good, wrong form.
+- C5a is perfect.
+- C5b & c are not good symbolically but have good MSE.
+  These are the same form as C5a but with noise, using the same configuration, so it's not surprising that the symbolic results aren't good.
+- C5d is perfect
+- C5e is not good symbolically but good MSE.
+- C5f is no good.
+***** Using CHT
+- C3g is numerically good, wrong form.
+- C3h is perfect. <- Only this difference, and it's lucky, but yay!
+- C5a is perfect.
+- C5b & c not good symbolically but good MSE.
+- C5d is perfect
+- C5e is not good symbolically but good MSE.
+- C5f is no good.
+**** Run more of
+- C3h: Only one success and it was a CHT
+- C5b and C5c: Scale \(lambda\) to match noise?
+
+* End of file
+# Local Variables:
+# mode: org
+# eval: (org-indent-mode 1)
+# End:
