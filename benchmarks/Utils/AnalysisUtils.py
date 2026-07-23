@@ -1,10 +1,15 @@
 from pathlib import Path
 
 import numpy as np
+import os
 import pandas as pd
 import seaborn as sns
 import sympy
 import sympy.abc
+import typing
+from typing import Optional
+
+Pathish = typing.Union[str, os.PathLike[str], Path]
 
 sns.set_theme("notebook", style="darkgrid")
 
@@ -82,7 +87,7 @@ def complexity(expr):
     return c
 
 
-def count_by_threshold(df, threshold=1.0e-19, groupby="data_set"):
+def count_by_threshold(df: pd.DataFrame, threshold=1.0e-19, groupby="data_set"):
     """Count the number of rows in a dataframe where the 'mse' column is less than the given threshold."""
     comparisons = df["mse"] < threshold
     if groupby:
@@ -101,7 +106,7 @@ def savefig(fig, file_stem=None, picture_dir=Path("Generated/Pictures")):
 
 
 def complexity_mse_displot(
-    data,
+    data: pd.DataFrame,
     spiffy_titles=None,
     complexity_col="complexity",
     mse_col="mse",
@@ -111,11 +116,13 @@ def complexity_mse_displot(
     mse_lims=(1.0e-12, 0.99e2),
     picture_dir=Path("Generated/Pictures"),
     file_stem=None,
-    **kwargs
+    **kwargs,
 ):
     """Create a displot of complexity vs mse for each data set in the given dataframe."""
     assert mse_lims[0] < mse_lims[1], "mse_lims must be in increasing order"
-    assert complexity_lims[0] < complexity_lims[1], "complexity_lims must be in increasing order"
+    assert (
+        complexity_lims[0] < complexity_lims[1]
+    ), "complexity_lims must be in increasing order"
     assert complexity_binwidth > 0, "complexity_binwidth must be positive"
     assert mse_binwidth > 0, "mse_binwidth must be positive"
     assert complexity_col in data.columns, f"{complexity_col} not in dataframe columns"
@@ -141,7 +148,7 @@ def complexity_mse_displot(
     return fig
 
 
-def mse_threshold_table(data):
+def mse_threshold_table(data: pd.DataFrame):
     """Make a DataFrame with counts of how many samples are <= various MSE thresholds."""
     red = data[["mse"]].copy()
     agg_items = {}
@@ -149,17 +156,17 @@ def mse_threshold_table(data):
         key = f"mse{j:02d}"
         red[key] = red.mse <= 10.0 ** (-j)
         agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
-    return (red
-            .groupby(["run_set", "data_set"])
-            .agg(
-                mse_min=pd.NamedAgg(column="mse", aggfunc="min"),
-                mse_med=pd.NamedAgg(column="mse", aggfunc="median"),
-                mse_max=pd.NamedAgg(column="mse", aggfunc="max"),
-                **agg_items
-            ))
+    to_group_by = list(data.index.names)
+    to_group_by.remove("sample_num")
+    return red.groupby(to_group_by).agg(
+        mse_min=pd.NamedAgg(column="mse", aggfunc="min"),
+        mse_med=pd.NamedAgg(column="mse", aggfunc="median"),
+        mse_max=pd.NamedAgg(column="mse", aggfunc="max"),
+        **agg_items,
+    )
 
 
-def complexity_threshold_table(data):
+def complexity_threshold_table(data: pd.DataFrame):
     """Make a DataFrame with counts of how many samples are <= various complexity thresholds."""
     red = data[["complexity_defuzz"]].copy()
     agg_items = {}
@@ -171,11 +178,38 @@ def complexity_threshold_table(data):
         key = f"cplx{j:03d}"
         red[key] = red.complexity_defuzz <= j
         agg_items[key] = pd.NamedAgg(column=key, aggfunc="sum")
-    return (red
-            .groupby(["run_set", "data_set"])
-            .agg(
-                cplx_min=pd.NamedAgg(column="complexity_defuzz", aggfunc="min"),
-                cplx_med=pd.NamedAgg(column="complexity_defuzz", aggfunc="median"),
-                cplx_max=pd.NamedAgg(column="complexity_defuzz", aggfunc="max"),
-                **agg_items
-            ))
+    return red.groupby(["run_set", "data_set"]).agg(
+        cplx_min=pd.NamedAgg(column="complexity_defuzz", aggfunc="min"),
+        cplx_med=pd.NamedAgg(column="complexity_defuzz", aggfunc="median"),
+        cplx_max=pd.NamedAgg(column="complexity_defuzz", aggfunc="max"),
+        **agg_items,
+    )
+
+
+def to_latex(
+    df: pd.DataFrame,
+    file: Optional[Pathish] = None,
+    strip_colname_prefix: Optional[str] = None,
+    strip_rowname_prefix: Optional[str] = None,
+):
+    """Convert a DataFrame to a LaTeX string with sane styling."""
+    styler = df.style
+    float_columns = df.select_dtypes(include=[np.floating]).columns
+    float_formatters = {col: "{:.1e}".format for col in float_columns}
+    styler = (
+        styler.format_index(escape="latex", axis="index")
+        .format_index(escape="latex", axis="columns")
+        .format_index_names(escape="latex")  # requires pandas v3.0 or later
+        .format(formatter=float_formatters)
+    )
+    if strip_colname_prefix is not None:
+        new_columns = [col.removeprefix(strip_colname_prefix) for col in df.columns]
+        new_columns = [col.removeprefix("_") for col in new_columns]
+        styler = styler.relabel_index(new_columns, axis="columns")
+
+    if strip_rowname_prefix is not None:
+        new_index = [idx.removeprefix(strip_rowname_prefix) for idx in df.index]
+        new_index = [idx.removeprefix("_") for idx in new_index]
+        styler = styler.relabel_index(new_index, axis="index")
+
+    return styler.to_latex(file)
