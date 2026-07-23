@@ -1,3 +1,7 @@
+"""
+This script initialized the Julia package here.  It's not
+needed now that I've run it and developed the code further.
+"""
 module GetStarted
 
 using PkgTemplates
@@ -13,12 +17,12 @@ t = Template(
         ),
         Git(
             name = "W. Garrett Mitchener",
-            email="mitchenerg@charleston.edu",
+            email = "mitchenerg@charleston.edu",
             ssh = true,
-            jl = true,
+            jl = true
         ),
         Documenter{GitHubActions}(
-            #user = "wgmitchener",
+        #user = "wgmitchener",
         ),
         Formatter(
             style = "sciml",
