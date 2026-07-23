@@ -47,3 +47,14 @@ docs/site/
 # environment.
 Manifest.toml
 Attic
+
+# Emacs stuff
+auto/
+
+# TeX Stuff
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
