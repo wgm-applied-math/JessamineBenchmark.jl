@@ -375,9 +375,30 @@ No problem, all correct in SRB.
 - C5d is perfect
 - C5e is not good symbolically but good MSE.
 - C5f is no good.
+**** Power functions: C1a, C1b, C1c, C1d, C2b
+No perfect results on any of these.
+The C1a data is a slight curve on a small interval, so I'm not surprised it's difficult to recover.
+**** Hard functions: C6a, C6b, C6c
+Nope.
+For C6b it found some promising terms, not much else.
+**** Black box: C3a..f, C4a..e
+In the cp3 article, there's no given exact form for these problems, just an order of magnitude for MSE for the best result.
+So the best I can do is compare MSE by the power of 10.
+- C3a: better than cp3
+- C3b: better than cp3
+- C3c: similar to cp3
+- C3d: better than cp3
+- C3e: similar to cp3
+- C3f: better than cp3
+- C4a: better than cp3
+- C4b: similar to cp3
+- C4c: similar to cp3
+- C4d: similar to cp3
+- C4e: worse than cp3
 **** Run more of
 - C3h: Only one success and it was a CHT
 - C5b and C5c: Scale \(lambda\) to match noise?
+- C1a: Give it a wider space with more shape?
 
 * End of file
 # Local Variables:
