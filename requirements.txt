@@ -1,10 +1,10 @@
 # Pip-formatted Python requirements
 
+ipykernel ~= 7.3.0
 numpy ~= 2.3.5
-pandas ~= 2.3.3
+pandas ~= 3.0
 seaborn ~= 0.13.2
 sympy ~= 1.14.0
 
 # Need yq for the tomlq command, required by several scripts
-yq ~= 4.47.1
-
+yq ~= 4.1.2
