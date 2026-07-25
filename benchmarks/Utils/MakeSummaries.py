@@ -14,10 +14,10 @@ def main():
     data.set_index(["run_set", "data_set", "sample_num"], inplace=True)
     mse_tt = au.mse_threshold_table(data)
     mse_tt.to_csv("Generated/mse-summary.csv")
-    mse_tt.to_latex("Generated/mse-summary.tex")
+    au.to_latex(mse_tt, "Generated/mse-summary.tex")
     c_tt = au.complexity_threshold_table(data)
     c_tt.to_csv("Generated/complexity-summary.csv")
-    c_tt.to_latex("Generated/complexity-summary.tex")
+    au.to_latex(c_tt, "Generated/complexity-summary.tex")
 
 
 if __name__ == "__main__":
