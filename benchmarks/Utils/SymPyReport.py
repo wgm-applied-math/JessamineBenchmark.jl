@@ -13,7 +13,8 @@ import tomllib
 import AnalysisUtils as au
 
 class NoSolutionError(Exception):
-    pass
+    def __str__(self):
+        return "NoSolutionError()"
 
 # This has to be at module scope rather than be a closure because
 # of some limitation of pickling.
@@ -133,6 +134,9 @@ def make_report(config, verbose=False):
     y = df[output_column]
     X = df[input_columns]
 
+    output_file = output_file_stem.with_suffix(".json")
+    if not output_file.is_file():
+        raise FileNotFoundError(str(output_file))
     with output_file_stem.with_suffix(".json").open("rt") as f:
         result = json.load(f)
 
@@ -181,8 +185,7 @@ def make_or_load_report(config_file, force=False, verbose=False):
         with report_file.open("wt") as f:
             json.dump(report, f)
         print("Created", report_file)
-        # For debugging purposes
-    # assert False
+
     return report
 
 
