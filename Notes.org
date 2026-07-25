@@ -167,6 +167,9 @@ The whole data set is used to compute the MSE in the analysis.
 *** TODO nu
 
 * Details for specific benchmarks to include in the article
+** Strong success
+I think I'll write up the Bayesian inference calculation, which estimates from 4 successes out of 32 micro-trials, the probability of a successful macro-trial (at least one success in 32 more micro-trials) is 97%.
+Then a strong success is at least 4 clearly correct samples out of 32.
 ** Function with noise: \(\sin\)
 Talk about single period, how \(\lambda_\mathrm{op}\) needs to be the same magnitude as the noise, so for most of what follows, we'll work only on clean data.
 In practice, you should estimate the noise and configure symbolic regression accordingly, otherwise, it will fit the noise.
@@ -190,10 +193,19 @@ Results are slightly better for this configuration compared to ~srb1~
 Same as ~srb1~ but with problem-specific operation inventory.
 **** ~cht2:~ CHT-2026-07-13-1130 :primary:
 Same as ~srb2~ but with problem-specific operation inventory.
-*** Polynomials
+*** Polynomials: Lotka-Volterra, Van der Pol
 are no problem.
-*** Rational functions
+All correct.
+*** Rational functions: bacterial respiration, predator-prey
 can be a problem.
+All the best samples are perfect, but there are some caveats.
+
+For predator-prey (1,2), SRB gets (12, 11) good ones using a cutoff of MSE < 2e-8, which is where there's a correctish predprey1 with an imperfect denominator.
+Which may be a overly generous, but there are problems with how good the numerical solver will go finding the best \(p_j\)'s, which affects everything else.
+But these can be found reliably in an hour.
+
+For bacterial-respiration 1 SRB gets 1 clearly good one and several series expansions.
+For bacterial-respiration 2 SRB gets 3 clearly good ones and several series expansions.
 Mainly the challenge with the ~d_bacres~ data sets is that they are from trajectories that don't pass close to \(x = 0\), so there's minimal evidence that a series in \(1/x\) is incorrect.
 I did find a way to cheat to make a couple of perfect solutions show up.
 *** Trig functions
@@ -206,6 +218,9 @@ If you "cheat" and include \(\cot\) in the operation inventory, success happens 
 Additional complications are that sometimes Jessamine finds these almost-right expressions:
 - a translation identity, \(\sin(x + p)\) instead of \(\cos(x)\), and then it solves for \(p \approx \pi/2\)
 - a Pythagorean identity
+*** Run more of
+To see if I can get a better estimate on probability success in 8 hours.
+~d_bacres~, ~d_shearflow1~
 ** Friedman F1
 *** Run sets
 **** SRB-2026-06-25-1715-arr8
@@ -215,6 +230,8 @@ Additional complications are that sometimes Jessamine finds these almost-right e
 - Baseline otherwise
 **** SRB-2026-06-25-1715-subset
 - Same as SRB-2026-06-25-1715-arr8 but trains each island on random subsets of 100 points
+**** CHT-2026-06-25-1700
+Same as SRB-2026-06-25-1715-arr8 but with trig inventory.
 **** SRB-2026-07-13-1130                                         :primary:
 - Array size 8
 - Genome time steps 3
@@ -223,27 +240,29 @@ Additional complications are that sometimes Jessamine finds these almost-right e
 - Baseline otherwise
 Only the number of generations differs compared to SRB-2026-06-25-1715-arr8.
 Slightly better than SRB-2026-06-25-1715-arr8.
-**** SRB-2026-07-13-1130-subset
-Same as SRB-2026-07-13-1130 but trains each island on random subsets of 100 points
-**** CHT-2026-06-25-1700
-Same as SRB-2026-06-25-1715-arr8 but with trig inventory
+**** SRB-2026-07-13-1130-subset                                  :primary:
+Same as SRB-2026-07-13-1130 but trains each island on random subsets of 100 points.
 *** f1a: 100 points, no distractors
-  SRB does okay 17+2.
+  SRB does okay 18 nearly perfect + 2 with trig cruft.
   CHT does better 25.
 *** f1b: 1000 points, no distractors
-  SRB finds it sometimes 4+1.
+  SRB finds it sometimes 4 nearly perfect + 1.
   CHT is a bit better 7.
   More data apparently slows things down in this case, searches fewer islands.
+  With subsetting, SRB finds it nearly perfect 14 times, and CHT finds it 29 times and once with a really good approximation.
 *** f1c: 100 points, 5 distractors
-  SRB finds it 6+2.
+  SRB finds it 5 nearly perfect + 2 trig cruft.
   CHT finds it 4.
 *** f1d: 1000 points, 5 distractors
   SRB can't do this one, only gets close once.
   CHT solves only once.
+  With subsetting, SRB finds it nearly perfect 5, maybe 6 times, and CHT finds it 4 times.
 *** Summary
 - Needle-in-a haystack-problems are harder than I thought they would be.
-- Sub-setting doesn't seem to make much difference in this case.
-- There's really no need for the CHT runs since the SRBench operation inventory includes everything necessary.  The fact that the CHT runs do slightly better suggests that the 100 generations is wasting time on this problem, which makes sense given the function's form.
+- Sub-setting does seem to improve things.
+  My initial runs with subsetting were using the wrong parameter in the config files so they weren't actually doing any subsetting.
+- There's really no need for the CHT runs since the SRBench operation inventory includes everything necessary.
+  The fact that the CHT runs do slightly better suggests that the 100 generations is wasting time on this problem, which makes sense given the function's form.
 ** Cosmology F
 *** Run sets
 **** ~srb1:~ SRB-2026-06-26-1045
@@ -290,27 +309,26 @@ I only kept this one because it solves $F_8$ once.
 - 100 generations exploration and simplification
 - Baseline otherwise
 Same as ~srb3~ except for the operation inventory.
-*** Polynomials
+*** Polynomials: \(F_1\) and \(F_4\)
 are not much problem.
-After de-fuzzing, SRB2 solves \(F_1\) perfectly except for 1 sample.
-CHT solves \(F_1\) perfectly every time.
-*** Rational functions
-are not great.
-The only one is \(F_4\), and SRB2 gets it correct only once or twice.
-CHT solves it perfectly about 10 or 12 times.
+After de-fuzzing, ~srb3~ and ~cht4~ solve \(F_1\) and \(F_4\) perfectly every time.
+*** Rational functions: \(F_7\)
+are not much problem.
+After de-fuzzing, ~srb3~ and ~cht4~ solve \(F_7\) perfectly every time.
 *** Medium hard: \(F_5\)
 This one requires finding two transcendental terms.
-SRB gets all but two samples exactly correct.
+~srb3~ gets all of these exactly correct.
+~cht4~ doesn't do very well, not sure why.
 *** Hard: \(F_2\)
 This one is surprisingly difficult.
-CHT2 solved it once, no other correct solutions.
+~cht2~ solved it once, no other correct solutions.
 The challenge seems to be that a \(b \sin (p x)\) component alone is not a good component of a solution, so the search has to land exactly on \(b x \sin (p x)\), which is unlikely.
 *** Hard: \(F_8\)
-CHT3 solved it 10 times, but otherwise, nothing worked.
+~srb3~ and ~cht4~ solve this perfectly every time, except for one ~cht4~ run that had some significant cruft.
 *** Too hard: \(F_3\), \(F_6\)
 Nope.
-
-
+*** Run more of
+\(F_2\) because it worked once?
 ** Cosmology C
 *** Run sets
 **** ~srb1:~ SRB-2026-06-26-1130-arr8
@@ -364,15 +382,15 @@ No problem, all correct in SRB.
 - C5a is perfect.
 - C5b & c are not good symbolically but have good MSE.
   These are the same form as C5a but with noise, using the same configuration, so it's not surprising that the symbolic results aren't good.
-- C5d is perfect
+- C5d is perfect, but only one success.
 - C5e is not good symbolically but good MSE.
 - C5f is no good.
 ***** Using CHT
 - C3g is numerically good, wrong form.
-- C3h is perfect. <- Only this difference, and it's lucky, but yay!
+- C3h is perfect but only once. <- Only this difference, and it's lucky, but yay!
 - C5a is perfect.
 - C5b & c not good symbolically but good MSE.
-- C5d is perfect
+- C5d is perfect, but only a couple of successes.
 - C5e is not good symbolically but good MSE.
 - C5f is no good.
 **** Power functions: C1a, C1b, C1c, C1d, C2b
