@@ -14,8 +14,8 @@ fi
 # given to this sbatch.
 
 find Specs -name '*.toml' -print \
-     | parallel --jobs $SLURM_NTASKS \
-         srun --quiet --exact --ntasks=1 \
-            python SymPyReport.py '{}'
+    | parallel --jobs $SLURM_NTASKS \
+        srun --quiet --exact --ntasks=1 --nodes=1 \
+        python SymPyReport.py '{}'
 
 python -u AssembleSymPyReports.py

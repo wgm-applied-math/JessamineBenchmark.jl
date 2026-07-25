@@ -29,7 +29,7 @@ function maybe_run_spec {
         echo "Skipping $spec: Output file already exists: $output_file"
     else
         echo "Scheduling build of $output_file"
-        srun --quiet --exact --ntasks=1 \
+        srun --quiet --exact --ntasks=1 --nodes=1 \
              --output "$output_dir/stdout-%J.txt" \
              --error "$output_dir/stderr-%J.txt" \
              ./Run-one-spec "$spec"
