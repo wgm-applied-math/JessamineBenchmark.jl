@@ -10,21 +10,20 @@ then
 fi
 
 declare -a data_sets run_sets
-data_sets=( F{1..8})
-# data_sets=( F2 F4 F8 )
-run_sets=( \
-    # CHT-2026-06-28-2315
+# data_sets=( F{1..8})
+data_sets=( F2 )
+run_sets=(
     # SRB-2026-06-26-1045-arr8
-    # CHT-2026-07-02-1845
     # SRB-2026-07-13-1130
+    # SRB-2026-07-20-1300
+    SRB-2026-07-25-1900
+    # CHT-2026-07-02-1845
     # CHT-2026-07-13-1130
-    SRB-2026-07-20-1300
-    CHT-2026-07-20-1300
+    # CHT-2026-06-28-2315
+    # CHT-2026-07-20-1300
 )
 
 for run_set in "${run_sets[@]}"
 do
     source SModule-Run-specs-scattered
 done
-
-wait

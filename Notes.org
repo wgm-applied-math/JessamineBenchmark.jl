@@ -168,7 +168,7 @@ The whole data set is used to compute the MSE in the analysis.
 
 * Details for specific benchmarks to include in the article
 ** Strong success
-I think I'll write up the Bayesian inference calculation, which estimates from 4 successes out of 32 micro-trials, the probability of a successful macro-trial (at least one success in 32 more micro-trials) is 97%.
+I think I'll write up the Bayesian inference calculation, which estimates from 4 successes out of 32 micro-trials, the probability of a successful macro-trial (at least one success in 32 more micro-trials or 8 hours) is 97%.
 Then a strong success is at least 4 clearly correct samples out of 32.
 ** Function with noise: \(\sin\)
 Talk about single period, how \(\lambda_\mathrm{op}\) needs to be the same magnitude as the noise, so for most of what follows, we'll work only on clean data.
@@ -349,7 +349,7 @@ The number of generations and genome timesteps differ compared to ~srb1~.
 - SRBench operation inventory
 - 100 generations exploration and simplification
 - Baseline otherwise
-**** ~cht1:~ CHT-2026-07-02-1845
+**** ~cht1:~ CHT-2026-07-02-1845                               :discarded:
 - High mutation rate h2
 - Mutation weights 3
 - Array size 8
