@@ -168,8 +168,9 @@ The whole data set is used to compute the MSE in the analysis.
 
 * Details for specific benchmarks to include in the article
 ** Strong success
-I think I'll write up the Bayesian inference calculation, which estimates from 4 successes out of 32 micro-trials, the probability of a successful macro-trial (at least one success in 32 more micro-trials or 8 hours) is 97%.
-Then a strong success is at least 4 clearly correct samples out of 32.
+I think I'll write up the Bayesian inference calculation, which estimates from 4 successes out of 32 micro-trials, at 95% credibility, the probability of a successful macro-trial (at least one success in 32 more micro-trials or 8 hours) is about 80%.
+From 8 successes out of 32, it's 96%.
+Then a weak success is at least 4 clearly correct samples out of 32, and a strong success is at least 8.
 ** Function with noise: \(\sin\)
 Talk about single period, how \(\lambda_\mathrm{op}\) needs to be the same magnitude as the noise, so for most of what follows, we'll work only on clean data.
 In practice, you should estimate the noise and configure symbolic regression accordingly, otherwise, it will fit the noise.
