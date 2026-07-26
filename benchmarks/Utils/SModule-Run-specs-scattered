@@ -41,5 +41,5 @@ export -f maybe_run_spec
 
 for data_set in "${data_sets[@]}"
 do
-    find "Specs/$run_set" -name "$data_set-*.toml" -print \
+    find "Specs/$run_set" -name "$data_set-*.toml" -print
 done | parallel --jobs $SLURM_NTASKS maybe_run_spec '{}'
