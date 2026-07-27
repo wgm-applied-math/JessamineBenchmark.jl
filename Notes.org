@@ -157,6 +157,12 @@ Not easy to set because the solving process for a correct expression might vary 
 ** TODO Subsetting
 Random subsets of a data set are used for evolving individual populations.
 The whole data set is used to compute the MSE in the analysis.
+** TODO Reliability
+Bayesian calculation, estimate of the probability of recovering the function perfectly in 8 hours, on each problem.
+I think it's best to say that if there are at least 4 clear good solutions out of 32, we give one star.
+If there are at least 8 clear good solutions out of 32, we give two stars.
+If there are more than 15 or 16, we give three stars.
+Then there are the ones we need to run more of, which I think I'll have to handle case by case.
 ** TODO Citations
 *** TODO Julia
 *** TODO Slurm
@@ -196,19 +202,24 @@ Same as ~srb1~ but with problem-specific operation inventory.
 Same as ~srb2~ but with problem-specific operation inventory.
 *** Polynomials: Lotka-Volterra, Van der Pol
 are no problem.
-All correct.
+All correct, three stars.
 *** Rational functions: bacterial respiration, predator-prey
 can be a problem.
 All the best samples are perfect, but there are some caveats.
 
 For predator-prey (1,2), SRB gets (12, 11) good ones using a cutoff of MSE < 2e-8, which is where there's a correctish predprey1 with an imperfect denominator.
 Which may be a overly generous, but there are problems with how good the numerical solver will go finding the best \(p_j\)'s, which affects everything else.
-But these can be found reliably in an hour.
+But these can be found reliably in 8 hours, two stars.
 
 For bacterial-respiration 1 SRB gets 1 clearly good one and several series expansions.
 For bacterial-respiration 2 SRB gets 3 clearly good ones and several series expansions.
 Mainly the challenge with the ~d_bacres~ data sets is that they are from trajectories that don't pass close to \(x = 0\), so there's minimal evidence that a series in \(1/x\) is incorrect.
 I did find a way to cheat to make a couple of perfect solutions show up.
+
+Running 192 samples on the ~d_bacres~ data sets:
+For ~d_bacres1~, we get 3 perfect solutions and a lot of decent expansions.
+For ~d_bacres2~, we get 6 perfect solutions and a lot of decent expansions.
+
 *** Trig functions
 are mostly no problem.
 This works largely thanks to two important features:
@@ -219,6 +230,10 @@ If you "cheat" and include \(\cot\) in the operation inventory, success happens 
 Additional complications are that sometimes Jessamine finds these almost-right expressions:
 - a translation identity, \(\sin(x + p)\) instead of \(\cos(x)\), and then it solves for \(p \approx \pi/2\)
 - a Pythagorean identity
+
+For ~d_shearflow2~, SRB finds 17 perfect solutions, three stars.
+For ~d_shearflow1~, SRB finds no perfect solutions out of 192, but CHT finds 20, which shows how hard the \(\cot\) term is to find.
+
 *** Run more of
 To see if I can get a better estimate on probability success in 8 hours.
 ~d_bacres~, ~d_shearflow1~
