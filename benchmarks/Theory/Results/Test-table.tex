@@ -1,0 +1,29 @@
+\documentclass{article}
+
+% For \toprule, \midrule, \bottomrule:
+\usepackage{booktabs}
+% For \csvreader:
+\usepackage{csvsimple}
+% To format floating point numbers in tables using an S column:
+\usepackage{siunitx}
+
+% Using siunitx, set up S tabular format
+\sisetup{round-mode = places, round-precision = 3}
+
+\begin{document}
+
+\csvreader[
+head = false,
+tabular = {rS},
+table head = \toprule $m$ & prob~succ \\\midrule,
+table foot = \bottomrule
+]{cred-table-32-32.csv}{1=\m, 2=\prob}{
+ \m & \prob \\
+}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
