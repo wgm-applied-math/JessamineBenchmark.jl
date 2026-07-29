@@ -12,6 +12,7 @@ from typing import Optional
 Pathish = typing.Union[str, os.PathLike[str], Path]
 
 sns.set_theme("notebook", style="darkgrid")
+sns.set_context("notebook", font_scale=1.5)
 
 
 def parse_if_needed(expr_or_str) -> sympy.Expr:
