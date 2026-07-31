@@ -126,9 +126,10 @@ This now lets me set up exactly the same operation inventory as SRBench.
 * To include in the article
 ** TODO Key details of the implementation
 - [ ] Sorting so that old agents fall off the bottom
-- [ ] Random initialization using only parameter and input indices
-- [ ] Weighting of operations during mutations
-** TODO Demo with sin function
+- [X] Random initialization using only parameter and input indices
+- [X] Weighting of operations during mutations
+** DONE Demo with sin function
+CLOSED: [2026-07-30 Thu 14:32]
 How the noise and domain make it nearly impossible to distinguish \(\sin x\) from so many other functions.
 ** TODO Partial credit
 Some functions like \(F_2\) and \(F_3\) from cosmology admit no partial credit, so they are very hard to find.
