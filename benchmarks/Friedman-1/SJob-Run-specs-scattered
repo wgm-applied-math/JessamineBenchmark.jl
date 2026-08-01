@@ -13,9 +13,8 @@ declare -a data_sets run_sets
 
 data_sets=( f1{a,b,c,d}{,w} )
 run_sets=(
-    CHT-2026-06-25-1700
-    SRB-2026-06-25-1715-arr8
     SRB-2026-07-13-1130
+    CHT-2026-08-01-1800
 )
 for run_set in "${run_sets[@]}"
 do
@@ -24,9 +23,8 @@ done
 
 data_sets=( f1{b,d}{,w} )
 run_sets=(
-    CHT-2026-06-25-1700-subset
-    SRB-2026-06-25-1715-subset
     SRB-2026-07-13-1130-subset
+    CHT-2026-08-01-1800-subset
 )
 for run_set in "${run_sets[@]}"
 do
