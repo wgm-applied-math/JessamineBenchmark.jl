@@ -24,7 +24,7 @@ super_specs=( "${super_specs_base[@]}" )
 source Module-Make-specs
 
 run_set="$run_set_base-subset"
-data_sets=( f1{b,d} )
+data_sets=( f1{b,d}{,w} )
 echo "== Working on $run_set =="
 super_specs=( subset-100 "${super_specs_base[@]}" )
 source Module-Make-specs
