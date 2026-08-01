@@ -12,6 +12,8 @@ Breiman, Leo. Bagging Predictors. *Machine Learning,* v24 no2 p123--140, 1996-08
 Friedman, Jerome H. Multivariate adaptive regression splines. *The Annals of Statistics* v19 no1 p1--67, 1991.
 [JStor](https://www.jstor.org/stable/2241837)
 
+This module follows the [Scikit-learn implementation](https://scikit-learn.org/stable/api/sklearn.datasets.html)
+
 To run this CLI app manually:
 
     julia --project=@. -m JessamineBenchmark.FriedmanFunctions
@@ -256,6 +258,19 @@ add_arg_table!(
     )
 )
 
+x_min_max_args = [
+    ["--x-min"],
+    Dict(
+        :help => "choose variables uniformly with this minimum",
+        :arg_type => Float64
+    ),
+    ["--x-max"],
+    Dict(
+        :help => "choose variables uniformly with this maximum",
+        :arg_type => Float64
+    ),
+]
+
 add_arg_table!(
     s["f1"],
     all_args...,
@@ -263,7 +278,8 @@ add_arg_table!(
     Dict(
         :help => "number of distractor columns to generate",
         :arg_type => Int64
-    )
+    ),
+    x_min_max_args...,
 )
 
 add_arg_table!(
@@ -272,7 +288,7 @@ add_arg_table!(
     Dict(
         :help => "generate samples for Friedman #2",
         :action => :command
-    )
+    ),
 )
 
 add_arg_table!(s["f2"], all_args...)
@@ -283,7 +299,7 @@ add_arg_table!(
     Dict(
         :help => "generate samples for Friedman #3",
         :action => :command
-    )
+    ),
 )
 
 add_arg_table!(s["f3"], all_args...)
@@ -341,6 +357,8 @@ function cmd_f1(prespec)
     @cfield prespec num_samples 100
     @cfield prespec noise_std nothing Union{Nothing,Float64}
     @cfield prespec num_distractors 0
+    @cfield prespec x_min 0.0
+    @cfield prespec x_max 1.0
     output_file = prespec["output_file"]
 
     if isnothing(noise_std)
@@ -349,7 +367,8 @@ function cmd_f1(prespec)
         noise_dist = Normal(0.0, noise_std)
     end
 
-    df = make_rand_friedman1(;num_samples, num_distractors, noise_dist)
+    input_dist = Uniform(x_min, x_max)
+    df = make_rand_friedman1(;input_dist, num_samples, num_distractors, noise_dist)
 
     mkpath_and_open(output_file, "w") do io
         CSV.write(io, df)

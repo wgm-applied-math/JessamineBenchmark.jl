@@ -11,7 +11,7 @@ fi
 
 declare -a data_sets run_sets
 
-data_sets=( f1{a,b,c,d} )
+data_sets=( f1{a,b,c,d}{,w} )
 run_sets=(
     CHT-2026-06-25-1700
     SRB-2026-06-25-1715-arr8
@@ -22,7 +22,7 @@ do
     source SModule-Run-specs-scattered
 done
 
-data_sets=( f1{b,d} )
+data_sets=( f1{b,d}{,w} )
 run_sets=(
     CHT-2026-06-25-1700-subset
     SRB-2026-06-25-1715-subset

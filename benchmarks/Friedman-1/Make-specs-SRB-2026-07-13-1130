@@ -5,7 +5,7 @@
 run_set_base=SRB-2026-07-13-1130
 
 declare -a data_sets super_specs_base super_specs
-data_sets=( f1{a,b,c,d} )
+data_sets=( f1{a,b,c,d}{,w} )
 data_set_dir=datasets
 data_set_ext=.csv
 
@@ -13,7 +13,7 @@ super_specs_base=(
     srbench-ops
     srbench-seed
     generations-100
-    genome-arr8 
+    genome-arr8
     baseline
     this-corpus
     )
@@ -28,4 +28,3 @@ data_sets=( f1{b,d} )
 echo "== Working on $run_set =="
 super_specs=( subset-100 "${super_specs_base[@]}" )
 source Module-Make-specs
-

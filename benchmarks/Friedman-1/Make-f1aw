@@ -1,0 +1,3 @@
+#!/bin/bash
+
+julia --project=@. -m JessamineBenchmark.FriedmanFunctions -- f1 --x-min=-2.0 --x-max=2.0 'datasets/f1aw.csv'

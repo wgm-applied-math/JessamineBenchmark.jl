@@ -5,7 +5,7 @@
 run_set_base=SRB-2026-06-25-1715
 
 declare -a data_sets super_specs_base super_specs
-data_sets=( f1{a,b,c,d} )
+data_sets=( f1{a,b,c,d}{,w} )
 data_set_dir=datasets
 data_set_ext=.csv
 
