@@ -58,5 +58,4 @@ function make_wide () {
 }
 
 # Main:
-make_narrow
 make_standard
