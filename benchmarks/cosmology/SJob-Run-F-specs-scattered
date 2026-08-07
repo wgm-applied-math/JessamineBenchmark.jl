@@ -23,7 +23,4 @@ run_sets=(
     # CHT-2026-07-20-1300
 )
 
-for run_set in "${run_sets[@]}"
-do
-    source SModule-Run-specs-scattered
-done
+source SModule-Run-specs-scattered

@@ -10,8 +10,8 @@ then
 fi
 
 declare -a data_sets run_sets
-# data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
-data_sets=( d_bacres{1,2} d_shearflow1 )
+data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
+#data_sets=( d_bacres{1,2} d_shearflow1 )
 
 
 run_sets=(
@@ -21,10 +21,5 @@ run_sets=(
     # SRB-2026-07-13-1130
     SRB-2026-07-25-1900
 )
-for run_set in "${run_sets[@]}"
-do
-    echo "Working on $run_set"
-    source SModule-Run-specs-scattered
-done
 
-wait
+source SModule-Run-specs-scattered
