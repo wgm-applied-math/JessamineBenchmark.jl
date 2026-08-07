@@ -12,7 +12,7 @@ run_set_base=SRB-2026-07-25-1900
 declare -a data_sets super_specs_base super_specs
 data_set_dir=Things-to-bench/cosmo_data
 data_set_ext=.csv
-data_sets=( C3h )
+data_sets=( C3h C5d )
 
 super_specs_base=(
     more-samples

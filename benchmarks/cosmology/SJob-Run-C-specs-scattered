@@ -11,7 +11,7 @@ fi
 
 declare -a data_sets run_sets
 #data_sets=( C1{a..d} C2{a,b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
-data_sets=( C3h )
+data_sets=( C3h C5d )
 
 run_sets=(
     # SRB-2026-06-26-1130-arr8
