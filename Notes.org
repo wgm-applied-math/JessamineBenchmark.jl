@@ -118,7 +118,10 @@ This seems to be very helpful.
 *** DONE Implement
 CLOSED: [2026-07-02 Thu 09:58]
 That might result in fewer situations where the genome computes a bunch of zeros and never gets anywhere.
-*** TODO Put in an option in AppSimple for this.
+*** DONE Put in an option in AppSimple for this.
+CLOSED: [2026-08-07 Fri 14:21]
+On second thought, I don't think anyone would want to turn this off.
+It seems to work really well in general.
 ** DONE Add power 2 .. 4 to the list of available operations
 CLOSED: [2026-07-03 Fri 15:06]
 This now lets me set up exactly the same operation inventory as SRBench.
@@ -134,10 +137,12 @@ How the noise and domain make it nearly impossible to distinguish \(\sin x\) fro
 ** TODO Partial credit
 Some functions like \(F_2\) and \(F_3\) from cosmology admit no partial credit, so they are very hard to find.
 In this case, it's a good idea to run lots of samples with short evolution time and hope that the right term shows up somewhere.
-** TODO Details of the SRB-family of run sets
+** DONE Details of the SRB-family of run sets
+CLOSED: [2026-08-07 Fri 14:21]
 ** TODO Some details of the CHT-family
 These can show how much the operation inventory affects the success rate.
-** TODO Fuzz, cruft
+** DONE Fuzz, cruft
+CLOSED: [2026-08-07 Fri 14:21]
 Fuzz is a term multiplied by a small constant.
 These show up because when solving for \(p\)'s and \(b\)'s, sometimes a number that should be zero comes out instead with a small magnitude.
 Cruft is where there's a wrong function, for example, an \(x^2\) that should be a \(2(1 - \cos x)\) or conversely.
@@ -151,7 +156,8 @@ Also, a long evolution time gives Jessamine time to eliminate cruft.
 ** TODO Inventory intuition
 If the inventory is too big, the search wastes time considering functions that can't possibly be correct, and risks incorporating cruft.
 If the inventory is too small, it will have to find an approximation (series, rational function) because the necessary function isn't available.
-** TODO No single perfect configuration
+** DONE No single perfect configuration
+CLOSED: [2026-08-07 Fri 14:21]
 Some kind of adaptive search, VNS, or sweeping configuration is necessary to solve everything.
 ** TODO Numerical thresholds
 Not easy to set because the solving process for a correct expression might vary in how low it can get the MSE.
@@ -242,16 +248,8 @@ For ~d_shearflow1~, SRB finds no perfect solutions out of 192, but CHT finds 20,
 To see if I can get a better estimate on probability success in 8 hours.
 ~d_bacres~, ~d_shearflow1~
 ** Friedman F1
+I had to re-run all of this because the generations parameter was wrong.
 *** Run sets
-**** SRB-2026-06-25-1715-arr8
-- Array size 8
-- Genome time steps 3
-- SRBench operation inventory
-- Baseline otherwise
-**** SRB-2026-06-25-1715-subset
-- Same as SRB-2026-06-25-1715-arr8 but trains each island on random subsets of 100 points
-**** CHT-2026-06-25-1700
-Same as SRB-2026-06-25-1715-arr8 but with trig inventory.
 **** SRB-2026-07-13-1130                                         :primary:
 - Array size 8
 - Genome time steps 3
@@ -263,20 +261,16 @@ Slightly better than SRB-2026-06-25-1715-arr8.
 **** SRB-2026-07-13-1130-subset                                  :primary:
 Same as SRB-2026-07-13-1130 but trains each island on random subsets of 100 points.
 *** f1a: 100 points, no distractors
-  SRB does okay 18 nearly perfect + 2 with trig cruft.
-  CHT does better 25.
+SRB finds 22 correct at tolerance 0.02
 *** f1b: 1000 points, no distractors
-  SRB finds it sometimes 4 nearly perfect + 1.
-  CHT is a bit better 7.
-  More data apparently slows things down in this case, searches fewer islands.
-  With subsetting, SRB finds it nearly perfect 14 times, and CHT finds it 29 times and once with a really good approximation.
+SRB finds 5 correct at tolerance 0.02
+SRB subset finds 19 correct
+And some interesting cruft
 *** f1c: 100 points, 5 distractors
-  SRB finds it 5 nearly perfect + 2 trig cruft.
-  CHT finds it 4.
+SRB finds 6 correct at tolerance 0.02
 *** f1d: 1000 points, 5 distractors
-  SRB can't do this one, only gets close once.
-  CHT solves only once.
-  With subsetting, SRB finds it nearly perfect 5, maybe 6 times, and CHT finds it 4 times.
+SRB finds 1 correct at tolerance 0.02
+SRB subset finds 4 correct
 *** Summary
 - Needle-in-a haystack-problems are harder than I thought they would be.
 - Sub-setting does seem to improve things.
