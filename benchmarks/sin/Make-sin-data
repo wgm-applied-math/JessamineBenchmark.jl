@@ -1,41 +1,62 @@
 #!/bin/bash
 
-julia --project=@. -m JessamineBenchmark.SinFunction \
-      --num-samples 100 \
-      --random-state 0x378f4c59527ef75c \
-      datasets/sin-noise-0.csv
+# These are a single period of data with varything amouts of
+# noise.
+function make_standard () {
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 100 \
+        --random-state 0x378f4c59527ef75c \
+        datasets/sin-noise-0.csv
 
-julia --project=@. -m JessamineBenchmark.SinFunction \
-      --num-samples 100 \
-      --random-state 0xe8d47acdc757f6cb \
-      --noise-std 0.1 \
-      datasets/sin-noise-1.csv
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 100 \
+        --random-state 0xe8d47acdc757f6cb \
+        --noise-std 0.1 \
+        datasets/sin-noise-1.csv
 
-julia --project=@. -m JessamineBenchmark.SinFunction \
-      --num-samples 100 \
-      --random-state 0xe8d47acdc757f6cb \
-      --noise-std 0.01 \
-      datasets/sin-noise-2.csv
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 100 \
+        --random-state 0xe8d47acdc757f6cb \
+        --noise-std 0.01 \
+        datasets/sin-noise-2.csv
+}
 
-julia --project=@. -m JessamineBenchmark.SinFunction \
-      --num-samples 200 \
-      --x-min -6.283185307179586 \
-      --x-max 6.283185307179586 \
-      --random-state 0x0f01de7a7fdc19a0 \
-      datasets/sin-wide-noise-0.csv
+# This one is no noise but only a small part of a whole period.
+function make_narrow() {
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 100 \
+        --x-min 0.2 \
+        --x-max 1.4 \
+        --random-state 0x378f4c59527ef75c \
+        datasets/sin-narrow-noise-0.csv
+}
 
-julia --project=@. -m JessamineBenchmark.SinFunction \
-      --num-samples 200 \
-      --x-min -6.283185307179586 \
-      --x-max 6.283185307179586 \
-      --random-state 0x1533a4fb0e88e1eb \
-      --noise-std 0.1 \
-      datasets/sin-wide-noise-1.csv
+# These are data sets that span two periods.
+function make_wide () {
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 200 \
+        --x-min -6.283185307179586 \
+        --x-max 6.283185307179586 \
+        --random-state 0x0f01de7a7fdc19a0 \
+        datasets/sin-wide-noise-0.csv
 
-julia --project=@. -m JessamineBenchmark.SinFunction \
-      --num-samples 200 \
-      --x-min -6.283185307179586 \
-      --x-max 6.283185307179586 \
-      --random-state 0x9fb57f7fc77f6252 \
-      --noise-std 0.01 \
-      datasets/sin-wide-noise-2.csv
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 200 \
+        --x-min -6.283185307179586 \
+        --x-max 6.283185307179586 \
+        --random-state 0x1533a4fb0e88e1eb \
+        --noise-std 0.1 \
+        datasets/sin-wide-noise-1.csv
+
+    julia --project=@. -m JessamineBenchmark.SinFunction \
+        --num-samples 200 \
+        --x-min -6.283185307179586 \
+        --x-max 6.283185307179586 \
+        --random-state 0x9fb57f7fc77f6252 \
+        --noise-std 0.01 \
+        datasets/sin-wide-noise-2.csv
+}
+
+# Main:
+make_narrow
+make_standard
