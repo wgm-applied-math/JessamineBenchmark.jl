@@ -32,3 +32,10 @@ run_set="$run_set_base-L4"
 echo "== Working on $run_set =="
 super_specs=( lambda-4 "${super_specs_base[@]}" )
 source Module-Make-specs
+
+# There's just one of these
+data_sets=( sin-narrow-noise-0 )
+run_set="$run_set_base"
+echo "== Working on $run_set =="
+super_specs=( "${super_specs_base[@]}" )
+source Module-Make-specs

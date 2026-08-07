@@ -2,8 +2,8 @@
 
 # Partial script:
 # Set up a slurm batch script
+# Set run_sets to an array of configuration run keys
 # Set data_sets to an array of data set keys
-# Set run_set to a configuration run key
 # Then source this script
 
 if [[ ! -v SLURM_JOB_ID ]]
@@ -39,7 +39,10 @@ function maybe_run_spec {
 # Make available to parallel:
 export -f maybe_run_spec
 
-for data_set in "${data_sets[@]}"
+for run_set in "${run_sets[@]}"
 do
-    find "Specs/$run_set" -name "$data_set-*.toml" -print
+    for data_set in "${data_sets[@]}"
+    do
+        find "Specs/$run_set" -name "$data_set-*.toml" -print
+    done
 done | parallel --jobs $SLURM_NTASKS maybe_run_spec '{}'
