@@ -115,6 +115,7 @@ def complexity_mse_displot(
     mse_binwidth=0.8,
     complexity_lims=(0, 449),
     mse_lims=(1.0e-12, 0.99e2),
+    mse_target=None,
     picture_dir=Path("Generated/Pictures"),
     file_stem=None,
     **kwargs,
@@ -141,6 +142,10 @@ def complexity_mse_displot(
         binrange=(complexity_lims, mse_lims_log),
     )
     fig.set(xlim=complexity_lims, ylim=mse_lims)
+    # Add a horizontal line for the MSE target
+    if mse_target:
+        for ax, t in zip(fig.axes.flat, mse_target):
+            ax.axhline(y=t, color="green", linestyle="-.", label="MSE target")
     if spiffy_titles is not None:
         for ax, title in zip(fig.axes.flat, spiffy_titles):
             ax.set_title(title)
