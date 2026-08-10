@@ -65,6 +65,10 @@ Any later 1.12.x version should work, but 1.13 and after may include breaking ch
 Note that the `juliaup` script is the preferred way to install Julia.
 Packages from Linux distributions, Conda-forge, and other sources are often outdated or have weird linkage issues.
 
+Once Julia is installed, run the `Julia-update` script in this directory.
+That will download various Jessamine packages and their dependencies and precompile everything.
+Expect this to take a while.
+
 ## Running the benchmarks
 
 Scripts to run the benchmarks are located in subdirectories of `benchmarks/`.
@@ -80,9 +84,10 @@ It includes commands necessary to make the spec files and run the micro-trials.
 Since that takes a variable amount of time, the script includes comments with instructions on how to run the remaining steps once the trials have finished.
 
 _You will probably need to edit the `sbatch` commands to match your Slurm system._
-These scripts have generally been written with `--ntasks=512` because that enables the maximum number of simultaneous jobs on my system's default partition (queue).
-Also, my system does not impose a time limit on jobs.
-If yours does, you may need to submit the same `sbatch` command several times until all trials have run.
+These scripts have generally been written with `--ntasks=512` because that enables the maximum number of simultaneous single-threaded tasks on my system's default partition (queue).
+Also, my system does not impose a time limit on batch jobs.
+If yours does, Slurm may terminate a batch job before it can finish.
+If so, re-submit the same `sbatch` command until all trials have run.
 
 Since it is often difficult to run interactive programs like Jupyter notebooks on a Slurm cluster, you may need to repeat the entire setup process on a personal workstation, then copy the results to that for analysis.
 The `Fetch-results` scripts show a way to use [rsync](https://rsync.samba.org/) to do this nicely.

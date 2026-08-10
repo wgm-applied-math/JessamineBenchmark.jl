@@ -1,0 +1,7 @@
+#!/bib/bash
+
+# Once Julia is installed, run this script to download and
+# precompile the Jessamine packges and all of their dependencies.
+# Expect this to take a while.
+
+julia --project=@. -e 'using Pkg; Pkg.update()'
