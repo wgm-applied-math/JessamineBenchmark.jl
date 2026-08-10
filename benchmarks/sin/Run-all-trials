@@ -3,7 +3,7 @@
 # Check that the data sets exist.
 # If not, make them.
 data_files=( datasets/sin*.csv )
-if (( ${data_files[#]} < 7 ))
+if (( ${#data_files[@]} < 7 ))
 then
     echo "= Making data files ="
     ./Make-sin-data
@@ -15,7 +15,7 @@ echo "= Making spec files ="
 
 # Run all spec files
 echo "= Submitting batch files ="
-sbatch --ntasks=512 SJob-run-specs-scattered
+sbatch --ntasks=512 SJob-Run-specs-scattered
 
 # Once the above batch job has run successfully, run the following:
 #
