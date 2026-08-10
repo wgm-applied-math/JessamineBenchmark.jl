@@ -1,5 +1,5 @@
 """
-Script to read a JSON output file with a y_num_str field, do various simplifications, and print the results.
+Script to read a JSON output file, pull the `.discoveries[0].y_num_str` field, do various simplifications, and print the results.
 """
 
 import argparse

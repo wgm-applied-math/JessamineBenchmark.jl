@@ -11,15 +11,9 @@ fi
 
 declare -a data_sets run_sets
 data_sets=( d_{bacres,barmag,glider,lv,predprey,sfgrid,shearflow,vdp}{1,2} )
-#data_sets=( d_bacres{1,2} d_shearflow1 )
-
-
 run_sets=(
-    # CHT-2026-07-02-1730
-    # CHT-2026-07-13-1130
-    # SRB-2026-06-25-1715-arr8
-    # SRB-2026-07-13-1130
+    CHT-2026-07-13-1130
+    SRB-2026-07-13-1130
     SRB-2026-07-25-1900
 )
-
 source SModule-Run-specs-scattered

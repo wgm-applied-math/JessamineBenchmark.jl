@@ -10,17 +10,10 @@ then
 fi
 
 declare -a data_sets run_sets
-#data_sets=( C1{a..d} C2{a,b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
-data_sets=( C3h C5d )
-
+data_sets=( C1{a..d} C2{a,b} C3{a..h} C4{a..e} C5{a..f} C6{a..c} )
 run_sets=(
-    # SRB-2026-06-26-1130-arr8
-    # SRB-2026-07-13-1130
-    # SRB-2026-07-20-1300
+    SRB-2026-07-20-1300
     SRB-2026-07-25-1900
-    # CHT-2026-07-13-1130
-    # CHT-2026-06-28-2315
-    # CHT-2026-07-20-1300
+    CHT-2026-07-20-1300
 )
-
 source SModule-Run-specs-scattered

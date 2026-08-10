@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Check that the data sets exist.
+# If not, fetch them.
+# We'll just check the F files.
+F_files=( Things-to-bench/datasets/F*.csv )
+if (( ${F_files[#]} < 8 ))
+then
+    echo "= Fetching data sets ="
+    git submodule init
+    git submodule update
+fi
+F_files=( Things-to-bench/datasets/F*.csv )
+if (( ${F_files[#]} < 8 ))
+then
+    echo "= Fetching data sets failed, exiting ="
+    exit 1
+fi
+
+# Make spec files
+echo "= Making spec files ="
+./Make-specs-F-SRB-2026-07-20-1300
+./Make-specs-F-SRB-2026-07-25-1900
+./Make-specs-F-CHT-2026-07-20-1300
+./Make-specs-C-SRB-2026-07-20-1300
+./Make-specs-C-SRB-2026-07-25-1900
+./Make-specs-C-CHT-2026-07-20-1300
+
+# Run all spec files
+echo "= Submitting batch files ="
+sbatch --ntasks=512 SJob-Run-F-specs-scattered
+sbatch --ntasks=512 SJob-Run-C-specs-scattered
+
+# Once the above batch jobs have run successfully, run the following:
+#
+#     sbatch SJob-Run-SymPy-reports
+#
+# Once that batch job has run successfully, run the following:
+#
+#    python AssembleSymPyReports.py
+#    python MakeSummaries.py
+#
+# Now open `Analysis of baseline F problems.ipynb` and `Analysis
+# of C problems.ipynb` in Jupyter and run them.

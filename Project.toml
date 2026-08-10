@@ -1,6 +1,6 @@
 name = "JessamineBenchmark"
 uuid = "4c66c1a2-cf32-41e3-97ee-2f0fbe2507d0"
-version = "0.1.0-DEV"
+version = "0.4.0"
 authors = ["W. Garrett Mitchener <mitchenerg@charleston.edu> and others"]
 
 [workspace]
@@ -41,6 +41,9 @@ Distributions = "0.25.126"
 FileIO = "1.19.0"
 JLD2 = "0.6.4"
 JSON = "1.6.0"
+Jessamine = "0.4.0"
+JessamineCLI = "0.4.0"
+JessamineSymbolics = "0.4.0"
 Logging = "1.11.0"
 Pkg = "1.12.1"
 Printf = "1.11.0"

@@ -12,6 +12,10 @@
 # benchmark directory if that corpus doesn't quite line up with
 # how all the others are structured.
 
+# This script only needs to be run if files in ./Utils are
+# restructured.  Once the links are created, they are stored in
+# git and you don't need to run this script to make them again.
+
 subdir="$1"
 
 echo "Setting up links in $subdir"

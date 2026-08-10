@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check that the data sets exist.
+# If not, make them.
+data_files=( datasets/sin*.csv )
+if (( ${data_files[#]} < 7 ))
+then
+    echo "= Making data files ="
+    ./Make-sin-data
+fi
+
+# Make spec files
+echo "= Making spec files ="
+./Make-specs-SRB-2026-06-25-1715
+
+# Run all spec files
+echo "= Submitting batch files ="
+sbatch --ntasks=512 SJob-run-specs-scattered
+
+# Once the above batch job has run successfully, run the following:
+#
+#     sbatch SJob-Run-SymPy-reports
+#
+# Once that batch job has run successfully, run the following:
+#
+#    python AssembleSymPyReports.py
+#    python MakeSummaries.py
+#
+# Now open `Analysis.ipynb` in Jupyter and run it.

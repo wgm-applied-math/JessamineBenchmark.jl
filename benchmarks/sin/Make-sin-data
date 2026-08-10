@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# These are a single period of data with varything amouts of
+# These are a single period of data with varying amouts of
 # noise.
 function make_standard () {
     julia --project=@. -m JessamineBenchmark.SinFunction \
@@ -58,4 +58,5 @@ function make_wide () {
 }
 
 # Main:
+# These are the only data sets used in the documented benchmark
 make_standard

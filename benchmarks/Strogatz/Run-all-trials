@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Check that the data sets exist.
+# If not, make them.
+if [ ! -f ode-strogatz/d_bacres1.txt ]
+then
+    echo "= Data files not found, fetching ="
+    git submodule init
+    git submodule update
+fi
+
+if [ ! -f ode-strogatz/d_bacres1.txt ]
+then
+    echo "= Data files couldn't be fetched; exiting ="
+    exit 1
+fi
+
+# Make spec files
+echo "= Making spec files ="
+./Make-specs-SRB-2026-07-13-1130
+./Make-specs-SRB-2026-07-25-1900
+./Make-specs-CHT-2026-07-13-1130
+
+# Run all spec files
+echo "= Submitting batch files ="
+sbatch --ntasks=512 SJob-Run-specs-scattered
+
+# Once the above batch job has run successfully, run the following:
+#
+#     sbatch SJob-Run-SymPy-reports
+#
+# Once that batch job has run successfully, run the following:
+#
+#    python AssembleSymPyReports.py
+#    python MakeSummaries.py
+#
+# Now open `Analysis.ipynb` in Jupyter and run it.
+#
+# You can also run `latex TableView` to get a printable document
+# showing the threshold tables created by MakeSummaries.py
