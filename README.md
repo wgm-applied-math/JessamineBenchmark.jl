@@ -45,6 +45,8 @@ git submodule update
 
 ## Set up Python
 
+These benchmarks were run using Python 3.14.6.
+
 The scripts and Jupyter notebooks under [`behcnmarks/`](benchmarks/) use several Python packages and may need more recent versions that what's installed on your system.
 To set up a virtual environment with working versions of these Python packages, open a command line in this directory and run
 
