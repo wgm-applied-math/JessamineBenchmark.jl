@@ -121,7 +121,7 @@ The files of most interest are `progress.json` and `result.json`.
 
 As a micro-trial runs, the program writes to `progress.json` when a population finds an agent with a new best rating.
 The format of the file is
-```json
+```typescript
 {
     "agent": {
         "rating": number,
@@ -166,26 +166,26 @@ r["current_time"]::DateTime
 
 Once the JessamineCLI program has finished, it writes `result.json` and `result.jld21`.
 The structure of `result.json` is as follows:
-```json
+```typescript
 {
     "genome_spec:" GenomeSpec
     "discoveries": Array<Discovery>
 }
 ```
 The `GenomeSpec` object is a record of hyper-parameters describing genomes:
-```json
+```typescript
 // GenomeSpec:
 {
     "output_size": number,
     "scratch_size": number,
     "parameter_size": number,
     "input_size": number,
-    "num_time_steps: number,
+    "num_time_steps": number,
     "index_map": ...
 }
 ```
 Each discovery is one of the agents found by evolution, with some extra information.
-```json
+```typescript
 // Discovery:
 {
     "agent": Agent,
@@ -195,7 +195,7 @@ Each discovery is one of the agents found by evolution, with some extra informat
 The `y_num_str` field is a string that can be parsed by SymPy to yield an expression for the prediction function $\hat{y}$ that the agent represents.
 The name of that field comes from the expression for $\hat{y}$, evaluated with _numeric_ values for the $b_k$'s and $p_l$'s substituted in, and converted from a Symbolics.jl object to a _string_ in Python notation.
 Each agent has the form
-```json
+```typescript
 // Agent:
 {
     "rating": number,
@@ -208,7 +208,7 @@ Each agent has the form
 }
 ```
 Here, the genome is given in more detail compared to `progress.json`.
-```json
+```typescript
 // Genome:
 {
     "instruction_blocks": Array<Array<Instruction>>
@@ -261,7 +261,7 @@ since processing each `result.json` file may take anywhere from a couple of seco
 This batch script goes through all the TOML files under `Specs/` and runs `SymPyReport.py` on its `result.json` file.
 This produces a file `full-report.json` next to the `result.json` file.
 The structure of the `full-report.json` file is:
-```json
+```typescript
 {
     "rating": number,
     "mse": number,
