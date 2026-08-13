@@ -4,14 +4,14 @@
 # If not, fetch them.
 # We'll just check the F files.
 F_files=( Things-to-bench/datasets/F*.csv )
-if (( ${F_files[#]} < 8 ))
+if (( ${#F_files[@]} < 8 ))
 then
     echo "= Fetching data sets ="
     git submodule init
     git submodule update
 fi
 F_files=( Things-to-bench/datasets/F*.csv )
-if (( ${F_files[#]} < 8 ))
+if (( ${#F_files[@]} < 8 ))
 then
     echo "= Fetching data sets failed, exiting ="
     exit 1
