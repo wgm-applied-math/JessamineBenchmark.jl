@@ -40,5 +40,11 @@ sbatch --ntasks=512 SJob-Run-C-specs-scattered
 #    python AssembleSymPyReports.py
 #    python MakeSummaries.py
 #
-# Now open `Analysis of baseline F problems.ipynb` and `Analysis
-# of C problems.ipynb` in Jupyter and run them.
+# The file `Generated/full-report.csv` is created by
+# `AssembleSymPyReports.py`.  This file was copied to
+# `For-analysis/` and added to git.  It is analyzed in
+# `Analysis of baseline F problems.ipynb` and `Analysis
+# of C problems.ipynb`.
+#
+# The results are not perfectly reproducible due to timing
+# issues, but they should be similar.
