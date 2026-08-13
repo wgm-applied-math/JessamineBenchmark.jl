@@ -7,7 +7,7 @@
 
 ## Set up a UNIX-like environment
 
-These programs were developed and run on Fedora Linux, versions 43 and 44, and Rocky Linux.
+These programs were developed and run on Fedora Linux, versions 43 and 44, and Rocky Linux 9.
 To run all of this, you will need
 [bash](https://www.gnu.org/software/bash/),
 [Python](http://www.python.org),
@@ -147,7 +147,7 @@ assemble-progress | nice-nums | explore
 
 ### `progress.jld2`
 
-This holds the same content as `progress.json` but in JLD2 format, for use in Julia:
+This holds the same content as `progress.json` but in [JLD2 format](https://github.com/juliaio/jld2.jl), for use in Julia:
 ```julia
 using FileIO
 using Jessamine: Agent
@@ -165,7 +165,7 @@ r["current_time"]::DateTime
 
 ### `result.json` and `result.jld2`
 
-Once the JessamineCLI program has finished, it writes `result.json` and `result.jld21`.
+Once the JessamineCLI program has finished, it writes `result.json` and `result.jld2`.
 The structure of `result.json` is as follows:
 ```typescript
 {
@@ -226,7 +226,7 @@ The reason for listing multiple discoveries is that sometimes a genome relies on
 Steps have been taken to minimize such problems, but they sometimes don't work.
 The script `SymPyReport.py` reads `result.json` files and goes through the discoveries until one is found that SymPy can handle.
 
-The `result.jld2` file is the same information, but in JLD2 format, for use in Julia.
+The `result.jld2` file is the same information, but in [JLD2 format](https://github.com/juliaio/jld2.jl), for use in Julia.
 ```julia
 using FileIO
 using Jessamine: Agent, GenomeSpec
