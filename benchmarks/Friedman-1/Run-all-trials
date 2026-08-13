@@ -22,7 +22,6 @@ done
 echo "= Making spec files ="
 ./Make-specs-SRB-2026-07-13-1130
 ./Make-specs-SRB-2026-08-03-1000
-./Make-specs-CHT-2026-08-01-1800
 
 # Run all spec files
 echo "= Submitting batch files ="
@@ -37,4 +36,10 @@ sbatch --ntasks=512 SJob-Run-specs-scattered
 #    python AssembleSymPyReports.py
 #    python MakeSummaries.py
 #
-# Now open `Analysis.ipynb` in Jupyter and run it.
+# The file `Generated/full-report.csv` is created by
+# `AssembleSymPyReports.py`.  This file was copied to
+# `For-analysis/` and added to git.  It is analyzed in
+# `Analysis.nb`.
+#
+# The results are not perfectly reproducible due to timing
+# issues, but they should be similar.
