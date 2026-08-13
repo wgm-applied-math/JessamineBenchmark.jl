@@ -5,7 +5,10 @@
 [![Build Status](https://github.com/wgmitchener/JessamineBenchmark.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/wgmitchener/JessamineBenchmark.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Aqua QA](https://juliatesting.github.io/Aqua.jl/dev/assets/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-## Set up a UNIX-like environment
+This repository holds scripts and data for a suite of benchmarks for the [Jessamine.jl](https://github.com/wgm-applied-math/Jessamine.jl) symbolic regression system, implemented in [Julia](http://www.julialang.org).
+It uses the [JessamineCLI.jl](https://github.com/wgm-applied-math/JessamineCLI.jl) package for most of the work.
+
+## Set up a UNIX environment
 
 These programs were developed and run on Fedora Linux, versions 43 and 44, and Rocky Linux 9.
 To run all of this, you will need
@@ -47,7 +50,7 @@ git submodule update
 
 These benchmarks were run using Python 3.14.6.
 
-The scripts and Jupyter notebooks under [`behcnmarks/`](benchmarks/) use several Python packages and may need more recent versions that what's installed on your system.
+The scripts and Jupyter notebooks under [`bechnmarks/`](benchmarks/) use several Python packages and may need more recent versions that what's installed on your system.
 To set up a virtual environment with working versions of these Python packages, open a command line in this directory and run
 
 ```
@@ -73,7 +76,7 @@ Expect this to take a while.
 
 ## Run the benchmarks
 
-Scripts to run the benchmarks are located in subdirectories of `benchmarks/`.
+Scripts to run the benchmarks are located in subdirectories of [`benchmarks/`](benchmarks/).
 To run each benchmark, the general procedure is to
 - ensure data files are available
 - create a TOML spec file in `Specs/` for each micro-trial
@@ -224,7 +227,9 @@ Here, the genome is given in more detail compared to `progress.json`.
 The discoveries are stored in order from best rating (item 0) to worst rating.
 The reason for listing multiple discoveries is that sometimes a genome relies on some quirk of Julia's floating-point arithmetic that does not translate to SymPy, particularly division by 0, which in Julia yields an `Inf` object but in Python results in an exception.
 Steps have been taken to minimize such problems, but they sometimes don't work.
-The script `SymPyReport.py` reads `result.json` files and goes through the discoveries until one is found that SymPy can handle.
+The script 
+[`SymPyReport.py`](benchmarks/Utils/SymPyReport.py)
+reads `result.json` files and goes through the discoveries until one is found that SymPy can handle.
 
 The `result.jld2` file is the same information, but in [JLD2 format](https://github.com/juliaio/jld2.jl), for use in Julia.
 ```julia
@@ -244,7 +249,9 @@ d.y_num_str::String
 d.agent::Agent
 ```
 
-The file `Module-Assemble-results.nu` includes functions for quickly summarizing `result.json` files.
+The file
+[`Module-Assemble-results.nu`](benchmarks/Utils/Module-Assemble-results.nu)
+includes functions for quickly summarizing `result.json` files.
 For example, to see an interactive table of all result files,
 ```nushell
 source Module-Assemble-results
@@ -253,7 +260,9 @@ assemble-results | nice-nums | explore
 
 ## Collecting results
 
-The script `SymPyReport.py` reads `result.json` files and goes through the discoveries until one is found that SymPy can handle.
+The script
+[`SymPyReport.py`](benchmarks/Utils/SymPyReport.py)
+reads `result.json` files and goes through the discoveries until one is found that SymPy can handle.
 The best way to run it is as a batch job,
 ```bash
 sbatch SJob-Run-SymPy-reports
@@ -300,7 +309,7 @@ The structure of the `full-report.json` file is:
 - `run_set`, `data_set`, `sample_num`:
   The run set, data set, and sample number of the micro-trial that generated this file.
 
-The `SJob-Run-SymPy-reports` batch script also runs the `AssembleSymPyReports.py` script, which collects all of those `full-report.json` files into `Generated/full-report.csv`.
+The [`SJob-Run-SymPy-reports`](benchmarks/Utils/SJob-Run-SymPy-reports) batch script also runs the [`AssembleSymPyReports.py`](benchmarks/Utils/AssembleSymPyReports.py) script, which collects all of those `full-report.json` files into `Generated/full-report.csv`.
 
 ## Analysis notebooks
 
@@ -343,11 +352,11 @@ This directory requires the submodule [Things-to-bench](https://github.com/CP3-O
 Since there are a lot of them, some scripts handle the F and C data sets separately.
 
 A few additional files:
-- `CheckCData.py`:
+- [`CheckCData.py`](benchmarks/cosmology/CheckCData.py):
   The [cp3-bench](https://arxiv.org/abs/2406.15531) article is a little unclear about how some of the data sets were generated.
   This script does computations to confirm whether various interpretations are correct.
   It is not necessary to run this script to run the benchmarks.
-- `TableView.tex`:
+- [`TableView.tex`](benchmarks/cosmology/TableView.tex):
   This LaTeX file produces a printable document of some of the tables created by `MakeSummaries.py`.
 
 ## About other files
@@ -366,13 +375,14 @@ Each benchmark directory has links to them.
 This was done so that (1) any improvements to one of these files is immediately available to all benchmarks; (2) if it becomes necessary to customize one of these files for a particular benchmark, it's possible to do so by replacing the link with a separate file.
 The links are created by `benchmarks/Setup-subdir`, but then they are added to git and do not need to be created again.
 
-These scripts assume they are being run from within a subdirectory of `benchmarks/`.
+_These scripts assume they are being run from within a subdirectory of `benchmarks/`._
+Always run them using the link in one of those subdirectories.
 
-- `Module-Make-specs`:
+- [`Module-Make-specs`](benchmarks/Utils/Module-Make-specs):
   Bash module that uses JessamineCLI to make individual TOML files for each micro-trial.
   Within each benchmark directory, there are `Make-specs` scripts that set certain shell variables, then load this module to actually make all those files.
   
-- `SModule-Run-specs-scattered`:
+- [`SModule-Run-specs-scattered`](benchmarks/Utils/SModule-Run-specs-scattered):
   Bash module that goes through TOML files and runs JessamineCLI if necessary to make the corresponding micro-trial.
   Within each benchmark directory, there are `SJob-Run-specs` scripts that set certain shell variables, then load this file to actually run the micro-trials.
   The "scattered" aspect is that this module should allow you to run such job scripts with Slurm options like 
@@ -388,74 +398,74 @@ These scripts assume they are being run from within a subdirectory of `benchmark
   If it does, that micro-trial will not be re-run.
   This is so that if the batch job gets canceled (which happens if it takes longer than the time allowed by Slurm for a single job), it can be run again and it will (eventually) pick up where it left off.
 
-- `QuickReport.py`:
+- [`QuickReport.py`](benchmarks/Utils/QuickReport.py):
   Python script for viewing the SymPy form of a `result.json` file created by Jessamine:
   ```
   python QuickReport.py Generated/.../result.json | less
   ```
 
-- `SymPyReport.py`:
+- [`SymPyReport.py`](benchmarks/Utils/SymPyReport.py):
   Python script that reads a TOML spec file, reads the corresponding `result.json` file created by Jessamine, performs symbolic analysis on the output, including defuzzing, and writes the result to `full-report.json` file in the same directory.
   Since the symbolic operations can take a couple of minutes, this script should be run in parallel using `SJob-Run-SymPy-reports`.
   
-- `SJob-Run-SymPy-reports`:
+- [`SJob-Run-SymPy-reports`](benchmarks/Utils/SJob-Run-SymPy-reports):
   Bash script usable as `sbatch SJob-Run-SymPy-reports` that runs `SymPyReport.py` on every TOML file in `Specs/`.
   It then runs `AssembleSymPyReports.py` to build `Generated/full-report.csv`.
 
-- `AssembleSymPyReports.py`:
+- [`AssembleSymPyReports.py`](benchmarks/Utils/AssembleSymPyReports.py):
   Python script that goes through all TOML files in the `Specs/` directory, reads the corresponding SymPy reports from `full-report.json`, and puts everything together in `Generated/full-report.csv`
 
-- `MakeSummaries.py`:
+- [`MakeSummaries.py`](benchmarks/Utils/MakeSummaries.py):
   Python script that reads `Generated/full-report.csv` and makes summary tables showing how many micro-trials were below various MSE and complexity thresholds.
 
-- `AnalysisUtils.py`:
+- [`AnalysisUtils.py`](benchmarks/Utils/AnalysisUtils.py):
   Python module with definitions used in several other scripts and Jupyter notebooks.
   The function `replace_near_integer` defuzzes expressions.
 
-- `Run-one-spec`:
+- [`Run-one-spec`](benchmarks/Utils/Run-one-spec):
   Bash script that runs a single TOML spec file.
   
-- `Debug-one-spec`:
+- [`Debug-one-spec`](benchmarks/Utils/Debug-one-spec):
   Bash script that runs a single TOML spec file, with various settings to make Julia produce a lot of additional debugging output.
 
-- `Fetch-data`:
-  Bash script that uses `rsync` to copy all data files from the cluster.
+- [`Fetch-data`](benchmarks/Utils/Fetch-data):
+  Bash script that uses `rsync` to copy _all_ data files under `Generated/` from the cluster, which is generally a _lot_ of data.
   Unlikely to be useful on other clusters without modification.
   
-- `Fetch-results`:
+- [`Fetch-results`](benchmarks/Utils/Fetch-results):
   Bash script that uses `rsync` to copy just the most essential data files from the cluster.
   Unlikely to be useful on other clusters without modification.
 
 
-### `src/`
+### [`src/`](src/)
 
 Julia source files for creating some of the datasets.
 For examples of their use, see `benchmarks/sin/Make-sin-data` and `benchmarks/Friedman-1/Make-f1a` etc.
 
-### `docs/`
+### [`docs/`](docs/)
 
 Tools for processing the Julia documentation for the source files under `src/`.
 
-### `benchmarks/`
+### [`benchmarks/`](benchmarks/)
 
-- `Fetch-all-data`:
-  Bash script that goes into each benchmark directory and runs `Fetch-data`.
+- [`Fetch-all-data`](benchmarks/Fetch-all-data):
+  Bash script that goes into _each_ benchmark directory and runs `Fetch-data`, which is generally a _lot_ of data.
   This is unlikely to be useful on other clusters without modification.
   
-- `Fetch-all-results`:
+- [`Fetch-all-results`](benchmarks/Fetch-all-results):
   Bash script that goes into each benchmark directory and runs `Fetch-results`.
   This is unlikely to be useful on other clusters without modification.  
 
-- `Setup-subdir`: 
+- [`Setup-subdir`](benchmarks/Setup-subdir):
   Bash script that creates links in a benchmark directory for useful files stored in `benchmarks/Utils`.
   Once these links are created, they are checked into git, so this script is only useful if another benchmark is added, or if the files in `benchmarks/Utils/` have to be restructured.
   
-- `Setup-all`:
+- [`Setup-all`](benchmarks/Setup-all):
   Bash script that runs `Setup-subdir` for each benchmark directory.
 
-### `benchmarks/Theory/`
+### [`benchmarks/Theory/`](benchmarks/Theory/)
 
-The file `Reliability estimates.nb` is a Mathematica notebook for calculating the reliability tables in the article.
+The file [`Reliability estimates.nb`](benchmarks/Theory/Reliability estimates.nb) is a Mathematica notebook for calculating the reliability tables in the article.
 It is not necessary to run this file.
 The results are stored as CSV files in `benchmarks/Theory/Results`, which are managed by git.
 
