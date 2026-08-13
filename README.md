@@ -216,7 +216,7 @@ Here, the genome is given in more detail compared to `progress.json`.
 }
 // Instruction:
 {
-    "op": { "unary: UnaryOp, "multi", MultiaryOp },
+    "op": { "unary: UnaryOp, "multi": MultiaryOp },
     "operand_ixs": Array<number>
 }
 ```
