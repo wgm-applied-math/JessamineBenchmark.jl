@@ -37,6 +37,7 @@ sbatch --ntasks=512 SJob-Run-specs-scattered
 #    python MakeSummaries.py
 #
 # The file `Generated/full-report.csv` is created by
+# `SJob-Run-SymPy-reports` when it runs
 # `AssembleSymPyReports.py`.  This file was copied to
 # `For-analysis/` and added to git.  It is analyzed in
 # `Analysis.nb`.

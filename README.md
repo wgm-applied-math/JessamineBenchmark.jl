@@ -85,7 +85,8 @@ To run each benchmark, the general procedure is to
 
 A `Run-all-trials` script is included in each benchmark.
 It includes commands necessary to make the spec files and run the micro-trials.
-Since that takes a variable amount of time, the script includes comments with instructions on how to run the remaining steps once the trials have finished.
+Since that takes a variable amount of time and may require running the batch job multiple times, subsequent steps can't be easily automated.
+The script includes comments with instructions on how to run the remaining steps once the micro-trials are finished.
 
 _You will probably need to edit the `sbatch` commands in these files to work on your Slurm system._
 The `Run-all-trials` scripts have been written with `--ntasks=512` because that's the maximum number of simultaneous single-threaded tasks allowed per job on my system's default partition (queue).
@@ -97,7 +98,7 @@ Since it is often difficult to run interactive programs like Jupyter notebooks o
 The `Fetch-results` scripts show a convenient way to use [rsync](https://rsync.samba.org/) to do this.
 They will have to be adapted to your Slurm cluster.
 
-The executable script is in the module [JessamineCLI.AppSimple](https://github.com/wgm-applied-math/JessamineCLI.jl).
+The executable script for running Jessamine is in the module [JessamineCLI.AppSimple](https://github.com/wgm-applied-math/JessamineCLI.jl).
 Its output is stored in the location specified by the TOML file, under `Generated/`.
 
 The convention is that each collection of Jessamine hyper-parameters is a _run set_, which generally are named `SRB` or `CHT` followed by a date and time.
