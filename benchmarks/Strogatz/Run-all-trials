@@ -34,7 +34,13 @@ sbatch --ntasks=512 SJob-Run-specs-scattered
 #    python AssembleSymPyReports.py
 #    python MakeSummaries.py
 #
-# Now open `Analysis.ipynb` in Jupyter and run it.
+# The file `Generated/full-report.csv` is created by
+# `AssembleSymPyReports.py`.  This file was copied to
+# `For-analysis/` and added to git.  It is analyzed in
+# `Analysis.nb`.
+#
+# The results are not perfectly reproducible due to timing
+# issues, but they should be similar.
 #
 # You can also run `latex TableView` to get a printable document
-# showing the threshold tables created by MakeSummaries.py
+# showing the threshold tables created by `MakeSummaries.py`
