@@ -9,11 +9,17 @@ then
     ./Make-sin-data
 fi
 
-# Make spec files
+# Make spec files.
+#
+# This makes files `Specs/SRB-2026-06-25-1715/*.toml`, one for each
+# micro-trial.
 echo "= Making spec files ="
 ./Make-specs-SRB-2026-06-25-1715
 
-# Run all spec files
+# Run all spec files.
+#
+# This submits a batch job to Slurm to run a micro-trial for each
+# file Specs/SRB-2026-06-25-1715/*.toml.
 echo "= Submitting batch files ="
 sbatch --ntasks=512 SJob-Run-specs-scattered
 
