@@ -2,7 +2,7 @@ using Documenter
 
 using JessamineBenchmark
 using JessamineBenchmark.SinFunction
-using JessamineBenchmark.FriedmanFunction
+using JessamineBenchmark.FriedmanFunctions
 
 DocMeta.setdocmeta!(JessamineBenchmark, :DocTestSetup, :(using JessamineBenchmark); recursive=true)
 
@@ -10,7 +10,7 @@ makedocs(;
     modules=[
         JessamineBenchmark,
         JessamineBenchmark.SinFunction,
-        JessamineBenchmark.FriedmanFunction
+        JessamineBenchmark.FriedmanFunctions
     ],
     authors="W. G. Mitchener <mitchenerg@charleston.edu> and others",
     sitename="JessamineBenchmark.jl",
