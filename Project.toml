@@ -29,10 +29,10 @@ TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 [sources]
 # Jessamine = {path = "../Jessamine.jl"}
 Jessamine = {url = "https://github.com/wgm-applied-math/Jessamine.jl.git", rev = "v0.4.0"}
-# JessamineCLI = {path = "../JessamineCLI.jl"}
-JessamineCLI = {url = "https://github.com/wgm-applied-math/JessamineCLI.jl.git", rev = "v0.4.0"}
 # JessamineSymbolics = {path = "../JessamineSymbolics.jl"}
 JessamineSymbolics = {url = "https://github.com/wgm-applied-math/JessamineSymbolics.jl.git", rev = "v0.4.0"}
+# JessamineCLI = {path = "../JessamineCLI.jl"}
+JessamineCLI = {url = "https://github.com/wgm-applied-math/JessamineCLI.jl.git", rev = "v0.4.0"}
 
 [compat]
 Aqua = "0.8.16"
