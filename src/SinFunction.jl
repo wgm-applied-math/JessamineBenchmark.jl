@@ -23,7 +23,7 @@ export make_rand_sin
 
      make_rand_sin(kwargs...)
 
-Make random samples of the input ``x`` as columns and apply [`sin`](@ref) to the result.
+Make random samples of the input ``x`` as columns and apply `sin` to the result.
 Make additional random samples as columns to use as distractors.
 
 # Keywords
@@ -35,7 +35,7 @@ Make additional random samples as columns to use as distractors.
 # Returns
 A `DataFrame` with the following columns:
 
-- `y`: result of applying [`sin`](@ref) to input `x` plus noise.
+- `y`: result of applying `sin` to input `x` plus noise.
 - `x`: input
 """
 function make_rand_sin(;rng=Random.default_rng(), num_samples=100, num_distractors=0, input_dist=Uniform(-pi, pi), noise_dist=Dirac(0))
