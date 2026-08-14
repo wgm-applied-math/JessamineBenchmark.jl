@@ -1,10 +1,9 @@
 name: CI
 on:
   push:
-    #branches:
-    #  - main
-    # Run on version tags
-    tags: ['v*']
+    branches:
+      - main
+    tags: ['*']
   pull_request:
   workflow_dispatch:
 concurrency:
@@ -36,7 +35,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
   docs:

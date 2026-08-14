@@ -4,7 +4,7 @@ CurrentModule = JessamineBenchmark
 
 # JessamineBenchmark
 
-Documentation for [JessamineBenchmark](https://github.com/wgmitchener/JessamineBenchmark.jl).
+Documentation for [JessamineBenchmark](https://github.com/wgm-applied-math/JessamineBenchmark.jl).
 
 ```@index
 ```
