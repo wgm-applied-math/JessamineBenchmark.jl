@@ -10,5 +10,5 @@ Documentation for [JessamineBenchmark](https://github.com/wgm-applied-math/Jessa
 ```
 
 ```@autodocs
-Modules = [JessamineBenchmark]
+Modules = [JessamineBenchmark, JessamineBenchmark.SinFunction, JessamineBenchmark.FriedmanFunctions]
 ```

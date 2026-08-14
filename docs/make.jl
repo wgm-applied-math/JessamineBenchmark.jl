@@ -1,10 +1,17 @@
-using JessamineBenchmark
 using Documenter
+
+using JessamineBenchmark
+using JessamineBenchmark.SinFunction
+using JessamineBenchmark.FriedmanFunction
 
 DocMeta.setdocmeta!(JessamineBenchmark, :DocTestSetup, :(using JessamineBenchmark); recursive=true)
 
 makedocs(;
-    modules=[JessamineBenchmark],
+    modules=[
+        JessamineBenchmark,
+        JessamineBenchmark.SinFunction,
+        JessamineBenchmark.FriedmanFunction
+    ],
     authors="W. G. Mitchener <mitchenerg@charleston.edu> and others",
     sitename="JessamineBenchmark.jl",
     format=Documenter.HTML(;
