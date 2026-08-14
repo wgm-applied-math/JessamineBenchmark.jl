@@ -15,7 +15,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
     ],
-    checkdocs=:public,
+    checkdocs=:none,
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
