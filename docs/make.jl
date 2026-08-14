@@ -17,7 +17,12 @@ makedocs(;
     ],
 )
 
+# Documenter can also automatically deploy documentation to gh-pages.
+# See "Hosting Documentation" and deploydocs() in the Documenter manual
+# for more information.
 deploydocs(;
     repo="github.com/wgm-applied-math/JessamineBenchmark.jl",
     devbranch="main",
+    devurl = "dev",
+    versions = ["stable" => "v^", "v#.#", "dev" =>  "dev"] # Explicitly forces version tracking
 )
