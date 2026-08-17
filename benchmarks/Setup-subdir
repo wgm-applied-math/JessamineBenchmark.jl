@@ -57,6 +57,7 @@ for link in \
     Module-Assemble-results.nu \
     Module-Make-specs \
     QuickReport.py \
+    Run-module \
     Run-one-spec \
     SJob-Run-some-specs \
     SJob-Run-SymPy-reports \

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Launch a Julia module.  The module must be
+# the first argument to this script, and all others are passed to
+# the script itself rather than directly to Julia.
+
+# This script looks for the best way to launch modules.  If the
+# current directory is in a Julia project and that's all there
+# is, it launches the sub-module using `--project=@.`.  If the
+# current project is part of a super-project with a parent dir
+# with its `Project.toml`, it launches the submodule using
+# `--project=<parent dir>`.
+#
+# It assumes the current directory is a subdirectory of `benchmarks/`.
+#
+# The reason for this is that I have to put a `[sources]` section
+# in this project's `Project.toml` file that points to the GitHub
+# repositories for all the Jessamine packages.  But for testing
+# and development, I need scripts here to refer to my local
+# files.  That means I need a super-project: I clone all the
+# Jessamine packages, including this one, into a directory with a
+# `Project.toml` file that has a `[workspace]` section that
+# refers to each of the local clones.
+#
+# Note that in Julia's Pkg CLI, `dev <local-dir>` doesn't work
+# within a project if there's a `[sources]` section in its
+# `Project.toml` with a URL.
+#
+# Hence these contortions.
+
+module="$1"
+shift
+
+benchmarks_dir=..
+JB_project_dir=../..
+super_dir=../../..
+
+if [ -f "$super_dir/Project.toml" ]
+then
+    julia --project="$super_dir" -m "$submodule" -- "$@"
+else
+    julia --project=@. -m "$submodule" -- "$@"
+fi

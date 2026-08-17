@@ -27,12 +27,9 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [sources]
-# Jessamine = {path = "../Jessamine.jl"}
-Jessamine = {url = "https://github.com/wgm-applied-math/Jessamine.jl.git", rev = "v0.4.0"}
-# JessamineSymbolics = {path = "../JessamineSymbolics.jl"}
-JessamineSymbolics = {url = "https://github.com/wgm-applied-math/JessamineSymbolics.jl.git", rev = "v0.4.0"}
-# JessamineCLI = {path = "../JessamineCLI.jl"}
-JessamineCLI = {url = "https://github.com/wgm-applied-math/JessamineCLI.jl.git", rev = "v0.4.0"}
+Jessamine = {rev = "v0.4.0", url = "https://github.com/wgm-applied-math/Jessamine.jl.git"}
+JessamineSymbolics = {rev = "v0.4.0", url = "https://github.com/wgm-applied-math/JessamineSymbolics.jl.git"}
+JessamineCLI = {rev = "v0.4.0", url = "https://github.com/wgm-applied-math/JessamineCLI.jl.git"}
 
 [compat]
 Aqua = "0.8.16"

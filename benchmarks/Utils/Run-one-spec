@@ -1,5 +1,5 @@
 #!/bin/bash
 
-julia --project=@. -q -m JessamineCLI.AppSimple \
+source ./Run-module JessamineCLI.AppSimple \
     sr \
     --config-file "$1"

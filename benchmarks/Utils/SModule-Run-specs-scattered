@@ -13,7 +13,7 @@ then
 fi
 
 # This should flush any recompilation
-julia --project=@. -q -m JessamineCLI.AppSimple -- sr --version
+source ./Run-module JessamineCLI.AppSimple sr --version
 
 # Make a filename glob expand to nothing instead of the literal glob
 # if there are no matches.

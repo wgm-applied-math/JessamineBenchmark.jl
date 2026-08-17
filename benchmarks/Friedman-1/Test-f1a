@@ -1,6 +1,6 @@
 #!/bin/bash
 dataset=f1a
-julia -q --project=@. -m JessamineCLI.AppSimple -- \
+source ./Run-module JessamineCLI.AppSimple \
     sr \
     --data-file "datasets/$dataset.csv" \
     --output-column "y" \
