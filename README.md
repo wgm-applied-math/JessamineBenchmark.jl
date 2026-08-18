@@ -1,8 +1,8 @@
 # JessamineBenchmark
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://wgmitchener.github.io/JessamineBenchmark.jl/stable/)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://wgmitchener.github.io/JessamineBenchmark.jl/dev/)
-[![Build Status](https://github.com/wgmitchener/JessamineBenchmark.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/wgmitchener/JessamineBenchmark.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://wgm-applied-math.github.io/JessamineBenchmark.jl/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://wgm-applied-math.github.io/JessamineBenchmark.jl/dev/)
+[![Build Status](https://github.com/wgm-applied-math/JessamineBenchmark.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/wgm-applied-math/JessamineBenchmark.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Aqua QA](https://juliatesting.github.io/Aqua.jl/dev/assets/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 This repository holds scripts and data for a suite of benchmarks for the [Jessamine.jl](https://github.com/wgm-applied-math/Jessamine.jl) symbolic regression system, implemented in [Julia](http://www.julialang.org).
@@ -32,7 +32,7 @@ The included scripts assume `sbatch` and `srun` are available.
 
 Using whatever interface to GitHub you like, clone this repository.
 For example,
-```
+```bash
 git clone --recurse-submodules --depth=1 https://github.com/wgm-applied-math/JessamineBenchmark.jl.git
 ```
 
@@ -41,7 +41,7 @@ The `--depth=1` option makes a shallow clone, so that only the most recent file 
 Some of the data files come from other repositories, which are referenced within this repository as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 The `--recurse-submodules` option should make git fetch all of that when you clone the repository.
 To fetch those files separately, run these shell commands:
-```
+```bash
 git submodule init
 git submodule update
 ```
@@ -50,10 +50,10 @@ git submodule update
 
 These benchmarks were run using Python 3.14.6.
 
-The scripts and Jupyter notebooks under [`bechnmarks/`](benchmarks/) use several Python packages and may need more recent versions that what's installed on your system.
+The scripts and Jupyter notebooks under [`benchmarks/`](benchmarks/) use several Python packages and may need more recent versions that what's installed on your system.
 To set up a virtual environment with working versions of these Python packages, open a command line in this directory and run
 
-```
+```bash
 python -m venv venv
 source venv/bin/activate.{your shell}
 pip install -r requirements.txt
@@ -378,6 +378,19 @@ The links are created by `benchmarks/Setup-subdir`, but then they are added to g
 _These scripts assume they are being run from within a subdirectory of `benchmarks/`._
 Always run them using the link in one of those subdirectories.
 
+- [`Run-module`](benchmarks/Utils/Run-module):
+  Script for running a Julia module.
+  The story here is that if you're simultaneously developing several packages in Julia, it makes sense to set up a super-project directory with clones of all the relevant package repositories.
+  You check out whatever branch of the packages are needed.
+  You add a [`[workspace]`](https://pkgdocs.julialang.org/v1/toml-files/#Workspaces) section to the `Project.toml` file in the super-project that lists all those included project directories.
+  When you run Julia and activate the super-project, it will use those local directories rather than the registered versions or GitHub URLs (whatever is specified in each included project's `Project.toml`) for those included projects.
+  I believe there are other ways to make all of this work, but this seems to be the preferred way now that `Pkg.jl` supports `[workspace]`.
+
+  But all of that means that the benchmarking scripts have to work whether `JessamineBenchmarks.jl` is checked out alone or inside a super-project.
+  If it's checked out alone, the correct way to run a module with `main()` (such as `JessamineCLI.AppSimple`) is with `julia --project=@.`.
+  If it's inside a super-project, the correct way is with `julia --project=../../..`.
+  The `Run-module` script checks for the existence of the super-project's `Project.toml` file, and launches the module correctly either way.
+  
 - [`Module-Make-specs`](benchmarks/Utils/Module-Make-specs):
   Bash module that uses JessamineCLI to make individual TOML files for each micro-trial.
   Within each benchmark directory, there are `Make-specs` scripts that set certain shell variables, then load this module to actually make all those files.
@@ -386,7 +399,7 @@ Always run them using the link in one of those subdirectories.
   Bash module that goes through TOML files and runs JessamineCLI if necessary to make the corresponding micro-trial.
   Within each benchmark directory, there are `SJob-Run-specs` scripts that set certain shell variables, then load this file to actually run the micro-trials.
   The "scattered" aspect is that this module should allow you to run such job scripts with Slurm options like 
-  ```
+  ```bash
   sbatch --ntasks=512 SJob-Run-specs
   ```
   and the module will pick up on how many tasks have been allocated (`--ntasks=...`) and run that many micro-trials at a time in parallel within the same batch job.
@@ -400,7 +413,7 @@ Always run them using the link in one of those subdirectories.
 
 - [`QuickReport.py`](benchmarks/Utils/QuickReport.py):
   Python script for viewing the SymPy form of a `result.json` file created by Jessamine:
-  ```
+  ```bash
   python QuickReport.py Generated/.../result.json | less
   ```
 
